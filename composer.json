@@ -1,0 +1,23 @@
+{
+  "name": "nassimkirouane/interval",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+
+  "authors": [
+    {
+      "name": "nassim.kirouane",
+      "email": "nassim.kirouane@gmail.com"
+    }
+  ],
+  "require": {
+    "phpunit/phpunit": "5.5.x-dev"
+  },
+
+  "autoload": {
+    "psr-4": {"Interval\\": "src/"}
+  },
+  "require-dev": {
+    "mockery/mockery": "^0.9.5"
+  }
+}
