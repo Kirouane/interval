@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace Interval;
+use Interval\Operation\Interval\Intersection;
 use Interval\Operation\Interval\Union;
 
 /**
@@ -49,10 +50,10 @@ class Interval
      * @param Interval $interval
      * @return array
      */
-    public function union(Interval $interval) : array
+    public function union(Interval $interval) : Intervals
     {
-        $operation =  new Union();
-        return $operation($this->getStart(), $this->getEnd(), $interval->getStart(), $interval->getEnd());
+        $operation = new Union();
+        return $operation($this, $interval);
     }
 
     /**
@@ -68,9 +69,10 @@ class Interval
      * @param Interval $interval
      * @return Interval
      */
-    public function intersect(Interval $interval) : Interval
+    public function intersect(Interval $interval)
     {
-
+        $operation = new Intersection();
+        return $operation($this, $interval);
     }
 
     /**

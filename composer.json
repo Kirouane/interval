@@ -1,13 +1,13 @@
 {
   "name": "nassimkirouane/interval",
   "description": "description_text",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "license": "proprietary",
-
+  "version": "1.0.0",
   "authors": [
     {
       "name": "nassim.kirouane",
-      "email": "nassim.kirouane@gmail.com"
+      "email": "nassim.kirouane@gmail.com",
     }
   ],
   "require": {

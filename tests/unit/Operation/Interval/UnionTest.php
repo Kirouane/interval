@@ -12,7 +12,7 @@ class UnionTest extends \PHPUnit\Framework\TestCase
         m::close();
     }
 
-    public function computeUnionBetweenTwoIntervalsWhicheHaveIncludedEndpointsProvider()
+    public function computeProvider()
     {
         return [
             [
@@ -52,7 +52,12 @@ class UnionTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 30, 40, //                                    ██████████████████
-                10, 30, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                10, 30, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                [[10,  40]], //           ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            ],
+            [
+                30, 40, //                                    ██████████████████
+                10, 35, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 [[10,  40]], //           ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
             ],
             [
@@ -69,7 +74,7 @@ class UnionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider computeUnionBetweenTwoIntervalsWhicheHaveIncludedEndpointsProvider
+     * @dataProvider computeProvider
      * @param $firstStart
      * @param $firstEnd
      * @param $secondStart
