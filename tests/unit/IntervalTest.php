@@ -13,13 +13,22 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
         m::close();
     }
 
+    public function constructorShouldThrowExceptionProvider()
+    {
+        return [
+            [2, 1],
+            [2, 2]
+        ];
+    }
+
     /**
      * @test
      * @expectedException \RangeException
+     * @dataProvider constructorShouldThrowExceptionProvider
      */
-    public function constructorShouldThrowException()
+    public function constructorShouldThrowException($start, $end)
     {
-        new \Interval\Interval(2, 1);
+        new \Interval\Interval($start, $end);
     }
 
     /**

@@ -39,7 +39,7 @@ class Interval
      */
     private function isConsistent()
     {
-        if ($this->start > $this->end) {
+        if ($this->start >= $this->end) {
             return false;
         }
 

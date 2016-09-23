@@ -28,12 +28,8 @@ class Intersection
      */
     public function compute(Interval $first, Interval $second)
     {
-        if ($first->getEnd() < $second->getStart() || $first->getStart() > $second->getEnd()) {
+        if ($first->getEnd() <= $second->getStart() || $first->getStart() >= $second->getEnd()) {
             return null;
-        } elseif ($first->getEnd() === $second->getStart()) {
-            return new Interval($first->getEnd(), $first->getEnd());
-        } elseif ($first->getStart() === $second->getEnd()) {
-            return new Interval($first->getStart(), $first->getStart());
         } else {
             return new Interval(
                 max ($first->getStart(), $second->getStart()),
