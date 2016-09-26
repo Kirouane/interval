@@ -2,5 +2,11 @@
 ini_set('display_errors', 1);
 require_once __DIR__ . '/vendor/autoload.php';
 
-$i = new \Interval\Interval(1, 2);
-var_dump($i->union(new \Interval\Interval(2, 3)));
+
+use Interval\Interval;
+
+$interval = new Interval(20, 40);
+$interval
+    ->intersect(new Interval(30, 60))
+    ->union(new Interval(40, 90))[0]
+    ->exclude(new Interval(80, 90));

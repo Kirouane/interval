@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace Interval;
+use Interval\Operation\Interval\Exclusion;
 use Interval\Operation\Interval\Intersection;
 use Interval\Operation\Interval\Union;
 
@@ -48,7 +49,7 @@ class Interval
 
     /**
      * @param Interval $interval
-     * @return array
+     * @return Intervals
      */
     public function union(Interval $interval) : Intervals
     {
@@ -62,7 +63,8 @@ class Interval
      */
     public function exclude(Interval $interval) : Intervals
     {
-
+        $operation = new Exclusion();
+        return $operation($this, $interval);
     }
 
     /**

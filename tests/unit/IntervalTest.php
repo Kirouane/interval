@@ -45,7 +45,7 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
      */
     public function intersection()
     {
-        $interval = new \Interval\Interval(1, 2);
-        $this->assertInstanceOf(Interval::class, $interval->intersect(new \Interval\Interval(2, 3)));
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInstanceOf(Interval::class, $interval->intersect(new \Interval\Interval(3, 5)));
     }
 }
