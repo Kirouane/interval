@@ -9,7 +9,7 @@ Install
 
 The fastest way to install Interval is to add it to your project using Composer
 
-`php composer.phar require Kirouane/interval`
+`php composer.phar require nassimkirouane/interval`
 
 
 Usage

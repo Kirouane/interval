@@ -1,19 +1,25 @@
 {
   "name": "nassimkirouane/interval",
-  "description": "description_text",
-  "minimum-stability": "dev",
-  "license": "proprietary",
-  "version": "1.0.0",
+  "description": "Library to handel intervals",
+  "type": "library",
+  "keywords": [
+    "interval","period"
+  ],
+  "homepage": "https://github.com/Kirouane/interval",
+  "license": "BSD-3-Clause",
   "authors": [
     {
       "name": "nassim.kirouane",
       "email": "nassim.kirouane@gmail.com",
+      "role": "lead"
     }
   ],
+  "support": {
+    "issues": "https://github.com/Kirouane/interval/issues"
+  },
   "require": {
     "phpunit/phpunit": "5.5.x-dev"
   },
-
   "autoload": {
     "psr-4": {"Interval\\": "src/"}
   },
