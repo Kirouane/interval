@@ -4,6 +4,9 @@ namespace Interval;
 use Interval\Operation\Interval\Exclusion;
 use Interval\Operation\Interval\Intersection;
 use Interval\Operation\Interval\Union;
+use Interval\Rule\Interval\Inclusion;
+use Interval\Rule\Interval\Neighborhood;
+use Interval\Rule\Interval\Overlapping;
 
 /**
  * Interface IntervalInterface
@@ -83,7 +86,8 @@ class Interval
      */
     public function overlaps(Interval $interval) : bool
     {
-
+        $asserter = new Overlapping();
+        return $asserter->assert($this, $interval);
     }
 
     /**
@@ -92,7 +96,8 @@ class Interval
      */
     public function includes(Interval $interval) : bool
     {
-
+        $asserter = new Inclusion();
+        return $asserter->assert($this, $interval);
     }
 
     /**
@@ -101,7 +106,8 @@ class Interval
      */
     public function isNeighborOf(Interval $interval) : bool
     {
-
+        $asserter = new Neighborhood();
+        return $asserter->assert($this, $interval);
     }
 
     /**

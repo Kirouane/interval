@@ -48,4 +48,31 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
         $interval = new \Interval\Interval(1, 4);
         $this->assertInstanceOf(Interval::class, $interval->intersect(new \Interval\Interval(3, 5)));
     }
+
+    /**
+     * @test
+     */
+    public function includes()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInternalType('bool', $interval->includes(new \Interval\Interval(3, 5)));
+    }
+
+    /**
+     * @test
+     */
+    public function overlaps()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInternalType('bool', $interval->overlaps(new \Interval\Interval(3, 5)));
+    }
+
+    /**
+     * @test
+     */
+    public function isNeighborOf()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInternalType('bool', $interval->isNeighborOf(new \Interval\Interval(3, 5)));
+    }
 }
