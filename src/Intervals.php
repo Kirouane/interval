@@ -3,19 +3,10 @@ declare(strict_types=1);
 namespace Interval;
 
 /**
- * Interface IntervalInterface
+ * Class Intervals
  * @package Interval
  */
 class Intervals extends \ArrayObject
 {
 
-    public function exclude(Intervals $interval) : Intervals
-    {
-
-    }
-
-    public function internalUnion() : Intervals
-    {
-
-    }
 }

@@ -92,6 +92,5 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
             $this->assertSame($expected[0], $interval->getStart());
             $this->assertSame($expected[1], $interval->getEnd());
         }
-
     }
 }

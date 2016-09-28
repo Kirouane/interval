@@ -5,15 +5,17 @@ use Interval\Interval;
 use Interval\Intervals;
 
 /**
- * Interface IntervalInterface
- * @package Interval
+ * Class Exclusion
+ * @package Interval\Operation\Interval
  */
 class Exclusion
 {
     /**
+     * PHP magic function
      * @param Interval $first
      * @param Interval $second
      * @return array
+     * @throws \RangeException
      */
     public function __invoke(Interval $first, Interval $second)
     {
@@ -21,10 +23,20 @@ class Exclusion
     }
 
     /**
-     * @param Interval $first
-     * @param Interval $second ->getStart()
+     * Excludes an interval from another one. Exp
      *
-     * @return null
+     *      |_________________|
+     *
+     *             -
+     *                  |_________________|
+     *
+     *          =
+     *      |___________|
+     *
+     * @param Interval $first
+     * @param Interval $second
+     * @return Intervals
+     * @throws \RangeException
      */
     public function compute(Interval $first, Interval $second)
     {

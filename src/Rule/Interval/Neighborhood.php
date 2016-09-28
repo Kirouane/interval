@@ -5,7 +5,7 @@ use Interval\Interval;
 
 
 /**
- * Class Inclusion
+ * Class Neighborhood
  * @package Interval\Rule\Interval
  */
 class Neighborhood

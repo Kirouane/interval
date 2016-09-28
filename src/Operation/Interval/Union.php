@@ -11,9 +11,11 @@ use Interval\Intervals;
 class Union
 {
     /**
+     * PHP magic function
      * @param Interval $first
      * @param Interval $second
      * @return array
+     * @throws \RangeException
      */
     public function __invoke(Interval $first, Interval $second)
     {
@@ -21,9 +23,20 @@ class Union
     }
 
     /**
+     * Compute the union between two intervals. Exp :
+     *
+     *      |_________________|
+     *
+     *             ∪
+     *                  |_________________|
+     *
+     *          =
+     *      |_____________________________|
+     *
      * @param Interval $first
-     * @param Interval $second ->getStart()
-     * @return array [Interval]
+     * @param Interval $second
+     * @return Intervals
+     * @throws \RangeException
      */
     public function compute(Interval $first, Interval $second) : Intervals
     {

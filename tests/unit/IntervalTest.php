@@ -75,4 +75,22 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
         $interval = new \Interval\Interval(1, 4);
         $this->assertInternalType('bool', $interval->isNeighborOf(new \Interval\Interval(3, 5)));
     }
+
+    public function toStringProvider()
+    {
+        return [
+            [1, 2, '[1, 2]'],
+            [new \DateTime('2016-01-01'), new \DateTime('2016-01-02'), '[2016-01-01T00:00:00+00:00, 2016-01-02T00:00:00+00:00]']
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider toStringProvider
+     */
+    public function toStringTest($start, $end, $expected)
+    {
+        $interval = new \Interval\Interval($start, $end);
+        $this->assertSame($expected, $interval->__toString());
+    }
 }

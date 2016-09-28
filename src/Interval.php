@@ -9,25 +9,26 @@ use Interval\Rule\Interval\Neighborhood;
 use Interval\Rule\Interval\Overlapping;
 
 /**
- * Interface IntervalInterface
+ * Class Interval
  * @package Interval
  */
 class Interval
 {
     /**
-     * @var Endpoint
+     * @var mixed
      */
     private $start;
 
     /**
-     * @var Endpoint
+     * @var mixed
      */
     private $end;
 
     /**
      * Interval constructor.
-     * @param $start
-     * @param $end
+     * @param mixed $start
+     * @param mixed $end
+     * @throws \RangeException
      */
     public function __construct($start, $end)
     {
@@ -39,18 +40,25 @@ class Interval
     }
 
     /**
+     * Returns false if the interval is not consistent like endTime <= starTime
      * @return bool
      */
     private function isConsistent()
     {
-        if ($this->start >= $this->end) {
-            return false;
-        }
-
-        return true;
+        return $this->start < $this->end;
     }
 
     /**
+     * Compute the union between two intervals. Exp :
+     *
+     *      |_________________|
+     *
+     *             ∪
+     *                  |_________________|
+     *
+     *          =
+     *      |_____________________________|
+     *
      * @param Interval $interval
      * @return Intervals
      */
@@ -61,6 +69,16 @@ class Interval
     }
 
     /**
+     * Excludes this interval from another one. Exp
+     *
+     *      |_________________|
+     *
+     *             -
+     *                  |_________________|
+     *
+     *          =
+     *      |___________|
+     *
      * @param Interval $interval
      * @return Intervals
      */
@@ -71,6 +89,16 @@ class Interval
     }
 
     /**
+     * Compute the intersection of two intervals. Exp
+     *
+     *      |_________________|
+     *
+     *             ∩
+     *                  |_________________|
+     *
+     *          =
+     *                  |_____|
+     *
      * @param Interval $interval
      * @return Interval
      */
@@ -81,6 +109,8 @@ class Interval
     }
 
     /**
+     * Checks whether or not this interval overlaps another one
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -91,6 +121,8 @@ class Interval
     }
 
     /**
+     * Checks whether or not this interval includes entirely another one
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -101,6 +133,16 @@ class Interval
     }
 
     /**
+     * Checks whether or not this interval is neighbor of another one. Exp :
+     *
+     *      |_________________|
+     *                        |_________________|
+     *
+     *                OR
+     *
+     *                        |_________________|
+     *      |_________________|
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -111,7 +153,8 @@ class Interval
     }
 
     /**
-     * @return Endpoint
+     * Returns the start endpoint
+     * @return mixed
      */
     public function getStart()
     {
@@ -119,10 +162,21 @@ class Interval
     }
 
     /**
-     * @return Endpoint
+     * Returns the end endpoint
+     * @return mixed
      */
     public function getEnd()
     {
         return $this->end;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $start = ($this->start instanceof \DateTimeInterface) ? $this->start->format(\DateTime::RFC3339) : $this->start;
+        $end = ($this->end instanceof \DateTimeInterface) ? $this->end->format(\DateTime::RFC3339) : $this->end;
+        return '[' . $start . ', ' . $end  . ']';
     }
 }

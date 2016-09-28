@@ -5,7 +5,7 @@ use Interval\Interval;
 use Interval\Operation\Interval\Intersection;
 
 /**
- * Class Inclusion
+ * Class Overlapping
  * @package Interval\Rule\Interval
  */
 class Overlapping
