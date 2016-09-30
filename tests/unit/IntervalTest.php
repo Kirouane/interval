@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace UnitTest\Interval;
+namespace Interval;
 require_once __DIR__ . '/../../vendor/autoload.php';
 use Interval\Interval;
 use Interval\Intervals;
@@ -17,7 +17,10 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [2, 1],
-            [2, 2]
+            [2, 2],
+            [2, 3.0],
+            [[], []],
+            [2, new \DateTime()]
         ];
     }
 

@@ -45,8 +45,56 @@ class Interval
      */
     private function isConsistent()
     {
+        if (!$this->sameType($this->start, $this->end)) {
+            return false;
+        }
         return $this->start < $this->end;
     }
+
+    /**
+     * @param $start
+     * @param $end
+     * @return bool
+     */
+    private function sameType($start, $end)
+    {
+        return self::sameInternallyType($start, $end) && self::sameObjectInstanceName($start, $end);
+    }
+
+    /**
+     *
+     * @param $start
+     * @param $end
+     * @return bool
+     */
+    private static function sameObjectInstanceName($start, $end)
+    {
+        if (!is_object($start) && !is_object($end)) {
+            return true;
+        }
+
+        if (!is_object($start) && is_object($end)) {
+            return false;
+        }
+
+
+        if (is_object($start) && !is_object($end)) {
+            return false;
+        }
+
+        return get_class($start) === get_class($end);
+    }
+
+    /**
+     * @param $start
+     * @param $end
+     * @return bool
+     */
+    private static function sameInternallyType($start, $end)
+    {
+        return gettype($start) === gettype($end);
+    }
+
 
     /**
      * Compute the union between two intervals. Exp :
