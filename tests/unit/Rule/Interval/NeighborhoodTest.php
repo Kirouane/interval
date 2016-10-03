@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Interval\Rule\Interval;
 
 use \Mockery as m;
-class OverlappingTest extends \PHPUnit\Framework\TestCase
+class NeighborhoodTest extends \PHPUnit\Framework\TestCase
 {
 
     public function assertProvider()
@@ -17,27 +17,27 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
             [
                 10, 20, //                                    ██████████████████
                 20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                true,
+            ],
+            [
+                10, 30, //                                    ███████████████████████
+                20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 false,
             ],
             [
                 10, 30, //                                    ███████████████████████
-                20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
-            ],
-            [
-                10, 30, //                                    ███████████████████████
                 20, 30, //                                                      ▒▒▒▒▒
-                true,
+                false,
             ],
             [
                 10, 60, //                                    █████████████████████████████████████████████████
                 20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
+                false,
             ],
             [
                 10, 40, //                                    ███████████████████
                 10, 40, //                                    ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
+                false,
             ],
             [
                 30, 40, //                                    ██████████████████
@@ -47,22 +47,22 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
             [
                 30, 40, //                                    ██████████████████
                 10, 30, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                false,
+                true,
             ],
             [
                 30, 40, //                                    ██████████████████
                 10, 35, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
+                false,
             ],
             [
                 30, 40, //                                    ██████████████████
                 30, 35, //                                    ▒▒▒▒
-                true,
+                false,
             ],
             [
                 30, 40, //                                    ██████████████████
                 10, 60, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
+                false,
             ]
         ];
     }
@@ -74,14 +74,18 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
     public function assert($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
         $first = m::mock('\Interval\Interval');
+        $first->shouldReceive('getComparableStart')->andReturn($firstStart);
         $first->shouldReceive('getStart')->andReturn($firstStart);
+        $first->shouldReceive('getComparableEnd')->andReturn($firstEnd);
         $first->shouldReceive('getEnd')->andReturn($firstEnd);
 
         $second = m::mock('\Interval\Interval');
+        $second->shouldReceive('getComparableStart')->andReturn($secondStart);
         $second->shouldReceive('getStart')->andReturn($secondStart);
+        $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
         $second->shouldReceive('getEnd')->andReturn($secondEnd);
 
-        $union = new Overlapping();
+        $union = new Neighborhood();
         $result = $union->assert($first, $second);
         $this->assertInternalType('bool', $result);
         $this->assertSame($expected, $result);

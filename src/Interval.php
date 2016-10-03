@@ -25,15 +25,30 @@ class Interval
     private $end;
 
     /**
+     * @var mixed
+     */
+    private $comparableStart;
+
+    /**
+     * @var mixed
+     */
+    private $comparableEnd;
+
+    /**
      * Interval constructor.
      * @param mixed $start
      * @param mixed $end
      * @throws \RangeException
+     * @throws \UnexpectedValueException
      */
     public function __construct($start, $end)
     {
         $this->start = $start;
         $this->end   = $end;
+
+        $this->comparableStart = self::toComparable($this->start);
+        $this->comparableEnd   = self::toComparable($this->end);
+
         if (!$this->isConsistent()) {
             throw new \RangeException('Inconsistent Interval');
         }
@@ -45,54 +60,7 @@ class Interval
      */
     private function isConsistent()
     {
-        if (!$this->sameType($this->start, $this->end)) {
-            return false;
-        }
-        return $this->start < $this->end;
-    }
-
-    /**
-     * @param $start
-     * @param $end
-     * @return bool
-     */
-    private function sameType($start, $end)
-    {
-        return self::sameInternallyType($start, $end) && self::sameObjectInstanceName($start, $end);
-    }
-
-    /**
-     *
-     * @param $start
-     * @param $end
-     * @return bool
-     */
-    private static function sameObjectInstanceName($start, $end)
-    {
-        if (!is_object($start) && !is_object($end)) {
-            return true;
-        }
-
-        if (!is_object($start) && is_object($end)) {
-            return false;
-        }
-
-
-        if (is_object($start) && !is_object($end)) {
-            return false;
-        }
-
-        return get_class($start) === get_class($end);
-    }
-
-    /**
-     * @param $start
-     * @param $end
-     * @return bool
-     */
-    private static function sameInternallyType($start, $end)
-    {
-        return gettype($start) === gettype($end);
+        return $this->comparableStart < $this->comparableEnd;
     }
 
 
@@ -219,6 +187,22 @@ class Interval
     }
 
     /**
+     * @return mixed
+     */
+    public function getComparableStart()
+    {
+        return $this->comparableStart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComparableEnd()
+    {
+        return $this->comparableEnd;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
@@ -226,5 +210,27 @@ class Interval
         $start = ($this->start instanceof \DateTimeInterface) ? $this->start->format(\DateTime::RFC3339) : $this->start;
         $end = ($this->end instanceof \DateTimeInterface) ? $this->end->format(\DateTime::RFC3339) : $this->end;
         return '[' . $start . ', ' . $end  . ']';
+    }
+
+    /**
+     * Convert an endpoint to comparable
+     * @param mixed $endpoint
+     * @return mixed
+     * @throws \UnexpectedValueException
+     */
+    public static function toComparable($endpoint)
+    {
+        $isInternallyType = is_numeric($endpoint) || is_bool($endpoint) || is_string($endpoint);
+
+        $comparable = null;
+        if ($isInternallyType) {
+            $comparable = $endpoint;
+        } elseif ($endpoint instanceof \DateTimeInterface) {
+            $comparable = $endpoint->getTimestamp();
+        } else {
+            throw new \UnexpectedValueException('Unexpected endpoint type');
+        }
+
+        return $comparable;
     }
 }

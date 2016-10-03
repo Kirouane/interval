@@ -72,7 +72,19 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
                 30, 40, //                                    ██████████████████
                 10, 50, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 [], //                                        No intervals
-            ]
+            ],
+
+            //with infinity
+            [
+                -INF, 20, //                                 ∞██████████████████
+                30, 40, //                                                          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                [[-INF, 20]], //                             ∞██████████████████
+            ],
+            [
+                -INF, +INF, //                                 ∞██████████████████████████████████████████████████████∞
+                30, 40, //                                                          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                [[-INF, 30], [40, +INF]], //                   ∞████████████████████                ██████████████████∞
+            ],
         ];
     }
 
@@ -87,11 +99,15 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
     public function compute($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
         $first = m::mock('\Interval\Interval');
+        $first->shouldReceive('getComparableStart')->andReturn($firstStart);
         $first->shouldReceive('getStart')->andReturn($firstStart);
+        $first->shouldReceive('getComparableEnd')->andReturn($firstEnd);
         $first->shouldReceive('getEnd')->andReturn($firstEnd);
 
         $second = m::mock('\Interval\Interval');
+        $second->shouldReceive('getComparableStart')->andReturn($secondStart);
         $second->shouldReceive('getStart')->andReturn($secondStart);
+        $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
         $second->shouldReceive('getEnd')->andReturn($secondEnd);
 
         $union = new Exclusion();
@@ -119,12 +135,16 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
     {
 
         $first = m::mock('\Interval\Interval');
-        $first->shouldReceive('getStart')->andReturn(new \DateTime('2016-01-01 10:' . $firstStart));
-        $first->shouldReceive('getEnd')->andReturn(new \DateTime('2016-01-01 10:' . $firstEnd));
+        $first->shouldReceive('getComparableStart')->andReturn(is_infinite($firstStart) ? $firstStart : (new \DateTime('2016-01-01 10:' . $firstStart))->getTimestamp());
+        $first->shouldReceive('getStart')->andReturn(is_infinite($firstStart) ? $firstStart : new \DateTime('2016-01-01 10:' . $firstStart));
+        $first->shouldReceive('getComparableEnd')->andReturn(is_infinite($firstEnd) ? $firstEnd : (new \DateTime('2016-01-01 10:' . $firstEnd))->getTimestamp());
+        $first->shouldReceive('getEnd')->andReturn(is_infinite($firstEnd) ? $firstEnd : new \DateTime('2016-01-01 10:' . $firstEnd));
 
         $second = m::mock('\Interval\Interval');
-        $second->shouldReceive('getStart')->andReturn(new \DateTime('2016-01-01 10:' . $secondStart));
-        $second->shouldReceive('getEnd')->andReturn(new \DateTime('2016-01-01 10:' . $secondEnd));
+        $second->shouldReceive('getComparableStart')->andReturn(is_infinite($secondStart) ? $secondStart : (new \DateTime('2016-01-01 10:' . $secondStart))->getTimestamp());
+        $second->shouldReceive('getStart')->andReturn(is_infinite($secondStart) ? $secondStart : new \DateTime('2016-01-01 10:' . $secondStart));
+        $second->shouldReceive('getComparableEnd')->andReturn(is_infinite($secondEnd) ? $secondEnd : (new \DateTime('2016-01-01 10:' . $secondEnd))->getTimestamp());
+        $second->shouldReceive('getEnd')->andReturn(is_infinite($secondEnd) ? $secondEnd : new \DateTime('2016-01-01 10:' . $secondEnd));
 
         $union = new Exclusion();
         $intervals = $union->compute($first, $second);
@@ -133,7 +153,7 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
         $data = [];
         /** @var Interval $interval */
         foreach ($intervals as $interval) {
-            $data[] = [(int)$interval->getStart()->format('i'), (int)$interval->getEnd()->format('i')];
+            $data[] = [is_object($interval->getStart()) ? (int)$interval->getStart()->format('i') : $interval->getStart(), is_object($interval->getEnd()) ? (int)$interval->getEnd()->format('i') : $interval->getEnd()];
         }
 
         $this->assertSame($expected, $data);

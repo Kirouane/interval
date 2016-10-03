@@ -18,9 +18,7 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
         return [
             [2, 1],
             [2, 2],
-            [2, 3.0],
-            [[], []],
-            [2, new \DateTime()]
+
         ];
     }
 
@@ -95,5 +93,48 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     {
         $interval = new \Interval\Interval($start, $end);
         $this->assertSame($expected, $interval->__toString());
+    }
+
+    public function toComparableProvider()
+    {
+        return [
+            [1, 1],
+            [1.1, 1.1],
+            ['1', '1'],
+            ['a', 'a'],
+            [true, true],
+            [false, false],
+            [new \DateTime('2016-01-01 10:00:00'), 1451642400],
+            [INF, INF],
+            [-INF, -INF],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider toComparableProvider
+     */
+    public function toComparable($endpoint, $expected)
+    {
+        $this->assertSame($expected, Interval::toComparable($endpoint));
+    }
+
+    public function toComparableExceptionProvider()
+    {
+        return [
+            [[]],
+            [new \stdClass()],
+            [null],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider toComparableExceptionProvider
+     * @expectedException UnexpectedValueException
+     */
+    public function toComparableException($endpoint)
+    {
+        Interval::toComparable($endpoint);
     }
 }

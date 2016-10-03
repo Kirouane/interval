@@ -40,16 +40,16 @@ class Exclusion
      */
     public function compute(Interval $first, Interval $second)
     {
-        if ($first->getEnd() <= $second->getStart() || $first->getStart() >= $second->getEnd()) {
+        if ($first->getComparableEnd() <= $second->getComparableStart() || $first->getComparableStart() >= $second->getComparableEnd()) {
             return new Intervals([$first]);
-        } elseif ($second->getStart() <= $first->getStart() && $second->getEnd() >= $first->getEnd()) {
+        } elseif ($second->getComparableStart() <= $first->getComparableStart() && $second->getComparableEnd() >= $first->getComparableEnd()) {
             return new Intervals([]);
-        } elseif ($second->getStart() > $first->getStart() && $second->getEnd() < $first->getEnd()) {
+        } elseif ($second->getComparableStart() > $first->getComparableStart() && $second->getComparableEnd() < $first->getComparableEnd()) {
             return new Intervals([
                 new Interval($first->getStart(), $second->getStart()),
                 new Interval($second->getEnd(), $first->getEnd())
             ]);
-        } elseif ($second->getEnd() > $first->getStart() && $second->getEnd() < $first->getEnd()) {
+        } elseif ($second->getComparableEnd() > $first->getComparableStart() && $second->getComparableEnd() < $first->getComparableEnd()) {
             return new Intervals([new Interval($second->getEnd(), $first->getEnd())]);
         } else {
             return new Intervals([new Interval($first->getStart(), $second->getStart())]);

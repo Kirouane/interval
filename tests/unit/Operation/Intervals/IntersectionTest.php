@@ -1,45 +1,20 @@
 <?php
 declare(strict_types=1);
-namespace Interval;
-require_once __DIR__ . '/../../vendor/autoload.php';
-
+namespace UnitTest\Interval\Operation\Intervals;
 use Interval\Interval;
 use Interval\Intervals;
+use Interval\Operation\Intervals\Exclusion;
+
 use \Mockery as m;
-class IntervalsTest extends \PHPUnit\Framework\TestCase
+class IntersectionTest extends \PHPUnit\Framework\TestCase
 {
+
     public function tearDown()
     {
         m::close();
     }
 
-    public function toStringTestProvider()
-    {
-        return [
-            [[], '{}'],
-            [[[0, 1]], '{[0, 1]}'],
-            [[[0, 1], [3, 7]], '{[0, 1], [3, 7]}']
-        ];
-    }
-
-    /**
-     * @dataProvider toStringTestProvider
-     * @param array $intervalsData
-     * @param $expected
-     * @test
-     */
-    public function toStringTest(array $intervalsData, $expected)
-    {
-        $array = [];
-        foreach ($intervalsData as $intervalData) {
-            $array[] = new Interval($intervalData[0], $intervalData[1]);
-        }
-
-        $intervals = new Intervals($array);
-        $this->assertSame($expected, (string)$intervals);
-    }
-
-    public function excludePeriodsFromOtherPeriodsProvider()
+    public function computeProvider()
     {
         return [
             [
@@ -115,5 +90,45 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
                 [],
             ],
         ];
+    }
+
+    /**
+     * @dataProvider computeProvider
+     * @param $intervalsData
+     * @param $intervalsToExcludeData
+     * @param $expected
+     * @test
+     */
+    public function compute(array $intervalsData, array $intervalsToExcludeData, array $expected)
+    {
+        $intervals = [];
+        foreach ($intervalsData as $intervalData) {
+            $intervals[] = new Interval(
+                new \DateTime('2014-01-01 ' . $intervalData[0]),
+                new \DateTime('2014-01-01 ' . $intervalData[1])
+            );
+        }
+
+        $intervalsToExclude = [];
+        foreach ($intervalsToExcludeData as $intervalToExcludeData) {
+            $intervalsToExclude[] = new Interval(
+                new \DateTime('2014-01-01 ' . $intervalToExcludeData[0]),
+                new \DateTime('2014-01-01 ' . $intervalToExcludeData[1])
+            );
+        }
+
+        $intervals = new Intervals($intervals);
+        $intervalsToExclude =  new Intervals($intervalsToExclude);
+        $exclusion = new Exclusion();
+        $results = $exclusion->compute($intervals, $intervalsToExclude);
+
+        $this->assertCount(count($expected), $results);
+        $count = count($results);
+        for ($i = 0; $i < $count; $i++) {
+            $interval = $results[$i];
+            $this->assertInstanceOf(Interval::class, $interval);
+            $this->assertSame($interval->getStart()->format('H:i'), $expected[$i][0]);
+            $this->assertSame($interval->getEnd()->format('H:i'), $expected[$i][1]);
+        }
     }
 }

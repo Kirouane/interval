@@ -1,8 +1,16 @@
 Interval
 ======
 
-This library provides some tools to manipulate intervals. For instance, You can compute the union or intersection of two intervals. 
+This library provides some tools to manipulate intervals. For instance, You can compute the union or intersection of two intervals.
 
+Features
+------
+
+* It computes **basic operations** between two intervals: union, intersection and exclusion.
+* It computes the exclusion between two **sets of intervals**.
+* It handles several types of boundary (endpoints) : float, **\DateTime**, integer, and string. 
+* It handles **infinity** boundaries.
+* Ability to **combine** infinity with \DateTime and other types
 
 Install
 ------
@@ -75,4 +83,17 @@ $interval = new \Interval\Interval(new \DateTime('2016-01-01'), new \DateTime('2
 
 ```php
 echo $interval->union(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))); // {[2016-01-01T00:00:00+01:00, 2016-01-15T00:00:00+01:00]};
+```
+
+Use Infinity as endpoints
+---------
+
+```php
+$interval = new \Interval\Interval(-INF, INF);// [-INF, INF];
+```
+
+* Exclusion : 
+
+```php
+echo $interval->union(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))); // {[-INF, 2016-01-10T00:00:00+01:00], [2016-01-15T00:00:00+01:00, INF]};
 ```

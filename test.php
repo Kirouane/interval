@@ -65,3 +65,15 @@ echo "* Union : \n\n";
 echo '```php
 echo $interval->union(new \Interval\Interval(new \DateTime(\'2016-01-10\'), new \DateTime(\'2016-01-15\'))); // ' . $interval->union(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))) . ';
 ```' . "\n\n";
+
+echo "Use Infinity as endpoints
+---------\n\n";
+$interval = new \Interval\Interval(-INF, INF);
+echo '```php
+$interval = new \Interval\Interval(-INF, INF);// ' . $interval . ';
+```' . "\n";
+echo "\n";
+echo "* Exclusion : \n\n";
+echo '```php
+echo $interval->union(new \Interval\Interval(new \DateTime(\'2016-01-10\'), new \DateTime(\'2016-01-15\'))); // ' . $interval->exclude(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))) . ';
+```' . "\n\n";

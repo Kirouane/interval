@@ -75,11 +75,15 @@ class UnionTest extends \PHPUnit\Framework\TestCase
     {
 
         $first = m::mock('\Interval\Interval');
+        $first->shouldReceive('getComparableStart')->andReturn($firstStart);
         $first->shouldReceive('getStart')->andReturn($firstStart);
+        $first->shouldReceive('getComparableEnd')->andReturn($firstEnd);
         $first->shouldReceive('getEnd')->andReturn($firstEnd);
 
         $second = m::mock('\Interval\Interval');
+        $second->shouldReceive('getComparableStart')->andReturn($secondStart);
         $second->shouldReceive('getStart')->andReturn($secondStart);
+        $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
         $second->shouldReceive('getEnd')->andReturn($secondEnd);
 
         $union = new Union();
