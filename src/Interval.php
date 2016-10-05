@@ -1,12 +1,6 @@
 <?php
 declare(strict_types=1);
 namespace Interval;
-use Interval\Operation\Interval\Exclusion;
-use Interval\Operation\Interval\Intersection;
-use Interval\Operation\Interval\Union;
-use Interval\Rule\Interval\Inclusion;
-use Interval\Rule\Interval\Neighborhood;
-use Interval\Rule\Interval\Overlapping;
 
 /**
  * Class Interval
@@ -14,6 +8,11 @@ use Interval\Rule\Interval\Overlapping;
  */
 class Interval
 {
+    /**
+     * @var \Interval\Catalog
+     */
+    private static $catalog;
+
     /**
      * @var mixed
      */
@@ -43,6 +42,8 @@ class Interval
      */
     public function __construct($start, $end)
     {
+        self::loadCatalog();
+
         $this->start = $start;
         $this->end   = $end;
 
@@ -80,7 +81,8 @@ class Interval
      */
     public function union(Interval $interval) : Intervals
     {
-        $operation = new Union();
+        /** @var \Interval\Operation\Interval\Union $operation */
+        $operation = self::$catalog->get(Catalog::OPERATION_INTERVAL_UNION);
         return $operation($this, $interval);
     }
 
@@ -100,7 +102,8 @@ class Interval
      */
     public function exclude(Interval $interval) : Intervals
     {
-        $operation = new Exclusion();
+        /** @var \Interval\Operation\Interval\Exclusion $operation */
+        $operation = self::$catalog->get(Catalog::OPERATION_INTERVAL_EXCLUSION);
         return $operation($this, $interval);
     }
 
@@ -120,7 +123,8 @@ class Interval
      */
     public function intersect(Interval $interval)
     {
-        $operation = new Intersection();
+        /** @var \Interval\Operation\Interval\Intersection $operation */
+        $operation = self::$catalog->get(Catalog::OPERATION_INTERVAL_INTERSECTION);
         return $operation($this, $interval);
     }
 
@@ -132,7 +136,8 @@ class Interval
      */
     public function overlaps(Interval $interval) : bool
     {
-        $asserter = new Overlapping();
+        /** @var \Interval\Rule\Interval\Overlapping $asserter */
+        $asserter = self::$catalog->get(Catalog::RULE_INTERVAL_OVERLAPPING);
         return $asserter->assert($this, $interval);
     }
 
@@ -144,7 +149,8 @@ class Interval
      */
     public function includes(Interval $interval) : bool
     {
-        $asserter = new Inclusion();
+        /** @var \Interval\Rule\Interval\Inclusion $asserter */
+        $asserter = self::$catalog->get(Catalog::RULE_INTERVAL_INCLUSION);
         return $asserter->assert($this, $interval);
     }
 
@@ -164,7 +170,8 @@ class Interval
      */
     public function isNeighborOf(Interval $interval) : bool
     {
-        $asserter = new Neighborhood();
+        /** @var \Interval\Rule\Interval\Neighborhood $asserter */
+        $asserter = self::$catalog->get(Catalog::RULE_INTERVAL_NEIGHBORHOOD);
         return $asserter->assert($this, $interval);
     }
 
@@ -232,5 +239,18 @@ class Interval
         }
 
         return $comparable;
+    }
+
+    /**
+     * Loads the service catalog
+     * @return Catalog
+     */
+    private static function loadCatalog()
+    {
+        if (!self::$catalog) {
+            self::$catalog = new Catalog();
+        }
+
+        return self::$catalog;
     }
 }

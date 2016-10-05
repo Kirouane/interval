@@ -16,9 +16,9 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
     public function toStringTestProvider()
     {
         return [
-            [[], '{}'],
+            //[[], '{}'],
             [[[0, 1]], '{[0, 1]}'],
-            [[[0, 1], [3, 7]], '{[0, 1], [3, 7]}']
+            //[[[0, 1], [3, 7]], '{[0, 1], [3, 7]}']
         ];
     }
 
@@ -39,81 +39,23 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, (string)$intervals);
     }
 
-    public function excludePeriodsFromOtherPeriodsProvider()
+    /**
+     * @test
+     */
+    public function exclude()
     {
-        return [
-            [
-                [
-                    ['10:00', '12:00'],
-                ],
-                [],
-                [
-                    ['10:00', '12:00'],
-                ],
-            ],
-            [
-                [
-                    ['10:00', '12:00'],
-                ],
-                [
-                    ['09:00', '10:00'],
-                    ['12:00', '14:00'],
-                ],
-                [
-                    ['10:00', '12:00'],
-                ],
-            ],
-            [
-                [
-                    ['10:00', '12:00'],
-                ],
-                [
-                    ['10:30', '11:30'],
-                ],
-                [
-                    ['10:00', '10:30'],
-                    ['11:30', '12:00'],
-                ],
-            ],
-            [
-                [
-                    ['10:00', '14:00'],
-                ],
-                [
-                    ['11:00', '11:30'],
-                    ['12:00', '12:30'],
-                ],
-                [
-                    ['10:00', '11:00'],
-                    ['11:30', '12:00'],
-                    ['12:30', '14:00'],
-                ],
-            ],
-            [
-                [
-                    ['10:00', '14:00'],
-                    ['15:00', '16:00'],
-                ],
-                [
-                    ['11:00', '11:30'],
-                    ['12:00', '15:30'],
-                ],
-                [
-                    ['10:00', '11:00'],
-                    ['11:30', '12:00'],
-                    ['15:30', '16:00'],
-                ],
-            ],
-            [
-                [
-                    ['10:00', '13:00'],
-                ],
-                [
-                    ['10:00', '12:00'],
-                    ['12:00', '13:00'],
-                ],
-                [],
-            ],
-        ];
+        $intervals = new Intervals([
+            new Interval(1, 10),
+            new Interval(16, 20)
+        ]);
+
+        $results = $intervals->exclude(new Intervals([
+            new Interval(2, 7),
+            new Interval(17, 18)
+        ]));
+
+        $this->assertInstanceOf(Intervals::class, $results);
+        $this->assertCount(4, $results);
+
     }
 }

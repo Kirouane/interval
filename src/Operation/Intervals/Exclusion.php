@@ -12,12 +12,11 @@ class Exclusion
 {
     /**
      * PHP magic function
-     * @param Interval $first
-     * @param Interval $second
+     * @param Intervals $first
+     * @param Intervals $second
      * @return array
-     * @throws \RangeException
      */
-    public function __invoke(Interval $first, Interval $second)
+    public function __invoke(Intervals $first, Intervals $second)
     {
         return $this->compute($first, $second);
     }
