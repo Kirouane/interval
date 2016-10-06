@@ -49,6 +49,8 @@ class Interval
      * @param mixed $end
      * @param bool $startIncluded
      * @param bool $endIncluded
+     * @throws \RangeException
+     * @throws \UnexpectedValueException
      */
     public function __construct($start, $end, bool $startIncluded = true, bool $endIncluded = true)
     {
