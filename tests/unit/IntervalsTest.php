@@ -16,9 +16,9 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
     public function toStringTestProvider()
     {
         return [
-            //[[], '{}'],
+            [[], '{}'],
             [[[0, 1]], '{[0, 1]}'],
-            //[[[0, 1], [3, 7]], '{[0, 1], [3, 7]}']
+            [[[0, 1], [3, 7]], '{[0, 1], [3, 7]}']
         ];
     }
 

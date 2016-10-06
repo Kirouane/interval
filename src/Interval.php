@@ -19,9 +19,19 @@ class Interval
     private $start;
 
     /**
+     * @var bool
+     */
+    private $startIncluded;
+
+    /**
      * @var mixed
      */
     private $end;
+
+    /**
+     * @var bool
+     */
+    private $endIncluded;
 
     /**
      * @var mixed
@@ -37,14 +47,16 @@ class Interval
      * Interval constructor.
      * @param mixed $start
      * @param mixed $end
-     * @throws \RangeException
-     * @throws \UnexpectedValueException
+     * @param bool $startIncluded
+     * @param bool $endIncluded
      */
-    public function __construct($start, $end)
+    public function __construct($start, $end, bool $startIncluded = true, bool $endIncluded = true)
     {
         self::loadCatalog();
 
         $this->start = $start;
+        $this->startIncluded = $startIncluded;
+        $this->endIncluded   = $endIncluded;
         $this->end   = $end;
 
         $this->comparableStart = self::toComparable($this->start);
@@ -61,9 +73,12 @@ class Interval
      */
     private function isConsistent()
     {
-        return $this->comparableStart < $this->comparableEnd;
+        if ($this->comparableStart === $this->comparableEnd) {
+            return $this->startIncluded && $this->endIncluded;
+        } else {
+            return $this->comparableStart < $this->comparableEnd;
+        }
     }
-
 
     /**
      * Compute the union between two intervals. Exp :
@@ -216,7 +231,19 @@ class Interval
     {
         $start = ($this->start instanceof \DateTimeInterface) ? $this->start->format(\DateTime::RFC3339) : $this->start;
         $end = ($this->end instanceof \DateTimeInterface) ? $this->end->format(\DateTime::RFC3339) : $this->end;
-        return '[' . $start . ', ' . $end  . ']';
+
+        if (is_numeric($start)) {
+            $start = is_infinite((float)$start) ? '-∞' : $start;
+        }
+
+        if (is_numeric($end)) {
+            $end = is_infinite((float)$end) ? '+∞' : $end;
+        }
+
+        $startIncluded = $this->startIncluded ? '[' : ']';
+        $endIncluded = $this->endIncluded ? ']' : '[';
+
+        return $startIncluded . $start . ', ' . $end  . $endIncluded;
     }
 
     /**

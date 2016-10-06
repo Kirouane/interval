@@ -16,20 +16,30 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     public function constructorShouldThrowExceptionProvider()
     {
         return [
-            [2, 1],
-            [2, 2],
+            [2, 1, true, true, true],
+            [2, 2, false, false, true],
+            [2, 2, true, false, true],
+            [2, 2, false, true, true],
+
+            [2, 2, true, true, false],
+            [1, 2, true, true, false],
+            [1, 2, false, true, false],
+            [1, 2, true, false, false],
+            [1, 2, false, false, false],
 
         ];
     }
 
     /**
      * @test
-     * @expectedException \RangeException
      * @dataProvider constructorShouldThrowExceptionProvider
      */
-    public function constructorShouldThrowException($start, $end)
+    public function constructorShouldThrowException($start, $end, $startIncluded, $endIncluded, $expectException)
     {
-        new \Interval\Interval($start, $end);
+        if ($expectException) {
+            $this->expectException('RangeException');
+        }
+        new \Interval\Interval($start, $end, $startIncluded, $endIncluded);
     }
 
     /**
@@ -80,8 +90,15 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     public function toStringProvider()
     {
         return [
-            [1, 2, '[1, 2]'],
-            [new \DateTime('2016-01-01'), new \DateTime('2016-01-02'), '[2016-01-01T00:00:00+00:00, 2016-01-02T00:00:00+00:00]']
+            [1, 2, true, true, '[1, 2]'],
+            [new \DateTime('2016-01-01'), new \DateTime('2016-01-02'), true, true, '[2016-01-01T00:00:00+00:00, 2016-01-02T00:00:00+00:00]'],
+            [1, 2, false, true, ']1, 2]'],
+            [1, 2, true, false, '[1, 2['],
+            [1, 2, false, false, ']1, 2['],
+            [-INF, +INF, true, true, '[-∞, +∞]'],
+            [-INF, 1, true, false, '[-∞, 1['],
+            ['a', +INF, false, true, ']a, +∞]'],
+            ['1', +INF, false, true, ']1, +∞]'],
         ];
     }
 
@@ -89,9 +106,9 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
      * @test
      * @dataProvider toStringProvider
      */
-    public function toStringTest($start, $end, $expected)
+    public function toStringTest($start, $end, $startIncluded, $endIncluded, $expected)
     {
-        $interval = new \Interval\Interval($start, $end);
+        $interval = new \Interval\Interval($start, $end, $startIncluded, $endIncluded);
         $this->assertSame($expected, $interval->__toString());
     }
 
