@@ -18,6 +18,8 @@ class Catalog
     const RULE_INTERVAL_NEIGHBORHOOD       = '\Interval\Rule\Interval\Neighborhood';
     const RULE_INTERVAL_OVERLAPPING        = '\Interval\Rule\Interval\Overlapping';
 
+    const PARSER                           = '\Interval\Parser';
+
     /**
      * @var array
      */

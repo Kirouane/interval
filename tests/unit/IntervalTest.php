@@ -154,4 +154,17 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     {
         Interval::toComparable($endpoint);
     }
+
+
+    /**
+     * @test
+     */
+    public function create()
+    {
+        $interval = Interval::create('[10, 15[');
+        $this->assertSame(10, $interval->getStart());
+        $this->assertSame(15, $interval->getEnd());
+        $this->assertSame(true, $interval->isStartIncluded());
+        $this->assertSame(false, $interval->isEndIncluded());
+    }
 }

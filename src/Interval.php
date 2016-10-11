@@ -282,4 +282,36 @@ class Interval
 
         return self::$catalog;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isStartIncluded()
+    {
+        return $this->startIncluded;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEndIncluded()
+    {
+        return $this->endIncluded;
+    }
+
+    /**
+     * Creates a new Interval from expression
+     * Exp Interval::create('[10, 26[')
+     * @param string $expression
+     * @return Interval
+     * @throws \UnexpectedValueException
+     * @throws \RangeException
+     * @throws \ErrorException
+     */
+    public static function create(string $expression) : Interval
+    {
+        /** @var \Interval\Parser $asserter */
+        $asserter = self::loadCatalog()->get(Catalog::PARSER);
+        return $asserter->parse($expression);
+    }
 }
