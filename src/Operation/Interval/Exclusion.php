@@ -4,6 +4,8 @@ namespace Interval\Operation\Interval;
 
 use Interval\Interval;
 use Interval\Intervals;
+use RangeException;
+use UnexpectedValueException;
 
 /**
  * Class Exclusion
@@ -16,8 +18,8 @@ class Exclusion
      * @param Interval $first
      * @param Interval $second
      * @return array
-     * @throws \UnexpectedValueException
-     * @throws \RangeException
+     * @throws UnexpectedValueException
+     * @throws RangeException
      */
     public function __invoke(Interval $first, Interval $second)
     {
@@ -38,8 +40,8 @@ class Exclusion
      * @param Interval $first
      * @param Interval $second
      * @return Intervals
-     * @throws \UnexpectedValueException
-     * @throws \RangeException
+     * @throws UnexpectedValueException
+     * @throws RangeException
      */
     public function compute(Interval $first, Interval $second)
     {
