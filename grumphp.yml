@@ -17,6 +17,5 @@ parameters:
         phpcsfixer: ~
         phplint: ~
         phpparser: ~
-        securitychecker: ~
         phpversion:
             project: '7.1'
