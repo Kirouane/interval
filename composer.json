@@ -2,11 +2,12 @@
   "name": "kirouane/interval",
   "description": "Library to handel intervals",
   "type": "library",
+  "minimum-stability":"dev",
   "keywords": [
     "php", "interval", "period", "time", "algebra", "infinity", "planning", "booking", "exclusion"
   ],
   "homepage": "https://github.com/Kirouane/interval",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "authors": [
     {
       "name": "nassim.kirouane",

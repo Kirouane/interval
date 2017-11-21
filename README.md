@@ -1,3 +1,7 @@
+[![Travis](https://img.shields.io/travis/Kirouane/interval/master.svg)](http://travis-ci.org/Kirouane/interval)
+[![Installs](https://img.shields.io/packagist/dt/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval/stats)
+[![Packagist](https://img.shields.io/packagist/v/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval)
+
 Interval
 ======
 
@@ -17,7 +21,7 @@ Install
 
 The fastest way to install Interval is to add it to your project using Composer
 
-`php composer.phar require nassimkirouane/interval`
+`composer require kirouane/interval`
 
 Basic usage
 ---------
