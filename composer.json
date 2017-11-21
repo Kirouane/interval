@@ -24,6 +24,7 @@
     "psr-4": {"Interval\\": "src/"}
   },
   "require-dev": {
-    "mockery/mockery": "^0.9.5"
+    "mockery/mockery": "^0.9.5",
+    "phpro/grumphp": "^0.12.0"
   }
 }

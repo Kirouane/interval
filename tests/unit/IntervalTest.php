@@ -16,7 +16,7 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     public function constructorShouldThrowExceptionProvider()
     {
         return [
-            [2, 1, true, true, true],
+            [2, 1, true, true, false],
             [2, 2, false, false, true],
             [2, 2, true, false, true],
             [2, 2, false, true, true],
