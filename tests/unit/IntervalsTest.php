@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 namespace Interval;
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Interval\Interval;
 use Interval\Intervals;
 use \Mockery as m;
+
 class IntervalsTest extends \PHPUnit\Framework\TestCase
 {
     public function tearDown()
@@ -56,6 +58,5 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf(Intervals::class, $results);
         $this->assertCount(4, $results);
-
     }
 }

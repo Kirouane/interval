@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 namespace UnitTest\Interval\Operation\Interval;
+
 use Interval\Interval;
 use Interval\Intervals;
 use Interval\Operation\Interval\Exclusion;
 use Interval\Operation\Interval\Intersection;
 use Interval\Operation\Interval\Union;
 use \Mockery as m;
+
 class ExclusionTest extends \PHPUnit\Framework\TestCase
 {
-
     public function tearDown()
     {
         m::close();
@@ -133,7 +134,6 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
      */
     public function computeWithDateTimeAsEndPoint($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
-
         $first = m::mock('\Interval\Interval');
         $first->shouldReceive('getComparableStart')->andReturn(is_infinite($firstStart) ? $firstStart : (new \DateTime('2016-01-01 10:' . $firstStart))->getTimestamp());
         $first->shouldReceive('getStart')->andReturn(is_infinite($firstStart) ? $firstStart : new \DateTime('2016-01-01 10:' . $firstStart));

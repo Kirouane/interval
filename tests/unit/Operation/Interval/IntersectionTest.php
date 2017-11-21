@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 namespace UnitTest\Interval\Operation\Interval;
+
 use Interval\Interval;
 use Interval\Operation\Interval\Intersection;
 use Interval\Operation\Interval\Union;
 use \Mockery as m;
+
 class IntersectionTest extends \PHPUnit\Framework\TestCase
 {
-
     public function tearDown()
     {
         m::close();
@@ -74,7 +75,6 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
      */
     public function compute($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
-
         $first = m::mock('\Interval\Interval');
         $first->shouldReceive('getComparableStart')->andReturn($firstStart);
         $first->shouldReceive('getStart')->andReturn($firstStart);

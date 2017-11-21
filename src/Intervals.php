@@ -68,5 +68,4 @@ class Intervals extends \ArrayObject
 
         return self::$catalog;
     }
-
 }

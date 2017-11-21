@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 namespace Interval;
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 use Interval\Interval;
 use Interval\Intervals;
 use \Mockery as m;
+
 class IntervalTest extends \PHPUnit\Framework\TestCase
 {
-
     public function tearDown()
     {
         m::close();
@@ -16,7 +17,7 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     public function constructorShouldThrowExceptionProvider()
     {
         return [
-            [2, 1, true, true, false],
+            [2, 1, true, true, true],
             [2, 2, false, false, true],
             [2, 2, true, false, true],
             [2, 2, false, true, true],

@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 namespace Interval;
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 use Interval\Interval;
 use Interval\Intervals;
 use \Mockery as m;
+
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
-
     public function tearDown()
     {
         m::close();

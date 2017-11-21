@@ -8,8 +8,8 @@ namespace Interval;
  */
 class Parser
 {
-    CONST L = ']';
-    CONST R = '[';
+    const L = ']';
+    const R = '[';
 
     /**
      * Create a Interval from an expression
@@ -83,12 +83,15 @@ class Parser
      * Cast a value to its expected type
      * @param mixed $value
      * @return float|int|string
+œ     * @throws \InvalidArgumentException
      */
     private function parseValue($value)
     {
         if ($this->isInt($value)) {
             $value = (int)$value;
-        } elseif ($this->isInfinity($value) || $this->isFloat($value)) {
+        } elseif ($this->isInfinity($value)) {
+            $value = '-INF' ===  $value ? -INF : INF;
+        } elseif ($this->isFloat($value)) {
             $value = (float)$value;
         }
 
@@ -102,7 +105,7 @@ class Parser
      */
     private function isInt(string $value) : bool
     {
-        return is_numeric($value) && $value == (int)$value;
+        return is_numeric($value) && (float)round($value, 0) === (float)$value;
     }
 
     /**
@@ -122,6 +125,6 @@ class Parser
      */
     private function isFloat(string $value) : bool
     {
-        return is_numeric($value) && $value == (float)$value;
+        return is_numeric($value) && !$this->isInt($value);
     }
 }

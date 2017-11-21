@@ -3,9 +3,9 @@ declare(strict_types=1);
 namespace Interval\Rule\Interval;
 
 use \Mockery as m;
+
 class NeighborhoodTest extends \PHPUnit\Framework\TestCase
 {
-
     public function assertProvider()
     {
         return [
@@ -89,7 +89,6 @@ class NeighborhoodTest extends \PHPUnit\Framework\TestCase
         $result = $union->assert($first, $second);
         $this->assertInternalType('bool', $result);
         $this->assertSame($expected, $result);
-
     }
 
     public function tearDown()

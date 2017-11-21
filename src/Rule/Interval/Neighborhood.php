@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 namespace Interval\Rule\Interval;
-use Interval\Interval;
 
+use Interval\Interval;
 
 /**
  * Class Neighborhood

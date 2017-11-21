@@ -38,5 +38,4 @@ class Catalog
 
         return $this->services[$name];
     }
-
 }
