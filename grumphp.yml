@@ -6,7 +6,7 @@ parameters:
         phpunit:
             always_execute: true
         clover_coverage:
-            clover_file: clover.xml
+            clover_file: build/logs/clover.xml
             level: 90
         phpcpd:
           exclude: ['vendor', 'tests']
