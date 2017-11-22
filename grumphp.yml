@@ -3,7 +3,11 @@ parameters:
     bin_dir: vendor/bin
     tasks:
         composer: ~
-        phpunit: ~
+        phpunit:
+            always_execute: true
+        clover_coverage:
+            clover_file: clover.xml
+            level: 90
         phpcpd:
           exclude: ['vendor', 'tests']
         file_size:
