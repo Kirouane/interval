@@ -17,17 +17,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function parseProvider()
     {
         return [
-            ['[1,2]', 1, 2, true, true],
-            [']1,2]', 1, 2, false, true],
-            [']1,2[', 1, 2, false, false],
-            ['[1,2[', 1, 2, true, false],
+            ['[1,2]', 1, 2],
+            ['[-INF,2]', -INF, 2],
+            ['[-INF,+INF]', -INF, INF],
 
-            ['[-INF,2]', -INF, 2, true, true],
-            ['[-INF,+INF]', -INF, INF, true, true],
+            ['[1.1,2.2]', 1.1, 2.2],
 
-            ['[1.1,2.2]', 1.1, 2.2, true, true],
-
-            ['[a,b]', 'a', 'b', true, true],
+            ['[a,b]', 'a', 'b'],
         ];
     }
 
@@ -35,7 +31,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @test
      * @dataProvider parseProvider
      */
-    public function parse($expression, $start, $end, $startIncluded, $endIncluded)
+    public function parse($expression, $start, $end)
     {
         $parser = new Parser();
 
@@ -44,7 +40,5 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(Interval::class, $interval);
         $this->assertSame($start, $interval->getStart());
         $this->assertSame($end, $interval->getEnd());
-        $this->assertSame($startIncluded, $interval->isStartIncluded());
-        $this->assertSame($endIncluded, $interval->isEndIncluded());
     }
 }

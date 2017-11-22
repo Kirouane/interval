@@ -52,13 +52,11 @@ class Interval
      * @throws \RangeException
      * @throws \UnexpectedValueException
      */
-    public function __construct($start, $end, bool $startIncluded = true, bool $endIncluded = true)
+    public function __construct($start, $end)
     {
         self::loadCatalog();
 
         $this->start = $start;
-        $this->startIncluded = $startIncluded;
-        $this->endIncluded   = $endIncluded;
         $this->end   = $end;
 
         $this->comparableStart = self::toComparable($this->start);
@@ -75,11 +73,7 @@ class Interval
      */
     private function isConsistent()
     {
-        if ($this->comparableStart === $this->comparableEnd) {
-            return $this->startIncluded && $this->endIncluded;
-        } else {
-            return $this->comparableStart < $this->comparableEnd;
-        }
+        return $this->comparableStart < $this->comparableEnd;
     }
 
     /**
@@ -242,10 +236,7 @@ class Interval
             $end = is_infinite((float)$end) ? '+∞' : $end;
         }
 
-        $startIncluded = $this->startIncluded ? '[' : ']';
-        $endIncluded = $this->endIncluded ? ']' : '[';
-
-        return $startIncluded . $start . ', ' . $end  . $endIncluded;
+        return '['  . $start . ', ' . $end  . ']';
     }
 
     /**
@@ -282,23 +273,6 @@ class Interval
 
         return self::$catalog;
     }
-
-    /**
-     * @return boolean
-     */
-    public function isStartIncluded()
-    {
-        return $this->startIncluded;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isEndIncluded()
-    {
-        return $this->endIncluded;
-    }
-
     /**
      * Creates a new Interval from expression
      * Exp Interval::create('[10, 26[')
