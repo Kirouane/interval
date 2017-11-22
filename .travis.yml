@@ -15,4 +15,9 @@ install:
   - travis_retry composer update --no-progress --profile --no-scripts --no-suggest
 
 script:
+   - mkdir -p build/logs
+   - php vendor/bin/phpunit -c phpunit.xml
    - vendor/bin/grumphp run
+
+after_success:
+  - travis_retry php vendor/bin/coveralls

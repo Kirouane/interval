@@ -31,6 +31,7 @@
     "maglnet/composer-require-checker": "^0.1.6",
     "phpmd/phpmd" : "^2.6.0",
     "phpstan/phpstan": "^0.8.5",
-    "sebastian/phpcpd":"^3.0.1"
+    "sebastian/phpcpd":"^3.0.1",
+    "php-coveralls/php-coveralls": "^2.0@dev"
   }
 }
