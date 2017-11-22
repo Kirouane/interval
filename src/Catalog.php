@@ -8,17 +8,17 @@ namespace Interval;
  */
 class Catalog
 {
-    const OPERATION_INTERVAL_EXCLUSION     = '\Interval\Operation\Interval\Exclusion';
-    const OPERATION_INTERVAL_INTERSECTION  = '\Interval\Operation\Interval\Intersection';
-    const OPERATION_INTERVAL_UNION         = '\Interval\Operation\Interval\Union';
+    const OPERATION_INTERVAL_EXCLUSION     = Operation\Interval\Exclusion::class;
+    const OPERATION_INTERVAL_INTERSECTION  = Operation\Interval\Intersection::class;
+    const OPERATION_INTERVAL_UNION         = Operation\Interval\Union::class;
 
-    const OPERATION_INTERVALS_EXCLUSION    = '\Interval\Operation\Intervals\Exclusion';
+    const OPERATION_INTERVALS_EXCLUSION    = Operation\Intervals\Exclusion::class;
 
-    const RULE_INTERVAL_INCLUSION          = '\Interval\Rule\Interval\Inclusion';
-    const RULE_INTERVAL_NEIGHBORHOOD       = '\Interval\Rule\Interval\Neighborhood';
-    const RULE_INTERVAL_OVERLAPPING        = '\Interval\Rule\Interval\Overlapping';
+    const RULE_INTERVAL_INCLUSION          = Rule\Interval\Inclusion::class;
+    const RULE_INTERVAL_NEIGHBORHOOD       = Rule\Interval\Neighborhood::class;
+    const RULE_INTERVAL_OVERLAPPING        = Rule\Interval\Overlapping::class;
 
-    const PARSER                           = '\Interval\Parser';
+    const PARSER                           = Parser::class;
 
     /**
      * @var array

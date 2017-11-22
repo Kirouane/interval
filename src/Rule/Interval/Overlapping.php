@@ -17,7 +17,7 @@ class Overlapping
      * @param Interval $second
      * @return bool
      */
-    public function assert(Interval $first, Interval $second)
+    public function assert(Interval $first, Interval $second): bool
     {
         $operation = new Intersection();
         return null !== $operation($first, $second);

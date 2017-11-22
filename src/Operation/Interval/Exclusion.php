@@ -17,7 +17,7 @@ class Exclusion
      * PHP magic function
      * @param Interval $first
      * @param Interval $second
-     * @return array
+     * @return Intervals
      * @throws UnexpectedValueException
      * @throws RangeException
      */
@@ -43,21 +43,29 @@ class Exclusion
      * @throws UnexpectedValueException
      * @throws RangeException
      */
-    public function compute(Interval $first, Interval $second)
+    public function compute(Interval $first, Interval $second): Intervals
     {
         if ($first->getComparableEnd() <= $second->getComparableStart() || $first->getComparableStart() >= $second->getComparableEnd()) {
             return new Intervals([$first]);
-        } elseif ($second->getComparableStart() <= $first->getComparableStart() && $second->getComparableEnd() >= $first->getComparableEnd()) {
-            return new Intervals([]);
-        } elseif ($second->getComparableStart() > $first->getComparableStart() && $second->getComparableEnd() < $first->getComparableEnd()) {
-            return new Intervals([
-                new Interval($first->getStart(), $second->getStart()),
-                new Interval($second->getEnd(), $first->getEnd())
-            ]);
-        } elseif ($second->getComparableEnd() > $first->getComparableStart() && $second->getComparableEnd() < $first->getComparableEnd()) {
-            return new Intervals([new Interval($second->getEnd(), $first->getEnd())]);
-        } else {
-            return new Intervals([new Interval($first->getStart(), $second->getStart())]);
         }
+
+        if ($second->getComparableStart() <= $first->getComparableStart() && $second->getComparableEnd() >= $first->getComparableEnd()) {
+            return new Intervals([]);
+        }
+
+        if ($second->getComparableEnd() < $first->getComparableEnd()) {
+            if ($second->getComparableStart() > $first->getComparableStart()) {
+                return new Intervals([
+                    new Interval($first->getStart(), $second->getStart()),
+                    new Interval($second->getEnd(), $first->getEnd())
+                ]);
+            }
+
+            if ($second->getComparableEnd() > $first->getComparableStart()) {
+                return new Intervals([new Interval($second->getEnd(), $first->getEnd())]);
+            }
+        }
+
+        return new Intervals([new Interval($first->getStart(), $second->getStart())]);
     }
 }

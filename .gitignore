@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 vendor
-.idea
+.idea/*
 .php_cs.cache
 composer.lock
+!.idea/inspectionProfiles

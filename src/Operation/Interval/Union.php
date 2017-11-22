@@ -15,7 +15,7 @@ class Union
      * PHP magic function
      * @param Interval $first
      * @param Interval $second
-     * @return array
+     * @return Intervals
      * @throws \UnexpectedValueException
      * @throws \RangeException
      */
@@ -45,15 +45,19 @@ class Union
     {
         if ($second->getEnd() < $first->getStart()) {
             return new Intervals([new Interval($first->getStart(), $first->getEnd()), new Interval($second->getStart(), $second->getEnd())]);
-        } elseif ($second->getEnd() >= $first->getStart() && $second->getStart() <= $first->getEnd()) {
-            return new Intervals([new Interval(
-                min($first->getStart(), $second->getStart()),
-                max($first->getEnd(), $second->getEnd())
-            )]);
-        } elseif ($second->getStart() > $first->getEnd()) {
-            return new Intervals([new Interval($first->getStart(), $first->getEnd()), new Interval($second->getStart(), $second->getEnd())]);
-        } else {
-            return new Intervals([]);
         }
+
+        if ($second->getEnd() >= $first->getStart() && $second->getStart() <= $first->getEnd()) {
+            return new Intervals([new Interval(
+                \min($first->getStart(), $second->getStart()),
+                \max($first->getEnd(), $second->getEnd())
+            )]);
+        }
+
+        if ($second->getStart() > $first->getEnd()) {
+            return new Intervals([new Interval($first->getStart(), $first->getEnd()), new Interval($second->getStart(), $second->getEnd())]);
+        }
+
+        return new Intervals([]);
     }
 }
