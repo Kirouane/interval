@@ -23,6 +23,7 @@ The fastest way to install Interval is to add it to your project using Composer
 
 `composer require kirouane/interval`
 
+
 Basic usage
 ---------
 
@@ -33,8 +34,14 @@ We instantiate a new \Interval\Interval object .
 $interval = new \Interval\Interval(20, 40)// [20, 40];
 ```
 
+or
 
-We can make some operations like : 
+```php
+$interval = \Interval\Interval::create('[20,40]')// [20, 40];
+```
+
+
+We can do some operations like : 
 * Intersection : 
 
 ```php
@@ -65,7 +72,8 @@ or
 echo $interval->exclude(new \Interval\Interval(30, 35)); // {[20, 30], [35, 40]};
 ```
 
-We can also make comparisons like : * Overlap test : 
+We can compare two intervals as well: 
+* Overlapping test : 
 
 ```php
 echo $interval->overlaps(new \Interval\Interval(30, 60)); // true;
@@ -93,11 +101,12 @@ Use Infinity as endpoints
 ---------
 
 ```php
-$interval = new \Interval\Interval(-INF, INF);// [-INF, INF];
+$interval = new \Interval\Interval(-INF, INF);// [-∞, +∞];
 ```
 
 * Exclusion : 
 
 ```php
-echo $interval->union(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))); // {[-INF, 2016-01-10T00:00:00+01:00], [2016-01-15T00:00:00+01:00, INF]};
+echo $interval->union(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))); // {[-∞, 2016-01-10T00:00:00+01:00], [2016-01-15T00:00:00+01:00, +∞]};
 ```
+
