@@ -16,7 +16,7 @@ class Neighborhood
      * @param Interval $second
      * @return bool
      */
-    public function assert(Interval $first, Interval $second)
+    public function assert(Interval $first, Interval $second): bool
     {
         return $first->getStart() === $second->getEnd() || $second->getStart() === $first->getEnd();
     }

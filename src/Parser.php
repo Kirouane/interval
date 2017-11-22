@@ -8,8 +8,8 @@ namespace Interval;
  */
 class Parser
 {
-    const L = ']';
-    const R = '[';
+    private const LEFT = ']';
+    private const RIGHT = '[';
 
     /**
      * Create a Interval from an expression
@@ -21,20 +21,18 @@ class Parser
      */
     public function parse(string $expression) : Interval
     {
-        $parse = explode(',', $expression);
+        $parse = \explode(',', $expression);
         if (2 !== count($parse)) {
             throw new \ErrorException('Parse interval expression');
         }
 
-        $startTerm = reset($parse);
-        $endTerm = end($parse);
+        $startTerm = \reset($parse);
+        $endTerm = \end($parse);
 
         $startTerm = $this->parseStartTerm($startTerm);
         $endTerm = $this->parseEndTerm($endTerm);
 
-        $interval = new Interval(reset($startTerm), reset($endTerm), end($startTerm), end($endTerm));
-
-        return $interval;
+        return new Interval(\reset($startTerm), \reset($endTerm));
     }
 
     /**
@@ -47,12 +45,12 @@ class Parser
     {
         $startInclusion = $startTerm[0];
 
-        if (!in_array($startInclusion, [self::L, self::R], true)) {
+        if (!\in_array($startInclusion, [self::LEFT, self::RIGHT], true)) {
             throw new \ErrorException('Parse interval expression');
         }
 
-        $startInclusion = $startInclusion === self::R;
-        $startValue     = substr($startTerm, 1);
+        $startInclusion = $startInclusion === self::RIGHT;
+        $startValue     = \substr($startTerm, 1);
         $startValue     = $this->parseValue($startValue);
 
         return [$startValue, $startInclusion];
@@ -66,14 +64,14 @@ class Parser
      */
     private function parseEndTerm(string $endTerm) : array
     {
-        $endInclusion = substr($endTerm, -1);
+        $endInclusion = \substr($endTerm, -1);
 
-        if (!in_array($endInclusion, [self::L, self::R], true)) {
+        if (!\in_array($endInclusion, [self::LEFT, self::RIGHT], true)) {
             throw new \ErrorException('Parse interval expression');
         }
 
-        $endInclusion = $endInclusion === self::L;
-        $endValue     = substr($endTerm, 0, -1);
+        $endInclusion = $endInclusion === self::LEFT;
+        $endValue     = \substr($endTerm, 0, -1);
         $endValue     = $this->parseValue($endValue);
 
         return [$endValue, $endInclusion];
@@ -90,7 +88,7 @@ class Parser
         if ($this->isInt($value)) {
             $value = (int)$value;
         } elseif ($this->isInfinity($value)) {
-            $value = '-INF' ===  $value ? -INF : INF;
+            $value = '-INF' ===  $value ? -\INF : \INF;
         } elseif ($this->isFloat($value)) {
             $value = (float)$value;
         }
@@ -105,7 +103,7 @@ class Parser
      */
     private function isInt(string $value) : bool
     {
-        return is_numeric($value) && (float)round($value, 0) === (float)$value;
+        return \is_numeric($value) && (float)\round($value, 0) === (float)$value;
     }
 
     /**
@@ -115,7 +113,7 @@ class Parser
      */
     private function isInfinity(string $value) : bool
     {
-        return false !== strpos($value, 'INF');
+        return false !== \strpos($value, 'INF');
     }
 
     /**
@@ -125,6 +123,6 @@ class Parser
      */
     private function isFloat(string $value) : bool
     {
-        return is_numeric($value) && !$this->isInt($value);
+        return \is_numeric($value) && !$this->isInt($value);
     }
 }

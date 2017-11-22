@@ -19,19 +19,9 @@ class Interval
     private $start;
 
     /**
-     * @var bool
-     */
-    private $startIncluded;
-
-    /**
      * @var mixed
      */
     private $end;
-
-    /**
-     * @var bool
-     */
-    private $endIncluded;
 
     /**
      * @var mixed
@@ -47,18 +37,14 @@ class Interval
      * Interval constructor.
      * @param mixed $start
      * @param mixed $end
-     * @param bool $startIncluded
-     * @param bool $endIncluded
-     * @throws \RangeException
      * @throws \UnexpectedValueException
+     * @throws \RangeException
      */
-    public function __construct($start, $end, bool $startIncluded = true, bool $endIncluded = true)
+    public function __construct($start, $end)
     {
         self::loadCatalog();
 
         $this->start = $start;
-        $this->startIncluded = $startIncluded;
-        $this->endIncluded   = $endIncluded;
         $this->end   = $end;
 
         $this->comparableStart = self::toComparable($this->start);
@@ -73,13 +59,9 @@ class Interval
      * Returns false if the interval is not consistent like endTime <= starTime
      * @return bool
      */
-    private function isConsistent()
+    private function isConsistent(): bool
     {
-        if ($this->comparableStart === $this->comparableEnd) {
-            return $this->startIncluded && $this->endIncluded;
-        } else {
-            return $this->comparableStart < $this->comparableEnd;
-        }
+        return $this->comparableStart < $this->comparableEnd;
     }
 
     /**
@@ -138,7 +120,7 @@ class Interval
      * @param Interval $interval
      * @return Interval
      */
-    public function intersect(Interval $interval)
+    public function intersect(Interval $interval): Interval
     {
         /** @var \Interval\Operation\Interval\Intersection $operation */
         $operation = self::$catalog->get(Catalog::OPERATION_INTERVAL_INTERSECTION);
@@ -234,18 +216,15 @@ class Interval
         $start = ($this->start instanceof \DateTimeInterface) ? $this->start->format(\DateTime::RFC3339) : $this->start;
         $end = ($this->end instanceof \DateTimeInterface) ? $this->end->format(\DateTime::RFC3339) : $this->end;
 
-        if (is_numeric($start)) {
-            $start = is_infinite((float)$start) ? '-∞' : $start;
+        if (\is_numeric($start)) {
+            $start = \is_infinite((float)$start) ? '-∞' : $start;
         }
 
-        if (is_numeric($end)) {
-            $end = is_infinite((float)$end) ? '+∞' : $end;
+        if (\is_numeric($end)) {
+            $end = \is_infinite((float)$end) ? '+∞' : $end;
         }
 
-        $startIncluded = $this->startIncluded ? '[' : ']';
-        $endIncluded = $this->endIncluded ? ']' : '[';
-
-        return $startIncluded . $start . ', ' . $end  . $endIncluded;
+        return '['  . $start . ', ' . $end  . ']';
     }
 
     /**
@@ -256,7 +235,7 @@ class Interval
      */
     public static function toComparable($endpoint)
     {
-        $isInternallyType = is_numeric($endpoint) || is_bool($endpoint) || is_string($endpoint);
+        $isInternallyType = \is_numeric($endpoint) || \is_bool($endpoint) || \is_string($endpoint);
 
         $comparable = null;
         if ($isInternallyType) {
@@ -274,7 +253,7 @@ class Interval
      * Loads the service catalog
      * @return Catalog
      */
-    private static function loadCatalog()
+    private static function loadCatalog(): Catalog
     {
         if (!self::$catalog) {
             self::$catalog = new Catalog();
@@ -282,23 +261,6 @@ class Interval
 
         return self::$catalog;
     }
-
-    /**
-     * @return boolean
-     */
-    public function isStartIncluded()
-    {
-        return $this->startIncluded;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isEndIncluded()
-    {
-        return $this->endIncluded;
-    }
-
     /**
      * Creates a new Interval from expression
      * Exp Interval::create('[10, 26[')

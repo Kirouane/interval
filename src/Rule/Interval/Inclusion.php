@@ -16,7 +16,7 @@ class Inclusion
      * @param Interval $second
      * @return bool
      */
-    public function assert(Interval $first, Interval $second)
+    public function assert(Interval $first, Interval $second): bool
     {
         return $second->getStart() >= $first->getStart() && $second->getEnd() <= $first->getEnd();
     }

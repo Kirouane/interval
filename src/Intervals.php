@@ -19,7 +19,7 @@ class Intervals extends \ArrayObject
     public function __toString()
     {
         $str  = '{';
-        $str  .= implode(', ', $this->getArrayCopy());
+        $str  .= \implode(', ', $this->getArrayCopy());
         $str .= '}';
         return $str;
     }
@@ -60,7 +60,7 @@ class Intervals extends \ArrayObject
      * Loads the service catalog
      * @return Catalog
      */
-    private static function loadCatalog()
+    private static function loadCatalog(): Catalog
     {
         if (!self::$catalog) {
             self::$catalog = new Catalog();

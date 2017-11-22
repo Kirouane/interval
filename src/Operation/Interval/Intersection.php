@@ -14,7 +14,7 @@ class Intersection
      * PHP magic function
      * @param Interval $first
      * @param Interval $second
-     * @return array
+     * @return Interval
      * @throws \UnexpectedValueException
      * @throws \RangeException
      */
@@ -40,15 +40,15 @@ class Intersection
      * @throws \UnexpectedValueException
      * @throws \RangeException
      */
-    public function compute(Interval $first, Interval $second)
+    public function compute(Interval $first, Interval $second): ?Interval
     {
         if ($first->getEnd() <= $second->getStart() || $first->getStart() >= $second->getEnd()) {
             return null;
-        } else {
-            return new Interval(
-                max($first->getStart(), $second->getStart()),
-                min($first->getEnd(), $second->getEnd())
-            );
         }
+
+        return new Interval(
+            \max($first->getStart(), $second->getStart()),
+            \min($first->getEnd(), $second->getEnd())
+        );
     }
 }

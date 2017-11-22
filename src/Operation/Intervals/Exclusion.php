@@ -15,7 +15,7 @@ class Exclusion
      * PHP magic function
      * @param Intervals $first
      * @param Intervals $second
-     * @return array
+     * @return Intervals
      */
     public function __invoke(Intervals $first, Intervals $second)
     {
@@ -37,7 +37,8 @@ class Exclusion
      * @param Intervals $secondInterval
      * @return Intervals
      */
-    public function compute(Intervals $firstInterval, Intervals $secondInterval)
+
+    public function compute(Intervals $firstInterval, Intervals $secondInterval): Intervals
     {
         $first = $firstInterval->getArrayCopy();
         $second = $secondInterval->getArrayCopy();
@@ -47,13 +48,13 @@ class Exclusion
 
         $countIntervalsToExclude = count($second);
         while ($countIntervalsToExclude > 0) {
-            $intervalToExclude = array_shift($second);
+            $intervalToExclude = \array_shift($second);
 
             $newIntervals = [];
 
             /** @var Interval $interval */
             foreach ($first as $interval) {
-                $newIntervals = array_merge($newIntervals, $interval->exclude($intervalToExclude)->getArrayCopy());
+                $newIntervals = \array_merge($newIntervals, $interval->exclude($intervalToExclude)->getArrayCopy());
             }
 
             $first                   = $newIntervals;

@@ -2,18 +2,51 @@
 ini_set('display_errors', 1);
 require_once __DIR__ . '/vendor/autoload.php';
 
+echo <<<text
+[![Travis](https://img.shields.io/travis/Kirouane/interval/master.svg)](http://travis-ci.org/Kirouane/interval)
+[![Installs](https://img.shields.io/packagist/dt/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval/stats)
+[![Packagist](https://img.shields.io/packagist/v/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval)
+
+Interval
+======
+
+This library provides some tools to manipulate intervals. For instance, You can compute the union or intersection of two intervals.
+
+Features
+------
+
+* It computes **basic operations** between two intervals: union, intersection and exclusion.
+* It computes the exclusion between two **sets of intervals**.
+* It handles several types of boundary (endpoints) : float, **\DateTime**, integer, and string. 
+* It handles **infinity** boundaries.
+* Ability to **combine** infinity with \DateTime and other types
+
+Install
+------
+
+The fastest way to install Interval is to add it to your project using Composer
+
+`composer require kirouane/interval`
+
+text;
+echo "\n\n";
 
 echo "Basic usage
 ---------\n\n";
 
 echo "Let's assume an interval [20, 40].\n";
 echo "We instantiate a new \\Interval\\Interval object .\n\n";
-$interval = new \Interval\Interval(20, 40);
+$interval = \Interval\Interval::create('[20,40]');
 echo '```php
 $interval = new \Interval\Interval(20, 40)// ' . $interval . ';
+```' . "\n\n";
+echo "or\n\n";
+
+echo '```php
+$interval = \Interval\Interval::create(\'[20,40]\')// ' . $interval . ';
 ```' . "\n";
 echo "\n";
-echo "\nWe can make some operations like : ";
+echo "\nWe can do some operations like : ";
 echo "\n";
 echo "* Intersection : \n\n";
 
@@ -41,8 +74,9 @@ echo '```php
 echo $interval->exclude(new \Interval\Interval(30, 35)); // ' . $interval->exclude(new \Interval\Interval(30, 35)) . ';
 ```' . "\n";
 echo "\n";
-echo 'We can also make comparisons like : ';
-echo "* Overlap test : \n\n";
+echo 'We can compare two intervals as well: ';
+echo "\n";
+echo "* Overlapping test : \n\n";
 
 echo '```php
 echo $interval->overlaps(new \Interval\Interval(30, 60)); // ' . ($interval->overlaps(new \Interval\Interval(30, 60)) ? 'true' : 'false') . ';
