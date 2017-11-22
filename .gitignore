@@ -3,5 +3,5 @@ vendor
 .idea/*
 .php_cs.cache
 composer.lock
-build/logs/clover.xml
+build
 !.idea/inspectionProfiles

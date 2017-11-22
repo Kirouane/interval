@@ -1,9 +1,10 @@
 <?php
 ini_set('display_errors', 1);
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 echo <<<text
 [![Travis](https://img.shields.io/travis/Kirouane/interval/master.svg)](http://travis-ci.org/Kirouane/interval)
+[![Coverage Status](https://coveralls.io/repos/github/Kirouane/interval/badge.svg)](https://coveralls.io/github/Kirouane/interval)
 [![Installs](https://img.shields.io/packagist/dt/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval/stats)
 [![Packagist](https://img.shields.io/packagist/v/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval)
 
@@ -15,16 +16,15 @@ This library provides some tools to manipulate intervals. For instance, You can 
 Features
 ------
 
-* It computes **basic operations** between two intervals: union, intersection and exclusion.
-* It computes the exclusion between two **sets of intervals**.
+* It computes some operations between two **intervals**: union, intersection and exclusion.
+* It computes some operations between two **sets of intervals**: exclusion for now.
 * It handles several types of boundary (endpoints) : float, **\DateTime**, integer, and string. 
 * It handles **infinity** boundaries.
 * Ability to **combine** infinity with \DateTime and other types
+* Immutability
 
 Install
 ------
-
-The fastest way to install Interval is to add it to your project using Composer
 
 `composer require kirouane/interval`
 
@@ -109,5 +109,18 @@ $interval = new \Interval\Interval(-INF, INF);// ' . $interval . ';
 echo "\n";
 echo "* Exclusion : \n\n";
 echo '```php
-echo $interval->union(new \Interval\Interval(new \DateTime(\'2016-01-10\'), new \DateTime(\'2016-01-15\'))); // ' . $interval->exclude(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))) . ';
+echo $interval->exclude(new \Interval\Interval(new \DateTime(\'2016-01-10\'), new \DateTime(\'2016-01-15\'))); // ' . $interval->exclude(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))) . ';
+```' . "\n\n";
+
+
+echo "Operations on sets (arrays) of intervals
+---------\n\n";
+$intervals = new \Interval\Intervals([new \Interval\Interval(0, 5), new \Interval\Interval(8, 12)]);
+echo '```php
+$intervals = new \Interval\Intervals([new \Interval\Interval(0, 5), new \Interval\Interval(8, 12)]);;// ' . $intervals . ';
+```' . "\n";
+echo "\n";
+echo "* Exclusion : \n\n";
+echo '```php
+echo $intervals->exclude(new \Interval\Intervals([new \Interval\Interval(3, 10)])); // ' . $intervals->exclude(new \Interval\Intervals([new \Interval\Interval(3, 10)])) . ';
 ```' . "\n\n";
