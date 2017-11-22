@@ -54,10 +54,6 @@ class Union
             )]);
         }
 
-        if ($second->getStart() > $first->getEnd()) {
-            return new Intervals([new Interval($first->getStart(), $first->getEnd()), new Interval($second->getStart(), $second->getEnd())]);
-        }
-
-        return new Intervals([]);
+        return new Intervals([new Interval($first->getStart(), $first->getEnd()), new Interval($second->getStart(), $second->getEnd())]);
     }
 }
