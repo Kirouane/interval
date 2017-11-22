@@ -11,16 +11,15 @@ This library provides some tools to manipulate intervals. For instance, You can 
 Features
 ------
 
-* It computes **basic operations** between two intervals: union, intersection and exclusion.
-* It computes the exclusion between two **sets of intervals**.
+* It computes some operations between two **intervals**: union, intersection and exclusion.
+* It computes some operations between two **sets of intervals**: exclusion for now.
 * It handles several types of boundary (endpoints) : float, **\DateTime**, integer, and string. 
 * It handles **infinity** boundaries.
 * Ability to **combine** infinity with \DateTime and other types
+* Immutability
 
 Install
 ------
-
-The fastest way to install Interval is to add it to your project using Composer
 
 `composer require kirouane/interval`
 
@@ -108,6 +107,19 @@ $interval = new \Interval\Interval(-INF, INF);// [-∞, +∞];
 * Exclusion : 
 
 ```php
-echo $interval->union(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))); // {[-∞, 2016-01-10T00:00:00+01:00], [2016-01-15T00:00:00+01:00, +∞]};
+echo $interval->exclude(new \Interval\Interval(new \DateTime('2016-01-10'), new \DateTime('2016-01-15'))); // {[-∞, 2016-01-10T00:00:00+01:00], [2016-01-15T00:00:00+01:00, +∞]};
+```
+
+Operations on sets (arrays) of intervals
+---------
+
+```php
+$intervals = new \Interval\Intervals([new \Interval\Interval(0, 5), new \Interval\Interval(8, 12)]);;// {[0, 5], [8, 12]};
+```
+
+* Exclusion : 
+
+```php
+echo $intervals->exclude(new \Interval\Intervals([new \Interval\Interval(3, 10)])); // {[0, 3], [10, 12]};
 ```
 
