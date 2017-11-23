@@ -1,12 +1,15 @@
 <?php
 declare(strict_types=1);
-namespace Interval;
+
+namespace Interval\Parser;
+
+use Interval\Interval;
 
 /**
  * Class Parser
  * @package Interval
  */
-class Parser
+class IntervalParser
 {
     private const LEFT = ']';
     private const RIGHT = '[';
@@ -15,11 +18,12 @@ class Parser
      * Create a Interval from an expression
      * @param string $expression
      * @return Interval
+     * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      * @throws \RangeException
      * @throws \ErrorException
      */
-    public function parse(string $expression) : Interval
+    public function parse(string $expression): Interval
     {
         $parse = \explode(',', $expression);
         if (2 !== count($parse)) {
@@ -39,9 +43,10 @@ class Parser
      * Parses the start term
      * @param string $startTerm
      * @return array
+     * @throws \InvalidArgumentException
      * @throws \ErrorException
      */
-    private function parseStartTerm(string $startTerm) : array
+    private function parseStartTerm(string $startTerm): array
     {
         $startInclusion = $startTerm[0];
 
@@ -50,8 +55,8 @@ class Parser
         }
 
         $startInclusion = $startInclusion === self::RIGHT;
-        $startValue     = \substr($startTerm, 1);
-        $startValue     = $this->parseValue($startValue);
+        $startValue = \substr($startTerm, 1);
+        $startValue = $this->parseValue($startValue);
 
         return [$startValue, $startInclusion];
     }
@@ -60,9 +65,10 @@ class Parser
      * Pareses the end term
      * @param string $endTerm
      * @return array
+     * @throws \InvalidArgumentException
      * @throws \ErrorException
      */
-    private function parseEndTerm(string $endTerm) : array
+    private function parseEndTerm(string $endTerm): array
     {
         $endInclusion = \substr($endTerm, -1);
 
@@ -71,8 +77,8 @@ class Parser
         }
 
         $endInclusion = $endInclusion === self::LEFT;
-        $endValue     = \substr($endTerm, 0, -1);
-        $endValue     = $this->parseValue($endValue);
+        $endValue = \substr($endTerm, 0, -1);
+        $endValue = $this->parseValue($endValue);
 
         return [$endValue, $endInclusion];
     }
@@ -81,16 +87,21 @@ class Parser
      * Cast a value to its expected type
      * @param mixed $value
      * @return float|int|string
-œ     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     private function parseValue($value)
     {
         if ($this->isInt($value)) {
             $value = (int)$value;
         } elseif ($this->isInfinity($value)) {
-            $value = '-INF' ===  $value ? -\INF : \INF;
+            $value = '-INF' === $value ? -\INF : \INF;
         } elseif ($this->isFloat($value)) {
             $value = (float)$value;
+        } elseif ($this->isDate($value)) {
+            $value = \DateTimeImmutable::createFromFormat('U', (string)strtotime($value));
+            $value = $value->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+        } else {
+            throw new \InvalidArgumentException('Unexpected $value type');
         }
 
         return $value;
@@ -101,7 +112,7 @@ class Parser
      * @param $value
      * @return bool
      */
-    private function isInt(string $value) : bool
+    private function isInt(string $value): bool
     {
         return \is_numeric($value) && (float)\round($value, 0) === (float)$value;
     }
@@ -111,7 +122,7 @@ class Parser
      * @param string $value
      * @return bool
      */
-    private function isInfinity(string $value) : bool
+    private function isInfinity(string $value): bool
     {
         return false !== \strpos($value, 'INF');
     }
@@ -121,8 +132,17 @@ class Parser
      * @param string $value
      * @return bool
      */
-    private function isFloat(string $value) : bool
+    private function isFloat(string $value): bool
     {
         return \is_numeric($value) && !$this->isInt($value);
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    private function isDate($value): bool
+    {
+        return true === (bool)strtotime($value);
     }
 }

@@ -261,19 +261,21 @@ class Interval
 
         return self::$catalog;
     }
+
     /**
      * Creates a new Interval from expression
      * Exp Interval::create('[10, 26[')
      * @param string $expression
      * @return Interval
+     * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      * @throws \RangeException
      * @throws \ErrorException
      */
     public static function create(string $expression) : Interval
     {
-        /** @var \Interval\Parser $asserter */
-        $asserter = self::loadCatalog()->get(Catalog::PARSER);
+        /** @var \Interval\Parser\IntervalParser $asserter */
+        $asserter = self::loadCatalog()->get(Catalog::PARSER_INTERVAL);
         return $asserter->parse($expression);
     }
 }
