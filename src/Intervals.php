@@ -68,4 +68,21 @@ class Intervals extends \ArrayObject
 
         return self::$catalog;
     }
+
+    /**
+     * Creates a new Interval from expression
+     * Exp Intervals::create(['[10, 26]', '[11, 13]')
+     * @param array|string $expressions
+     * @return Intervals
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
+     * @throws \RangeException
+     * @throws \ErrorException
+     */
+    public static function create(array $expressions) : Intervals
+    {
+        /** @var \Interval\Parser\IntervalsParser $parser */
+        $parser = self::loadCatalog()->get(Catalog::PARSER_INTERVALS);
+        return $parser->parse($expressions);
+    }
 }

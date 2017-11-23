@@ -2,6 +2,9 @@
 declare(strict_types=1);
 namespace Interval;
 
+use Interval\Parser\IntervalParser;
+use Interval\Parser\IntervalsParser;
+
 /**
  * Class Catalog
  * @package Interval
@@ -18,7 +21,14 @@ class Catalog
     const RULE_INTERVAL_NEIGHBORHOOD       = Rule\Interval\Neighborhood::class;
     const RULE_INTERVAL_OVERLAPPING        = Rule\Interval\Overlapping::class;
 
-    const PARSER                           = Parser::class;
+    const PARSER_INTERVAL                   = IntervalParser::class;
+    const PARSER_INTERVALS                  = IntervalsParser::class;
+
+    const DI = [
+        self::PARSER_INTERVALS => [
+            self::PARSER_INTERVAL
+        ]
+    ];
 
     /**
      * @var array
@@ -32,7 +42,19 @@ class Catalog
      */
     public function get($name)
     {
-        if (!isset($this->services[$name])) {
+        if (isset($this->services[$name])) {
+            return $this->services[$name];
+        }
+
+        if (isset(self::DI[$name])) {
+            /** @var array $argServicesName */
+            $argServicesName = self::DI[$name];
+            $args = [];
+            foreach ($argServicesName as $argServiceName) {
+                $args[] = $this->get($argServiceName);
+            }
+            $this->services[$name] = new $name(...$args);
+        } else {
             $this->services[$name] = new $name();
         }
 

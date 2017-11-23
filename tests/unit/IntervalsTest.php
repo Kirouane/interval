@@ -59,4 +59,15 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(Intervals::class, $results);
         $this->assertCount(4, $results);
     }
+
+
+    /**
+     * @test
+     */
+    public function create()
+    {
+        $intervals = Intervals::create(['[10, 15]']);
+        $this->assertSame(10, $intervals[0]->getStart());
+        $this->assertSame(15, $intervals[0]->getEnd());
+    }
 }
