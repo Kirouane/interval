@@ -1,5 +1,6 @@
 [![Travis](https://img.shields.io/travis/Kirouane/interval/master.svg)](http://travis-ci.org/Kirouane/interval)
 [![Coverage Status](https://coveralls.io/repos/github/Kirouane/interval/badge.svg)](https://coveralls.io/github/Kirouane/interval)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/783c18637e574894bc6a37e1c5c75e93)](https://www.codacy.com/app/Kirouane/interval?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kirouane/interval&amp;utm_campaign=Badge_Grade)
 [![Installs](https://img.shields.io/packagist/dt/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval/stats)
 [![Packagist](https://img.shields.io/packagist/v/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval)
 
@@ -29,7 +30,7 @@ Basic usage
 ---------
 
 Let's assume an interval [20, 40].
-We instantiate a new \Interval\Interval object .
+We instantiate a new Interval object .
 
 ```php
 $interval = new Interval(20, 40)// [20, 40];
@@ -46,7 +47,7 @@ We can do some operations like :
 * Intersection : 
 
 ```php
-echo $interval->intersect(new \Interval\Interval(30, 60)); // [30, 40];
+echo $interval->intersect(new Interval(30, 60)); // [30, 40];
 ```
 
 * Union : 
