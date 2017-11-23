@@ -9,6 +9,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 echo <<<text
 [![Travis](https://img.shields.io/travis/Kirouane/interval/master.svg)](http://travis-ci.org/Kirouane/interval)
 [![Coverage Status](https://coveralls.io/repos/github/Kirouane/interval/badge.svg)](https://coveralls.io/github/Kirouane/interval)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/783c18637e574894bc6a37e1c5c75e93)](https://www.codacy.com/app/Kirouane/interval?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kirouane/interval&amp;utm_campaign=Badge_Grade)
 [![Installs](https://img.shields.io/packagist/dt/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval/stats)
 [![Packagist](https://img.shields.io/packagist/v/Kirouane/interval.svg)](https://packagist.org/packages/Kirouane/interval)
 
@@ -41,7 +42,7 @@ echo "Basic usage
 ---------\n\n";
 
 echo "Let's assume an interval [20, 40].\n";
-echo "We instantiate a new \\Interval\\Interval object .\n\n";
+echo "We instantiate a new Interval object .\n\n";
 $interval = Interval::create('[20,40]');
 echo '```php
 $interval = new Interval(20, 40)// ' . $interval . ';
@@ -57,7 +58,7 @@ echo "\n";
 echo "* Intersection : \n\n";
 
 echo '```php
-echo $interval->intersect(new \Interval\Interval(30, 60)); // ' . $interval->intersect(Interval::create('[30,60]')) . ';
+echo $interval->intersect(new Interval(30, 60)); // ' . $interval->intersect(Interval::create('[30,60]')) . ';
 ```' . "\n";
 
 echo "\n";
