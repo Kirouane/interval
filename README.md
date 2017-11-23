@@ -25,7 +25,6 @@ Install
 
 `composer require kirouane/interval`
 
-
 Basic usage
 ---------
 
