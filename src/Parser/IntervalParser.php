@@ -11,8 +11,9 @@ use Interval\Interval;
  */
 class IntervalParser
 {
-    private const LEFT = ']';
-    private const RIGHT = '[';
+    private const BOUNDARIES = 2;
+    private const LEFT       = ']';
+    private const RIGHT      = '[';
 
     /**
      * Create a Interval from an expression
@@ -26,15 +27,15 @@ class IntervalParser
     public function parse(string $expression): Interval
     {
         $parse = \explode(',', $expression);
-        if (2 !== count($parse)) {
+        if (self::BOUNDARIES !== count($parse)) {
             throw new \ErrorException('Parse interval expression');
         }
 
         $startTerm = \reset($parse);
-        $endTerm = \end($parse);
+        $endTerm   = \end($parse);
 
         $startTerm = $this->parseStartTerm($startTerm);
-        $endTerm = $this->parseEndTerm($endTerm);
+        $endTerm   = $this->parseEndTerm($endTerm);
 
         return new Interval(\reset($startTerm), \reset($endTerm));
     }
@@ -55,8 +56,8 @@ class IntervalParser
         }
 
         $startInclusion = $startInclusion === self::RIGHT;
-        $startValue = \substr($startTerm, 1);
-        $startValue = $this->parseValue($startValue);
+        $startValue     = \substr($startTerm, 1);
+        $startValue     = $this->parseValue($startValue);
 
         return [$startValue, $startInclusion];
     }
@@ -77,8 +78,8 @@ class IntervalParser
         }
 
         $endInclusion = $endInclusion === self::LEFT;
-        $endValue = \substr($endTerm, 0, -1);
-        $endValue = $this->parseValue($endValue);
+        $endValue     = \substr($endTerm, 0, -1);
+        $endValue     = $this->parseValue($endValue);
 
         return [$endValue, $endInclusion];
     }

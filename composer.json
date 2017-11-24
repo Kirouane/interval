@@ -36,6 +36,7 @@
     "phpmd/phpmd": "dev-master",
     "phpstan/phpstan": "^0.9.0@dev",
     "sebastian/phpcpd": "^3.0@dev",
-    "infection/infection": "dev-master"
+    "infection/infection": "dev-master",
+    "povils/phpmnd": "^1.1@dev"
   }
 }

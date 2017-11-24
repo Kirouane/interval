@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use \Mockery as m;
+use Mockery as m;
 
 class IntervalsTest extends \PHPUnit\Framework\TestCase
 {
@@ -18,7 +19,7 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
         return [
             [[], '{}'],
             [[[0, 1]], '{[0, 1]}'],
-            [[[0, 1], [3, 7]], '{[0, 1], [3, 7]}']
+            [[[0, 1], [3, 7]], '{[0, 1], [3, 7]}'],
         ];
     }
 
@@ -46,18 +47,17 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
     {
         $intervals = new Intervals([
             new Interval(1, 10),
-            new Interval(16, 20)
+            new Interval(16, 20),
         ]);
 
         $results = $intervals->exclude(new Intervals([
             new Interval(2, 7),
-            new Interval(17, 18)
+            new Interval(17, 18),
         ]));
 
         $this->assertInstanceOf(Intervals::class, $results);
         $this->assertCount(4, $results);
     }
-
 
     /**
      * @test
@@ -75,7 +75,7 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
     public function filter()
     {
         $intervals = Intervals::create(['[10, 15]', '[10, 11]']);
-        $filtered = $intervals->filter(function (Interval $interval) {
+        $filtered  = $intervals->filter(function (Interval $interval) {
             return $interval->getEnd() === 11;
         });
         self::assertCount(1, $filtered);
@@ -89,7 +89,7 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
     public function map()
     {
         $intervals = Intervals::create(['[10, 15]', '[10, 11]']);
-        $filtered = $intervals->map(function (Interval $interval) {
+        $filtered  = $intervals->map(function (Interval $interval) {
             return new Interval(0, $interval->getEnd());
         });
 
@@ -106,7 +106,7 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
     public function sort()
     {
         $intervals = Intervals::create(['[12, 15]', '[10, 11]']);
-        $filtered = $intervals->sort(function (Interval $first, Interval $second) {
+        $filtered  = $intervals->sort(function (Interval $first, Interval $second) {
             return $first->getStart() <=> $second->getEnd();
         });
 

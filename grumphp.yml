@@ -2,12 +2,22 @@ parameters:
     git_dir: .
     bin_dir: vendor/bin
     tasks:
-        composer: ~
         phpunit:
             always_execute: true
+            metadata:
+                priority: 100
         clover_coverage:
             clover_file: build/logs/clover.xml
             level: 90
+            metadata:
+                priority: 99
+        infection:
+            threads: 4
+            min_msi: 90
+            min_covered_msi: 90
+            metadata:
+                priority: 98
+        composer: ~
         phpcpd:
           exclude: ['vendor', 'tests']
         file_size:
@@ -23,7 +33,5 @@ parameters:
         phpparser: ~
         phpversion:
             project: '7.1'
-        infection:
-            threads: 10
-            min_msi: 90
-            min_covered_msi: 90
+        phpmnd:
+            directory: src

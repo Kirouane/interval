@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
+
 namespace UnitTest\Interval\Operation\Intervals;
 
 use Interval\Interval;
 use Interval\Intervals;
 use Interval\Operation\Intervals\Exclusion;
 
-use \Mockery as m;
+use Mockery as m;
 
 class IntersectionTest extends \PHPUnit\Framework\TestCase
 {
@@ -118,10 +119,10 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
             );
         }
 
-        $intervals = new Intervals($intervals);
+        $intervals          = new Intervals($intervals);
         $intervalsToExclude =  new Intervals($intervalsToExclude);
-        $exclusion = new Exclusion();
-        $results = $exclusion->compute($intervals, $intervalsToExclude);
+        $exclusion          = new Exclusion();
+        $results            = $exclusion->compute($intervals, $intervalsToExclude);
 
         $this->assertCount(count($expected), $results);
         $count = count($results);

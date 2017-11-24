@@ -121,7 +121,6 @@ echo '```php
 echo $interval->exclude(Interval::create(\'[2016-01-10, 2016-01-15]\')); ' . "\n"  . '// ' . $interval->exclude(Interval::create('[2016-01-10, 2016-01-15]')) . ';
 ```' . "\n\n";
 
-
 echo "Operations on sets (arrays) of intervals
 ---------\n\n";
 $intervals = Intervals::create(['[0,5]', '[8,12]']);
@@ -134,15 +133,13 @@ echo '```php
 echo $intervals->exclude(Intervals::create([\'[3,10]\'])); // ' . $intervals->exclude(Intervals::create(['[3,10]'])) . ';
 ```' . "\n\n";
 
-
-
 echo "Chaining
 ---------\n\n";
 
 $result = Interval
     ::create('[10, 20]')
     ->intersect(new Interval(11, 30))
-    ->union(new Interval(15, 40))
+    ->union(new Interval(15, INF))
     ->exclude(Intervals::create(['[18, 20]', '[25, 30]', '[32, 35]', '[12, 13]']))
     ->sort(function (Interval $first, Interval $second) {
         return $first->getStart() <=> $second->getStart();
@@ -162,7 +159,7 @@ echo '```php
 $result = Interval
     ::create(\'[10, 20]\')
     ->intersect(new Interval(11, 30))
-    ->union(new Interval(15, 40))
+    ->union(new Interval(15, INF))
     ->exclude(Intervals::create([\'[18, 20]\', \'[25, 30]\', \'[32, 35]\', \'[12, 13]\']))
     ->sort(function (Interval $first, Interval $second) {
         return $first->getStart() <=> $second->getStart();

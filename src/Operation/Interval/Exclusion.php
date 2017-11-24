@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval\Operation\Interval;
 
 use Interval\Interval;
@@ -57,7 +58,7 @@ class Exclusion
             if ($second->getComparableStart() > $first->getComparableStart()) {
                 return new Intervals([
                     new Interval($first->getStart(), $second->getStart()),
-                    new Interval($second->getEnd(), $first->getEnd())
+                    new Interval($second->getEnd(), $first->getEnd()),
                 ]);
             }
 

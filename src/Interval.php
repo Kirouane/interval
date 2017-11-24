@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval;
 
 /**
@@ -83,7 +84,6 @@ class Interval
     {
         return self::$catalog->get($name)->assert($this, $interval);
     }
-
 
     /**
      * Compute the union between two intervals. Exp :
@@ -223,7 +223,7 @@ class Interval
     public function __toString()
     {
         $start = ($this->start instanceof \DateTimeInterface) ? $this->start->format(\DateTime::RFC3339) : $this->start;
-        $end = ($this->end instanceof \DateTimeInterface) ? $this->end->format(\DateTime::RFC3339) : $this->end;
+        $end   = ($this->end instanceof \DateTimeInterface) ? $this->end->format(\DateTime::RFC3339) : $this->end;
 
         if (\is_numeric($start)) {
             $start = \is_infinite((float)$start) ? '-∞' : $start;

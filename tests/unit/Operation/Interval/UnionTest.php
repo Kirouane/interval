@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
+
 namespace UnitTest\Interval\Operation\Interval;
 
 use Interval\Interval;
 use Interval\Operation\Interval\Union;
-use \Mockery as m;
+use Mockery as m;
 
 class UnionTest extends \PHPUnit\Framework\TestCase
 {
@@ -60,7 +61,7 @@ class UnionTest extends \PHPUnit\Framework\TestCase
                 30, 40, //                                    ██████████████████
                 10, 60, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 [[10,  60]], //           ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-            ]
+            ],
         ];
     }
 
@@ -70,6 +71,7 @@ class UnionTest extends \PHPUnit\Framework\TestCase
      * @param $firstEnd
      * @param $secondStart
      * @param $secondEnd
+     * @param mixed $expected
      * @test
      */
     public function compute($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
@@ -86,7 +88,7 @@ class UnionTest extends \PHPUnit\Framework\TestCase
         $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
         $second->shouldReceive('getEnd')->andReturn($secondEnd);
 
-        $union = new Union();
+        $union     = new Union();
         $intervals = $union->compute($first, $second);
         $this->assertInstanceOf(\Interval\Intervals::class, $intervals);
         $data = [] ;

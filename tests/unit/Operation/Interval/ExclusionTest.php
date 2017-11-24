@@ -1,13 +1,12 @@
 <?php
 declare(strict_types=1);
+
 namespace UnitTest\Interval\Operation\Interval;
 
 use Interval\Interval;
 use Interval\Intervals;
 use Interval\Operation\Interval\Exclusion;
-use Interval\Operation\Interval\Intersection;
-use Interval\Operation\Interval\Union;
-use \Mockery as m;
+use Mockery as m;
 
 class ExclusionTest extends \PHPUnit\Framework\TestCase
 {
@@ -95,6 +94,7 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
      * @param $firstEnd
      * @param $secondStart
      * @param $secondEnd
+     * @param mixed $expected
      * @test
      */
     public function compute($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
@@ -111,7 +111,7 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
         $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
         $second->shouldReceive('getEnd')->andReturn($secondEnd);
 
-        $union = new Exclusion();
+        $union     = new Exclusion();
         $intervals = $union->compute($first, $second);
         $this->assertInstanceOf(Intervals::class, $intervals);
 
@@ -130,6 +130,7 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
      * @param $firstEnd
      * @param $secondStart
      * @param $secondEnd
+     * @param mixed $expected
      * @test
      */
     public function computeWithDateTimeAsEndPoint($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
@@ -146,7 +147,7 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
         $second->shouldReceive('getComparableEnd')->andReturn(is_infinite($secondEnd) ? $secondEnd : (new \DateTime('2016-01-01 10:' . $secondEnd))->getTimestamp());
         $second->shouldReceive('getEnd')->andReturn(is_infinite($secondEnd) ? $secondEnd : new \DateTime('2016-01-01 10:' . $secondEnd));
 
-        $union = new Exclusion();
+        $union     = new Exclusion();
         $intervals = $union->compute($first, $second);
         $this->assertInstanceOf(Intervals::class, $intervals);
 

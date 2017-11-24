@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval\Operation\Interval;
 
 use Interval\Interval;

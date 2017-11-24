@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval;
 
 use Interval\Parser\IntervalParser;
@@ -26,8 +27,8 @@ class Catalog
 
     const DI = [
         self::PARSER_INTERVALS => [
-            self::PARSER_INTERVAL
-        ]
+            self::PARSER_INTERVAL,
+        ],
     ];
 
     /**
@@ -49,15 +50,13 @@ class Catalog
         if (isset(self::DI[$name])) {
             /** @var array $argServicesName */
             $argServicesName = self::DI[$name];
-            $args = [];
+            $args            = [];
             foreach ($argServicesName as $argServiceName) {
                 $args[] = $this->get($argServiceName);
             }
-            $this->services[$name] = new $name(...$args);
-        } else {
-            $this->services[$name] = new $name();
+            return $this->services[$name] = new $name(...$args);
         }
 
-        return $this->services[$name];
+        return $this->services[$name] = new $name();
     }
 }

@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval\Parser;
 
 use Interval\Intervals;
@@ -10,7 +11,6 @@ use Interval\Intervals;
  */
 class IntervalsParser
 {
-
     /**
      * @var IntervalParser
      */

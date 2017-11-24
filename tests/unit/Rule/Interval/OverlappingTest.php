@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval\Rule\Interval;
 
-use \Mockery as m;
+use Mockery as m;
 
 class OverlappingTest extends \PHPUnit\Framework\TestCase
 {
@@ -63,13 +64,18 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
                 30, 40, //                                    ██████████████████
                 10, 60, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 true,
-            ]
+            ],
         ];
     }
 
     /**
      * @test
      * @dataProvider assertProvider
+     * @param mixed $firstStart
+     * @param mixed $firstEnd
+     * @param mixed $secondStart
+     * @param mixed $secondEnd
+     * @param mixed $expected
      */
     public function assert($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
@@ -85,7 +91,7 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
         $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
         $second->shouldReceive('getEnd')->andReturn($secondEnd);
 
-        $union = new Overlapping();
+        $union  = new Overlapping();
         $result = $union->assert($first, $second);
         $this->assertInternalType('bool', $result);
         $this->assertSame($expected, $result);

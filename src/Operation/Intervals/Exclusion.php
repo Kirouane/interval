@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval\Operation\Intervals;
 
 use Interval\Interval;
@@ -40,14 +41,14 @@ class Exclusion
 
     public function compute(Intervals $firstInterval, Intervals $secondInterval): Intervals
     {
-        $first = $firstInterval->getArrayCopy();
+        $first  = $firstInterval->getArrayCopy();
         $second = $secondInterval->getArrayCopy();
         if (0 === count($second)) {
             return $firstInterval;
         }
 
-        $countIntervalsToExclude = count($second);
-        while ($countIntervalsToExclude > 0) {
+        $count = count($second);
+        while ($count > 0) {
             $intervalToExclude = \array_shift($second);
 
             $newIntervals = [];
@@ -58,7 +59,7 @@ class Exclusion
             }
 
             $first                   = $newIntervals;
-            $countIntervalsToExclude = count($second);
+            $count                   = count($second);
         }
 
         return new Intervals($first);
