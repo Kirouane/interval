@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
+
 namespace UnitTest\Interval\Operation\Interval;
 
 use Interval\Interval;
 use Interval\Operation\Interval\Intersection;
-use Interval\Operation\Interval\Union;
-use \Mockery as m;
+use Mockery as m;
 
 class IntersectionTest extends \PHPUnit\Framework\TestCase
 {
@@ -61,7 +61,7 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
                 30, 40, //                                    ██████████████████
                 10, 60, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 [30, 40], //                                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-            ]
+            ],
         ];
     }
 
@@ -71,6 +71,7 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
      * @param $firstEnd
      * @param $secondStart
      * @param $secondEnd
+     * @param mixed $expected
      * @test
      */
     public function compute($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
@@ -87,7 +88,7 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
         $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
         $second->shouldReceive('getEnd')->andReturn($secondEnd);
 
-        $union = new Intersection();
+        $union    = new Intersection();
         $interval = $union->compute($first, $second);
         if (is_null($expected)) {
             $this->assertNull($interval);

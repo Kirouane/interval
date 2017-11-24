@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval;
 
 /**
@@ -19,7 +20,7 @@ class Intervals extends \ArrayObject
     public function __toString()
     {
         $str  = '{';
-        $str  .= \implode(', ', $this->getArrayCopy());
+        $str .= \implode(', ', $this->getArrayCopy());
         $str .= '}';
         return $str;
     }
@@ -54,7 +55,6 @@ class Intervals extends \ArrayObject
         $operation = self::$catalog->get(Catalog::OPERATION_INTERVALS_EXCLUSION);
         return $operation($this, $intervals);
     }
-
 
     /**
      * Loads the service catalog

@@ -1,12 +1,11 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval\Parser;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 use Interval\Interval;
-use Interval\Intervals;
-use Interval\Parser\IntervalParser;
-use \Mockery as m;
+use Mockery as m;
 
 class IntervalParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,6 +28,9 @@ class IntervalParserTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      * @dataProvider parseProvider
+     * @param mixed $expression
+     * @param mixed $start
+     * @param mixed $end
      */
     public function parse($expression, $start, $end)
     {

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-
 
 class CatalogTest extends \PHPUnit\Framework\TestCase
 {
@@ -11,12 +11,13 @@ class CatalogTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [Catalog::OPERATION_INTERVAL_EXCLUSION],
-            [Catalog::PARSER_INTERVALS]
+            [Catalog::PARSER_INTERVALS],
         ];
     }
     /**
      * @test
      * @dataProvider getServiceProvider
+     * @param mixed $serviceName
      */
     public function getService($serviceName)
     {

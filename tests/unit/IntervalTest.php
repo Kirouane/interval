@@ -1,11 +1,10 @@
 <?php
 declare(strict_types=1);
+
 namespace Interval;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-use Interval\Interval;
-use Interval\Intervals;
-use \Mockery as m;
+use Mockery as m;
 
 class IntervalTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +18,6 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
         return [
             [2, 1],
             [2, 2],
-
         ];
     }
 
@@ -27,6 +25,8 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
      * @test
      * @expectedException \RangeException
      * @dataProvider constructorShouldThrowExceptionProvider
+     * @param mixed $start
+     * @param mixed $end
      */
     public function constructorShouldThrowException($start, $end)
     {
@@ -93,6 +93,9 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      * @dataProvider toStringProvider
+     * @param mixed $start
+     * @param mixed $end
+     * @param mixed $expected
      */
     public function toStringTest($start, $end, $expected)
     {
@@ -118,6 +121,8 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      * @dataProvider toComparableProvider
+     * @param mixed $endpoint
+     * @param mixed $expected
      */
     public function toComparable($endpoint, $expected)
     {
@@ -137,12 +142,12 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
      * @test
      * @dataProvider toComparableExceptionProvider
      * @expectedException UnexpectedValueException
+     * @param mixed $endpoint
      */
     public function toComparableException($endpoint)
     {
         Interval::toComparable($endpoint);
     }
-
 
     /**
      * @test
