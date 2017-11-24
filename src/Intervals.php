@@ -85,4 +85,33 @@ class Intervals extends \ArrayObject
         $parser = self::loadCatalog()->get(Catalog::PARSER_INTERVALS);
         return $parser->parse($expressions);
     }
+
+    /**
+     * @param callable $callable
+     * @return Intervals
+     */
+    public function filter(callable $callable): Intervals
+    {
+        return new Intervals(array_values(array_filter($this->getArrayCopy(), $callable)));
+    }
+
+    /**
+     * @param callable $callable
+     * @return Intervals
+     */
+    public function map(callable $callable): Intervals
+    {
+        return new Intervals(array_map($callable, $this->getArrayCopy()));
+    }
+
+    /**
+     * @param callable $callable
+     * @return Intervals
+     */
+    public function sort(callable $callable): Intervals
+    {
+        $arrayIntervals = $this->getArrayCopy();
+        usort($arrayIntervals, $callable);
+        return new Intervals($arrayIntervals);
+    }
 }

@@ -16,23 +16,25 @@ echo <<<text
 Interval
 ======
 
-This library provides some tools to manipulate intervals. For instance, You can compute the union or intersection of two intervals.
+This library provides some tools to handle intervals. For instance, You can compute the union or intersection of two intervals.
 
 Features
 ------
 
 * It computes some operations between two **intervals**: union, intersection and exclusion.
 * It computes some operations between two **sets of intervals**: exclusion for now.
-* It handles several types of boundary (endpoints) : float, **\DateTime**, integer, and string. 
-* It handles **infinity** boundaries.
+* It handles several types of boundaries : float, **\DateTime** and integer. 
+* It handles **infinity** type as boundary.
 * Ability to **combine** infinity with \DateTime and other types.
+* filter, sort, map.
 * Immutability.
-* Chaining operations.
+* Chain operations.
 
 Install
 ------
 
 `composer require kirouane/interval`
+
 
 text;
 
@@ -45,12 +47,12 @@ echo "Let's assume an interval [20, 40].\n";
 echo "We instantiate a new Interval object .\n\n";
 $interval = Interval::create('[20,40]');
 echo '```php
-$interval = new Interval(20, 40)// ' . $interval . ';
+$interval = new Interval(20, 40);// ' . $interval . ';
 ```' . "\n\n";
 echo "or\n\n";
 
 echo '```php
-$interval = Interval::create(\'[20,40]\')// ' . $interval . ';
+$interval = Interval::create(\'[20,40]\');// ' . $interval . ';
 ```' . "\n";
 echo "\n";
 echo "\nWe can do some operations like : ";
@@ -95,19 +97,19 @@ echo '```php
 echo $interval->includes(new Interval(30, 60)); // ' . ($interval->includes(new Interval(30, 60)) ? 'true' : 'false') . ';
 ```' . "\n";
 
-echo "Use DateTimeInterface as endpoints
+echo "Use DateTimeInterface as boundary
 ---------\n\n";
 $interval = new Interval(new \DateTime('2016-01-01'), new \DateTime('2016-01-10'));
 echo '```php
-$interval = new Interval(new \DateTime(\'2016-01-01\'), new \DateTime(\'2016-01-10\'))// ' . $interval . ';
+$interval = new Interval(new \DateTime(\'2016-01-01\'), new \DateTime(\'2016-01-10\'));' . "\n" . '// ' . $interval . ';
 ```' . "\n";
 echo "\n";
 echo "* Union : \n\n";
 echo '```php
-echo $interval->union(Interval::create(\'[2016-01-10, 2016-01-15]\')); // ' . $interval->union(Interval::create('[2016-01-10, 2016-01-15]')) . ';
+echo $interval->union(Interval::create(\'[2016-01-10, 2016-01-15]\')); ' . "\n"  . '// ' . $interval->union(Interval::create('[2016-01-10, 2016-01-15]')) . ';
 ```' . "\n\n";
 
-echo "Use Infinity as endpoints
+echo "Use Infinity as boundary
 ---------\n\n";
 $interval = new Interval(-INF, INF);
 echo '```php
@@ -116,7 +118,7 @@ $interval = new Interval(-INF, INF);// ' . $interval . ';
 echo "\n";
 echo "* Exclusion : \n\n";
 echo '```php
-echo $interval->exclude(Interval::create(\'[2016-01-10, 2016-01-15]\')); // ' . $interval->exclude(Interval::create('[2016-01-10, 2016-01-15]')) . ';
+echo $interval->exclude(Interval::create(\'[2016-01-10, 2016-01-15]\')); ' . "\n"  . '// ' . $interval->exclude(Interval::create('[2016-01-10, 2016-01-15]')) . ';
 ```' . "\n\n";
 
 
@@ -130,4 +132,48 @@ echo "\n";
 echo "* Exclusion : \n\n";
 echo '```php
 echo $intervals->exclude(Intervals::create([\'[3,10]\'])); // ' . $intervals->exclude(Intervals::create(['[3,10]'])) . ';
+```' . "\n\n";
+
+
+
+echo "Chaining
+---------\n\n";
+
+$result = Interval
+    ::create('[10, 20]')
+    ->intersect(new Interval(11, 30))
+    ->union(new Interval(15, 40))
+    ->exclude(Intervals::create(['[18, 20]', '[25, 30]', '[32, 35]', '[12, 13]']))
+    ->sort(function (Interval $first, Interval $second) {
+        return $first->getStart() <=> $second->getStart();
+    })
+    ->map(function (Interval $interval) {
+        return new Interval(
+            $interval->getStart() ** 2,
+            $interval->getEnd() ** 2
+        );
+    })
+    ->filter(function (Interval $interval) {
+        return $interval->getEnd() > 170;
+    });
+
+echo '```php
+
+$result = Interval
+    ::create(\'[10, 20]\')
+    ->intersect(new Interval(11, 30))
+    ->union(new Interval(15, 40))
+    ->exclude(Intervals::create([\'[18, 20]\', \'[25, 30]\', \'[32, 35]\', \'[12, 13]\']))
+    ->sort(function (Interval $first, Interval $second) {
+        return $first->getStart() <=> $second->getStart();
+    })
+    ->map(function (Interval $interval) {
+        return new Interval(
+            $interval->getStart() ** 2,
+            $interval->getEnd() ** 2
+        );
+    })
+    ->filter(function(Interval $interval) {
+        return $interval->getEnd() > 170;
+    }); ' . "\n\n"  . '// ' .$result . ';
 ```' . "\n\n";
