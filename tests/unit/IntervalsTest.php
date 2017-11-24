@@ -4,8 +4,6 @@ namespace Interval;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Interval\Interval;
-use Interval\Intervals;
 use \Mockery as m;
 
 class IntervalsTest extends \PHPUnit\Framework\TestCase
@@ -69,5 +67,53 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
         $intervals = Intervals::create(['[10, 15]']);
         $this->assertSame(10, $intervals[0]->getStart());
         $this->assertSame(15, $intervals[0]->getEnd());
+    }
+
+    /**
+     * @test
+     */
+    public function filter()
+    {
+        $intervals = Intervals::create(['[10, 15]', '[10, 11]']);
+        $filtered = $intervals->filter(function (Interval $interval) {
+            return $interval->getEnd() === 11;
+        });
+        self::assertCount(1, $filtered);
+        self::assertSame(10, $filtered[0]->getStart());
+        self::assertSame(11, $filtered[0]->getEnd());
+    }
+
+    /**
+     * @test
+     */
+    public function map()
+    {
+        $intervals = Intervals::create(['[10, 15]', '[10, 11]']);
+        $filtered = $intervals->map(function (Interval $interval) {
+            return new Interval(0, $interval->getEnd());
+        });
+
+        self::assertCount(2, $filtered);
+        self::assertSame(0, $filtered[0]->getStart());
+        self::assertSame(15, $filtered[0]->getEnd());
+        self::assertSame(0, $filtered[1]->getStart());
+        self::assertSame(11, $filtered[1]->getEnd());
+    }
+
+    /**
+     * @test
+     */
+    public function sort()
+    {
+        $intervals = Intervals::create(['[12, 15]', '[10, 11]']);
+        $filtered = $intervals->sort(function (Interval $first, Interval $second) {
+            return $first->getStart() <=> $second->getEnd();
+        });
+
+        self::assertCount(2, $filtered);
+        self::assertSame(10, $filtered[0]->getStart());
+        self::assertSame(11, $filtered[0]->getEnd());
+        self::assertSame(12, $filtered[1]->getStart());
+        self::assertSame(15, $filtered[1]->getEnd());
     }
 }
