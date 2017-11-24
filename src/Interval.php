@@ -65,6 +65,27 @@ class Interval
     }
 
     /**
+     * @param string $name
+     * @param Interval $interval
+     * @return mixed
+     */
+    private function operate(string $name, Interval $interval)
+    {
+        return self::$catalog->get($name)($this, $interval);
+    }
+
+    /**
+     * @param string $name
+     * @param Interval $interval
+     * @return mixed
+     */
+    private function assert(string $name, Interval $interval)
+    {
+        return self::$catalog->get($name)->assert($this, $interval);
+    }
+
+
+    /**
      * Compute the union between two intervals. Exp :
      *
      *      |_________________|
@@ -80,9 +101,7 @@ class Interval
      */
     public function union(Interval $interval) : Intervals
     {
-        /** @var \Interval\Operation\Interval\Union $operation */
-        $operation = self::$catalog->get(Catalog::OPERATION_INTERVAL_UNION);
-        return $operation($this, $interval);
+        return $this->operate(Catalog::OPERATION_INTERVAL_UNION, $interval);
     }
 
     /**
@@ -101,9 +120,7 @@ class Interval
      */
     public function exclude(Interval $interval) : Intervals
     {
-        /** @var \Interval\Operation\Interval\Exclusion $operation */
-        $operation = self::$catalog->get(Catalog::OPERATION_INTERVAL_EXCLUSION);
-        return $operation($this, $interval);
+        return $this->operate(Catalog::OPERATION_INTERVAL_EXCLUSION, $interval);
     }
 
     /**
@@ -122,9 +139,7 @@ class Interval
      */
     public function intersect(Interval $interval): Interval
     {
-        /** @var \Interval\Operation\Interval\Intersection $operation */
-        $operation = self::$catalog->get(Catalog::OPERATION_INTERVAL_INTERSECTION);
-        return $operation($this, $interval);
+        return $this->operate(Catalog::OPERATION_INTERVAL_INTERSECTION, $interval);
     }
 
     /**
@@ -135,9 +150,7 @@ class Interval
      */
     public function overlaps(Interval $interval) : bool
     {
-        /** @var \Interval\Rule\Interval\Overlapping $asserter */
-        $asserter = self::$catalog->get(Catalog::RULE_INTERVAL_OVERLAPPING);
-        return $asserter->assert($this, $interval);
+        return $this->assert(Catalog::RULE_INTERVAL_OVERLAPPING, $interval);
     }
 
     /**
@@ -148,9 +161,7 @@ class Interval
      */
     public function includes(Interval $interval) : bool
     {
-        /** @var \Interval\Rule\Interval\Inclusion $asserter */
-        $asserter = self::$catalog->get(Catalog::RULE_INTERVAL_INCLUSION);
-        return $asserter->assert($this, $interval);
+        return $this->assert(Catalog::RULE_INTERVAL_INCLUSION, $interval);
     }
 
     /**
@@ -169,9 +180,7 @@ class Interval
      */
     public function isNeighborOf(Interval $interval) : bool
     {
-        /** @var \Interval\Rule\Interval\Neighborhood $asserter */
-        $asserter = self::$catalog->get(Catalog::RULE_INTERVAL_NEIGHBORHOOD);
-        return $asserter->assert($this, $interval);
+        return $this->assert(Catalog::RULE_INTERVAL_NEIGHBORHOOD, $interval);
     }
 
     /**
