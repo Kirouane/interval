@@ -15,7 +15,7 @@ Features
 * It computes some operations between two **intervals**: union, intersection and exclusion.
 * It computes some operations between two **sets of intervals**: exclusion for now.
 * It handles several types of boundaries : float, **\DateTime** and integer. 
-* It handles **infinity** type as boundary.
+* It handles **infinity** type as boundary (∞).
 * Ability to **combine** infinity with \DateTime and other types.
 * filter, sort, map.
 * Immutability.
@@ -138,7 +138,7 @@ Chaining
 $result = Interval
     ::create('[10, 20]')
     ->intersect(new Interval(11, 30))
-    ->union(new Interval(15, 40))
+    ->union(new Interval(15, INF))
     ->exclude(Intervals::create(['[18, 20]', '[25, 30]', '[32, 35]', '[12, 13]']))
     ->sort(function (Interval $first, Interval $second) {
         return $first->getStart() <=> $second->getStart();
@@ -153,6 +153,6 @@ $result = Interval
         return $interval->getEnd() > 170;
     }); 
 
-// {[169, 324], [400, 625], [900, 1024], [1225, 1600]};
+// {[169, 324], [400, 625], [900, 1024], [1225, +∞]};
 ```
 

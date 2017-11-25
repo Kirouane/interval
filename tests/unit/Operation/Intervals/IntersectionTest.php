@@ -1,11 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace UnitTest\Interval\Operation\Intervals;
+namespace Interval\Operation\Intervals;
 
 use Interval\Interval;
 use Interval\Intervals;
-use Interval\Operation\Intervals\Exclusion;
 
 use Mockery as m;
 
