@@ -62,7 +62,7 @@ class Interval
      */
     private function isConsistent(): bool
     {
-        return $this->comparableStart < $this->comparableEnd;
+        return $this->comparableStart <= $this->comparableEnd;
     }
 
     /**
@@ -102,25 +102,6 @@ class Interval
     public function union(Interval $interval) : Intervals
     {
         return $this->operate(Catalog::OPERATION_INTERVAL_UNION, $interval);
-    }
-
-    /**
-     * Excludes this interval from another one. Exp
-     *
-     *      |_________________|
-     *
-     *             -
-     *                  |_________________|
-     *
-     *          =
-     *      |___________|
-     *
-     * @param Interval $interval
-     * @return Intervals
-     */
-    public function exclude(Interval $interval) : Intervals
-    {
-        return $this->operate(Catalog::OPERATION_INTERVAL_EXCLUSION, $interval);
     }
 
     /**

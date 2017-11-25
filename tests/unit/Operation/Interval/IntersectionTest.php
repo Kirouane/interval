@@ -24,7 +24,7 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
             [
                 10, 20, //                                    ██████████████████
                 20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                null, //                                      empty interval
+                [20, 20],
             ],
             [
                 10, 30, //                                    ███████████████████████
@@ -49,7 +49,7 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
             [
                 30, 40, //                                    ██████████████████
                 10, 30, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                null,   //                empty interval
+                [30, 30],
             ],
             [
                 30, 40, //                                    ██████████████████
@@ -75,20 +75,8 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
      */
     public function compute($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
-        $first = m::mock('\Interval\Interval');
-        $first->shouldReceive('getComparableStart')->andReturn($firstStart);
-        $first->shouldReceive('getStart')->andReturn($firstStart);
-        $first->shouldReceive('getComparableEnd')->andReturn($firstEnd);
-        $first->shouldReceive('getEnd')->andReturn($firstEnd);
-
-        $second = m::mock('\Interval\Interval');
-        $second->shouldReceive('getComparableStart')->andReturn($secondStart);
-        $second->shouldReceive('getStart')->andReturn($secondStart);
-        $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
-        $second->shouldReceive('getEnd')->andReturn($secondEnd);
-
         $union    = new Intersection();
-        $interval = $union->compute($first, $second);
+        $interval = $union->compute(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
         if (is_null($expected)) {
             $this->assertNull($interval);
         } else {

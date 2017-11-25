@@ -10,7 +10,7 @@ class CatalogTest extends \PHPUnit\Framework\TestCase
     public function getServiceProvider()
     {
         return [
-            [Catalog::OPERATION_INTERVAL_EXCLUSION],
+            [Catalog::OPERATION_INTERVAL_INTERSECTION],
             [Catalog::PARSER_INTERVALS],
         ];
     }

@@ -17,7 +17,6 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [2, 1],
-            [2, 2],
         ];
     }
 

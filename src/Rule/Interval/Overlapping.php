@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Interval\Rule\Interval;
 
 use Interval\Interval;
-use Interval\Operation\Interval\Intersection;
 
 /**
  * Class Overlapping
@@ -20,7 +19,6 @@ class Overlapping
      */
     public function assert(Interval $first, Interval $second): bool
     {
-        $operation = new Intersection();
-        return null !== $operation($first, $second);
+        return !$first->isBefore($second) && !$first->isAfter($second);
     }
 }
