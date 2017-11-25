@@ -1,6 +1,9 @@
 parameters:
     git_dir: .
     bin_dir: vendor/bin
+    ascii:
+        failed: config/grumphp/ko.txt
+        succeeded: config/grumphp/ok.txt
     tasks:
         phpunit:
             always_execute: true
@@ -18,6 +21,7 @@ parameters:
             metadata:
                 priority: 98
         composer: ~
+        composer_require_checker: ~
         phpcpd:
           exclude: ['vendor', 'tests']
         file_size:
@@ -31,7 +35,9 @@ parameters:
         phpcsfixer: ~
         phplint: ~
         phpparser: ~
+        phpstan: ~
         phpversion:
             project: '7.1'
         phpmnd:
             directory: src
+        securitychecker: ~

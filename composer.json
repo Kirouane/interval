@@ -21,6 +21,9 @@
   "autoload": {
     "psr-4": {"Interval\\": "src/"}
   },
+  "autoload-dev": {
+    "psr-4": {"Interval\\": "tests/unit"}
+  },
   "require": {
     "php" : ">= 7.1"
   },
@@ -37,6 +40,7 @@
     "phpstan/phpstan": "^0.9.0@dev",
     "sebastian/phpcpd": "^3.0@dev",
     "infection/infection": "dev-master",
-    "povils/phpmnd": "^1.1@dev"
+    "povils/phpmnd": "^1.1@dev",
+    "sensiolabs/security-checker": "^5.0@dev"
   }
 }

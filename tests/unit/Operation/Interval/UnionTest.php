@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace UnitTest\Interval\Operation\Interval;
+namespace Interval\Operation\Interval;
 
 use Interval\Interval;
-use Interval\Operation\Interval\Union;
 use Mockery as m;
 
 class UnionTest extends \PHPUnit\Framework\TestCase
