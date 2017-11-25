@@ -18,9 +18,15 @@ class Catalog
 
     const OPERATION_INTERVALS_EXCLUSION    = Operation\Intervals\Exclusion::class;
 
-    const RULE_INTERVAL_INCLUSION          = Rule\Interval\Inclusion::class;
-    const RULE_INTERVAL_NEIGHBORHOOD       = Rule\Interval\Neighborhood::class;
-    const RULE_INTERVAL_OVERLAPPING        = Rule\Interval\Overlapping::class;
+    const RULE_INTERVAL_INCLUSION                 = Rule\Interval\Inclusion::class;
+    const RULE_INTERVAL_NEIGHBORHOOD_BEFORE       = Rule\Interval\NeighborhoodBefore::class;
+    const RULE_INTERVAL_NEIGHBORHOOD_AFTER        = Rule\Interval\NeighborhoodAfter::class;
+    const RULE_INTERVAL_OVERLAPPING               = Rule\Interval\Overlapping::class;
+    const RULE_INTERVAL_STARTING                  = Rule\Interval\Starting::class;
+    const RULE_INTERVAL_ENDING                    = Rule\Interval\Ending::class;
+    const RULE_INTERVAL_BEFORE                    = Rule\Interval\Before::class;
+    const RULE_INTERVAL_AFTER                     = Rule\Interval\After::class;
+    const RULE_INTERVAL_EQUALITY                  = Rule\Interval\Equality::class;
 
     const PARSER_INTERVAL                   = IntervalParser::class;
     const PARSER_INTERVALS                  = IntervalsParser::class;

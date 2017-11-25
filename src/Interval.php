@@ -178,13 +178,67 @@ class Interval
      * @param Interval $interval
      * @return bool
      */
-    public function isNeighborOf(Interval $interval) : bool
+    public function isNeighborBefore(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_NEIGHBORHOOD, $interval);
+        return $this->assert(Catalog::RULE_INTERVAL_NEIGHBORHOOD_BEFORE, $interval);
     }
 
     /**
-     * Returns the start endpoint
+     * @param Interval $interval
+     * @return bool
+     */
+    public function isNeighborAfter(Interval $interval) : bool
+    {
+        return $this->assert(Catalog::RULE_INTERVAL_NEIGHBORHOOD_AFTER, $interval);
+    }
+
+    /**
+     * @param Interval $interval
+     * @return bool
+     */
+    public function starts(Interval $interval) : bool
+    {
+        return $this->assert(Catalog::RULE_INTERVAL_STARTING, $interval);
+    }
+
+    /**
+     * @param Interval $interval
+     * @return bool
+     */
+    public function ends(Interval $interval) : bool
+    {
+        return $this->assert(Catalog::RULE_INTERVAL_ENDING, $interval);
+    }
+
+    /**
+     * @param Interval $interval
+     * @return bool
+     */
+    public function equals(Interval $interval) : bool
+    {
+        return $this->assert(Catalog::RULE_INTERVAL_EQUALITY, $interval);
+    }
+
+    /**
+     * @param Interval $interval
+     * @return bool
+     */
+    public function isBefore(Interval $interval) : bool
+    {
+        return $this->assert(Catalog::RULE_INTERVAL_BEFORE, $interval);
+    }
+
+    /**
+     * @param Interval $interval
+     * @return bool
+     */
+    public function isAfter(Interval $interval) : bool
+    {
+        return $this->assert(Catalog::RULE_INTERVAL_AFTER, $interval);
+    }
+
+    /**
+     * Returns the start boundary
      * @return mixed
      */
     public function getStart()
@@ -193,7 +247,7 @@ class Interval
     }
 
     /**
-     * Returns the end endpoint
+     * Returns the end boundary
      * @return mixed
      */
     public function getEnd()
@@ -237,22 +291,22 @@ class Interval
     }
 
     /**
-     * Convert an endpoint to comparable
-     * @param mixed $endpoint
+     * Convert an boundary to comparable
+     * @param mixed $boundary
      * @return mixed
      * @throws \UnexpectedValueException
      */
-    public static function toComparable($endpoint)
+    public static function toComparable($boundary)
     {
-        $isInternallyType = \is_numeric($endpoint) || \is_bool($endpoint) || \is_string($endpoint);
+        $isInternallyType = \is_numeric($boundary) || \is_bool($boundary) || \is_string($boundary);
 
         $comparable = null;
         if ($isInternallyType) {
-            $comparable = $endpoint;
-        } elseif ($endpoint instanceof \DateTimeInterface) {
-            $comparable = $endpoint->getTimestamp();
+            $comparable = $boundary;
+        } elseif ($boundary instanceof \DateTimeInterface) {
+            $comparable = $boundary->getTimestamp();
         } else {
-            throw new \UnexpectedValueException('Unexpected endpoint type');
+            throw new \UnexpectedValueException('Unexpected boundary type');
         }
 
         return $comparable;

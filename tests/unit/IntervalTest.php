@@ -72,10 +72,64 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function isNeighborOf()
+    public function isNeighborBeforeOf()
     {
         $interval = new \Interval\Interval(1, 4);
-        $this->assertInternalType('bool', $interval->isNeighborOf(new \Interval\Interval(3, 5)));
+        $this->assertInternalType('bool', $interval->isNeighborBefore(new \Interval\Interval(3, 5)));
+    }
+
+    /**
+     * @test
+     */
+    public function isNeighborAfterOf()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInternalType('bool', $interval->isNeighborAfter(new \Interval\Interval(3, 5)));
+    }
+
+    /**
+     * @test
+     */
+    public function isBeforeOf()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInternalType('bool', $interval->isBefore(new \Interval\Interval(3, 5)));
+    }
+
+    /**
+     * @test
+     */
+    public function isAfter()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInternalType('bool', $interval->isAfter(new \Interval\Interval(3, 5)));
+    }
+
+    /**
+     * @test
+     */
+    public function starts()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInternalType('bool', $interval->starts(new \Interval\Interval(3, 5)));
+    }
+
+    /**
+     * @test
+     */
+    public function ends()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInternalType('bool', $interval->ends(new \Interval\Interval(3, 5)));
+    }
+
+    /**
+     * @test
+     */
+    public function equals()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInternalType('bool', $interval->equals(new \Interval\Interval(3, 5)));
     }
 
     public function toStringProvider()
@@ -121,12 +175,12 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      * @dataProvider toComparableProvider
-     * @param mixed $endpoint
+     * @param mixed $boundary
      * @param mixed $expected
      */
-    public function toComparable($endpoint, $expected)
+    public function toComparable($boundary, $expected)
     {
-        $this->assertSame($expected, Interval::toComparable($endpoint));
+        $this->assertSame($expected, Interval::toComparable($boundary));
     }
 
     public function toComparableExceptionProvider()
@@ -142,11 +196,11 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
      * @test
      * @dataProvider toComparableExceptionProvider
      * @expectedException UnexpectedValueException
-     * @param mixed $endpoint
+     * @param mixed $boundary
      */
-    public function toComparableException($endpoint)
+    public function toComparableException($boundary)
     {
-        Interval::toComparable($endpoint);
+        Interval::toComparable($boundary);
     }
 
     /**
