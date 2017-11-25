@@ -16,7 +16,6 @@ install:
 
 script:
    - mkdir -p build/logs
-   - php vendor/bin/phpunit -c phpunit.xml
    - vendor/bin/grumphp run
 
 after_success:
