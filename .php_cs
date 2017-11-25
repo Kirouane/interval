@@ -34,4 +34,5 @@ return PHPCsFixer\Config::create()
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in('src')
+            ->in('tests')
     );

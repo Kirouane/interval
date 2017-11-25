@@ -6,19 +6,19 @@ namespace Interval\Rule\Interval;
 use Interval\Interval;
 
 /**
- * Class Neighborhood
+ * Class Starting
  * @package Interval\Rule\Interval
  */
-class Neighborhood
+class Starting
 {
     /**
-     * Returns true if the second interval is neighbor of the first one
+     * Returns true if the second interval is entirely included in the first one
      * @param Interval $first
      * @param Interval $second
      * @return bool
      */
     public function assert(Interval $first, Interval $second): bool
     {
-        return $first->getStart() === $second->getEnd() || $second->getStart() === $first->getEnd();
+        return $first->getStart() === $second->getStart();
     }
 }

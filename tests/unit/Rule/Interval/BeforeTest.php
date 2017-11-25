@@ -5,7 +5,7 @@ namespace Interval\Rule\Interval;
 
 use Mockery as m;
 
-class NeighborhoodTest extends \PHPUnit\Framework\TestCase
+class BeforeTest extends \PHPUnit\Framework\TestCase
 {
     public function assertProvider()
     {
@@ -13,12 +13,12 @@ class NeighborhoodTest extends \PHPUnit\Framework\TestCase
             [
                 10, 20, //                                    ██████████████████
                 30, 40, //                                                          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                false,
+                true,
             ],
             [
                 10, 20, //                                    ██████████████████
                 20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
+                false,
             ],
             [
                 10, 30, //                                    ███████████████████████
@@ -48,7 +48,7 @@ class NeighborhoodTest extends \PHPUnit\Framework\TestCase
             [
                 30, 40, //                                    ██████████████████
                 10, 30, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
+                false,
             ],
             [
                 30, 40, //                                    ██████████████████
@@ -91,7 +91,7 @@ class NeighborhoodTest extends \PHPUnit\Framework\TestCase
         $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
         $second->shouldReceive('getEnd')->andReturn($secondEnd);
 
-        $union  = new Neighborhood();
+        $union  = new Before();
         $result = $union->assert($first, $second);
         $this->assertInternalType('bool', $result);
         $this->assertSame($expected, $result);
