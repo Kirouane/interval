@@ -36,27 +36,6 @@ class Intervals extends \ArrayObject
     }
 
     /**
-     * Excludes this interval from another one. Exp
-     *
-     *      |________________________________________________________________________________|
-     *
-     *             -
-     *                  |_________________|                   |_________________|
-     *
-     *          =
-     *      |___________|                 |___________________|                  |____________|
-     *
-     * @param Intervals $intervals
-     * @return Intervals
-     */
-    public function exclude(Intervals $intervals) : Intervals
-    {
-        /** @var \Interval\Operation\Intervals\Exclusion $operation */
-        $operation = self::$catalog->get(Catalog::OPERATION_INTERVALS_EXCLUSION);
-        return $operation($this, $intervals);
-    }
-
-    /**
      * Loads the service catalog
      * @return Catalog
      */

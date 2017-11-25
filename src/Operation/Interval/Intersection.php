@@ -43,7 +43,7 @@ class Intersection
      */
     public function compute(Interval $first, Interval $second): ?Interval
     {
-        if ($first->getEnd() <= $second->getStart() || $first->getStart() >= $second->getEnd()) {
+        if (!$first->overlaps($second)) {
             return null;
         }
 

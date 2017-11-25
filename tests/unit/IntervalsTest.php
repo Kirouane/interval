@@ -43,25 +43,6 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function exclude()
-    {
-        $intervals = new Intervals([
-            new Interval(1, 10),
-            new Interval(16, 20),
-        ]);
-
-        $results = $intervals->exclude(new Intervals([
-            new Interval(2, 7),
-            new Interval(17, 18),
-        ]));
-
-        $this->assertInstanceOf(Intervals::class, $results);
-        $this->assertCount(4, $results);
-    }
-
-    /**
-     * @test
-     */
     public function create()
     {
         $intervals = Intervals::create(['[10, 15]']);

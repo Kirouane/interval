@@ -44,17 +44,16 @@ class Union
      */
     public function compute(Interval $first, Interval $second) : Intervals
     {
-        if ($second->getEnd() < $first->getStart()) {
-            return new Intervals([new Interval($first->getStart(), $first->getEnd()), new Interval($second->getStart(), $second->getEnd())]);
-        }
-
-        if ($second->getEnd() >= $first->getStart() && $second->getStart() <= $first->getEnd()) {
+        if ($first->overlaps($second)) {
             return new Intervals([new Interval(
                 \min($first->getStart(), $second->getStart()),
                 \max($first->getEnd(), $second->getEnd())
             )]);
         }
 
-        return new Intervals([new Interval($first->getStart(), $first->getEnd()), new Interval($second->getStart(), $second->getEnd())]);
+        return new Intervals([
+            new Interval($first->getStart(), $first->getEnd()),
+            new Interval($second->getStart(), $second->getEnd()),
+        ]);
     }
 }

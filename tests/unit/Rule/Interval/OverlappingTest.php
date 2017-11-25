@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Interval\Rule\Interval;
 
+use Interval\Interval;
 use Mockery as m;
 
 class OverlappingTest extends \PHPUnit\Framework\TestCase
@@ -18,7 +19,7 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
             [
                 10, 20, //                                    ██████████████████
                 20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                false,
+                true,
             ],
             [
                 10, 30, //                                    ███████████████████████
@@ -48,7 +49,7 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
             [
                 30, 40, //                                    ██████████████████
                 10, 30, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                false,
+                true,
             ],
             [
                 30, 40, //                                    ██████████████████
@@ -79,20 +80,8 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
      */
     public function assert($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
-        $first = m::mock('\Interval\Interval');
-        $first->shouldReceive('getComparableStart')->andReturn($firstStart);
-        $first->shouldReceive('getStart')->andReturn($firstStart);
-        $first->shouldReceive('getComparableEnd')->andReturn($firstEnd);
-        $first->shouldReceive('getEnd')->andReturn($firstEnd);
-
-        $second = m::mock('\Interval\Interval');
-        $second->shouldReceive('getComparableStart')->andReturn($secondStart);
-        $second->shouldReceive('getStart')->andReturn($secondStart);
-        $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
-        $second->shouldReceive('getEnd')->andReturn($secondEnd);
-
         $union  = new Overlapping();
-        $result = $union->assert($first, $second);
+        $result = $union->assert(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
         $this->assertInternalType('bool', $result);
         $this->assertSame($expected, $result);
     }
