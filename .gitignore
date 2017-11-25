@@ -6,3 +6,4 @@ composer.lock
 build
 !.idea/inspectionProfiles
 infection-log.txt
+composer.phar
