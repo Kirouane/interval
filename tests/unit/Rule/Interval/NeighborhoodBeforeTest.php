@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Interval\Rule\Interval;
 
+use Interval\Interval;
 use Mockery as m;
 
 class NeighborhoodBeforeTest extends \PHPUnit\Framework\TestCase
@@ -79,20 +80,8 @@ class NeighborhoodBeforeTest extends \PHPUnit\Framework\TestCase
      */
     public function assert($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
-        $first = m::mock('\Interval\Interval');
-        $first->shouldReceive('getComparableStart')->andReturn($firstStart);
-        $first->shouldReceive('getStart')->andReturn($firstStart);
-        $first->shouldReceive('getComparableEnd')->andReturn($firstEnd);
-        $first->shouldReceive('getEnd')->andReturn($firstEnd);
-
-        $second = m::mock('\Interval\Interval');
-        $second->shouldReceive('getComparableStart')->andReturn($secondStart);
-        $second->shouldReceive('getStart')->andReturn($secondStart);
-        $second->shouldReceive('getComparableEnd')->andReturn($secondEnd);
-        $second->shouldReceive('getEnd')->andReturn($secondEnd);
-
-        $union  = new NeighborhoodBefore();
-        $result = $union->assert($first, $second);
+        $asserter  = new NeighborhoodBefore();
+        $result    = $asserter->assert(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
         $this->assertInternalType('bool', $result);
         $this->assertSame($expected, $result);
     }

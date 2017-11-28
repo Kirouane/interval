@@ -19,7 +19,7 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
             [
                 10, 20, //                                    ██████████████████
                 20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
+                false,
             ],
             [
                 10, 30, //                                    ███████████████████████
@@ -49,7 +49,7 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
             [
                 30, 40, //                                    ██████████████████
                 10, 30, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
+                false,
             ],
             [
                 30, 40, //                                    ██████████████████
@@ -80,8 +80,8 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
      */
     public function assert($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
-        $union  = new Overlapping();
-        $result = $union->assert(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
+        $asserter  = new Overlapping();
+        $result    = $asserter->assert(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
         $this->assertInternalType('bool', $result);
         $this->assertSame($expected, $result);
     }

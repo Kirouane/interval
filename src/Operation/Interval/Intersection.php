@@ -16,6 +16,7 @@ class Intersection
      * @param Interval $first
      * @param Interval $second
      * @return Interval
+     * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      * @throws \RangeException
      */
@@ -38,18 +39,33 @@ class Intersection
      * @param Interval $first
      * @param Interval $second
      * @return Interval
+     * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      * @throws \RangeException
      */
     public function compute(Interval $first, Interval $second): ?Interval
     {
+        if ($first->isNeighborBefore($second)) {
+            return new Interval(
+                $first->getEnd(),
+                $second->getStart()
+            );
+        }
+
+        if ($first->isNeighborAfter($second)) {
+            return new Interval(
+                $second->getEnd(),
+                $first->getStart()
+            );
+        }
+
         if (!$first->overlaps($second)) {
             return null;
         }
 
         return new Interval(
-            \max($first->getStart(), $second->getStart()),
-            \min($first->getEnd(), $second->getEnd())
+            $first->getStart()->greaterThan($second->getStart()) ? $first->getStart() : $second->getStart(),
+            $first->getEnd()->lessThan($second->getEnd()) ? $first->getEnd() : $second->getEnd()
         );
     }
 }

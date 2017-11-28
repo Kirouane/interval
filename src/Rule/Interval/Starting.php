@@ -19,6 +19,6 @@ class Starting
      */
     public function assert(Interval $first, Interval $second): bool
     {
-        return $first->getStart() === $second->getStart();
+        return $first->getStart()->equalTo($second->getStart());
     }
 }

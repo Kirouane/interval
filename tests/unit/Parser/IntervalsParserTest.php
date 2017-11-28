@@ -38,8 +38,8 @@ class IntervalsParserTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(Intervals::class, $intervals);
         $this->assertCount(count($expected), $intervals);
         foreach ($intervals as $i => $interval) {
-            self::assertSame($expected[$i][0], $interval->getStart());
-            self::assertSame($expected[$i][1], $interval->getEnd());
+            self::assertSame($expected[$i][0], $interval->getStart()->getValue());
+            self::assertSame($expected[$i][1], $interval->getEnd()->getValue());
         }
     }
 }

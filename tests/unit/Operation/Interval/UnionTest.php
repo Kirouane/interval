@@ -82,7 +82,7 @@ class UnionTest extends \PHPUnit\Framework\TestCase
         /** @var Interval $interval */
         foreach ($intervals as $interval) {
             $this->assertInstanceOf('\Interval\Interval', $interval);
-            $data[] = [$interval->getStart(), $interval->getEnd()];
+            $data[] = [$interval->getStart()->getValue(), $interval->getEnd()->getValue()];
         }
 
         $this->assertSame($expected, $data);

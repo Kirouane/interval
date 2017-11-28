@@ -17,6 +17,7 @@ class Union
      * @param Interval $first
      * @param Interval $second
      * @return Intervals
+     * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      * @throws \RangeException
      */
@@ -39,15 +40,16 @@ class Union
      * @param Interval $first
      * @param Interval $second
      * @return Intervals
+     * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      * @throws \RangeException
      */
     public function compute(Interval $first, Interval $second) : Intervals
     {
-        if ($first->overlaps($second)) {
+        if ($first->overlaps($second) || $first->isNeighborAfter($second) || $first->isNeighborBefore($second)) {
             return new Intervals([new Interval(
-                \min($first->getStart(), $second->getStart()),
-                \max($first->getEnd(), $second->getEnd())
+                $first->getStart()->lessThan($second->getStart()) ? $first->getStart() : $second->getStart(),
+                $first->getEnd()->greaterThan($second->getEnd()) ? $first->getEnd() : $second->getEnd()
             )]);
         }
 

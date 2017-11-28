@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Interval;
+namespace Interval\Boundary;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Mockery as m;
 
-class BoundaryTest extends \PHPUnit\Framework\TestCase
+class RealTest extends \PHPUnit\Framework\TestCase
 {
     public function tearDown()
     {
@@ -73,13 +73,13 @@ class BoundaryTest extends \PHPUnit\Framework\TestCase
         $arguments          = $this->getArguments($symbole);
         $argumentsToCompare = $this->getArguments($comparedSymbole);
 
-        $bounday = new Boundary(...$arguments);
-        self::assertSame($expected, $bounday->compare(new Boundary(...$argumentsToCompare)) === 0);
+        $bounday = new Real(...$arguments);
+        self::assertSame($expected, $bounday->compare(new Real(...$argumentsToCompare)) === 0);
     }
 
     private function getArguments($symoble)
     {
-        $value  = (int)str_replace(['[', ']'], '', $symoble);
+        $value  = (float)str_replace(['[', ']'], '', $symoble);
         $isLeft = substr($symoble, 0, 1) === '[' || substr($symoble, 0, 1) === ']' ;
         $isOpen = ($isLeft && substr($symoble, 0, 1) === ']') || (!$isLeft && substr($symoble, -1) === '[');
 
@@ -145,8 +145,8 @@ class BoundaryTest extends \PHPUnit\Framework\TestCase
         $arguments          = $this->getArguments($symbole);
         $argumentsToCompare = $this->getArguments($comparedSymbole);
 
-        $bounday = new Boundary(...$arguments);
-        self::assertSame($expected, $bounday->compare(new Boundary(...$argumentsToCompare)) === 1);
+        $bounday = new Real(...$arguments);
+        self::assertSame($expected, $bounday->compare(new Real(...$argumentsToCompare)) === 1);
     }
 
     public function compareLessProvider()
@@ -208,7 +208,16 @@ class BoundaryTest extends \PHPUnit\Framework\TestCase
         $arguments          = $this->getArguments($symbole);
         $argumentsToCompare = $this->getArguments($comparedSymbole);
 
-        $bounday = new Boundary(...$arguments);
-        self::assertSame($expected, $bounday->compare(new Boundary(...$argumentsToCompare)) === -1);
+        $bounday = new Real(...$arguments);
+        $bounday->compare(new Real(...$argumentsToCompare));
+        self::assertSame($expected, $bounday->compare(new Real(...$argumentsToCompare)) === -1);
+    }
+
+    /**
+     * @test
+     */
+    public function toStringTest()
+    {
+        $this->assertSame('[10.5', (string)new Real(10.5, true));
     }
 }

@@ -40,12 +40,12 @@ class IntervalParserTest extends \PHPUnit\Framework\TestCase
         $interval = $parser->parse($expression);
         $this->assertInstanceOf(Interval::class, $interval);
         if ($start instanceof \DateTimeInterface) {
-            self::assertInstanceOf(\DateTimeInterface::class, $interval->getStart());
-            $this->assertEquals($start, $interval->getStart());
-            $this->assertEquals($end, $interval->getEnd());
+            self::assertInstanceOf(\DateTimeInterface::class, $interval->getStart()->getValue());
+            $this->assertEquals($start, $interval->getStart()->getValue());
+            $this->assertEquals($end, $interval->getEnd()->getValue());
         } else {
-            $this->assertSame($start, $interval->getStart());
-            $this->assertSame($end, $interval->getEnd());
+            $this->assertSame($start, $interval->getStart()->getValue());
+            $this->assertSame($end, $interval->getEnd()->getValue());
         }
     }
 }

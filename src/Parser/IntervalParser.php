@@ -99,8 +99,8 @@ class IntervalParser
         } elseif ($this->isFloat($value)) {
             $value = (float)$value;
         } elseif ($this->isDate($value)) {
-            $value = \DateTimeImmutable::createFromFormat('U', (string)strtotime($value));
-            $value = $value->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+            $value = \DateTimeImmutable::createFromFormat('U', (string)\strtotime($value));
+            $value = $value->setTimezone(new \DateTimeZone(\date_default_timezone_get()));
         } else {
             throw new \InvalidArgumentException('Unexpected $value type');
         }
@@ -144,6 +144,6 @@ class IntervalParser
      */
     private function isDate($value): bool
     {
-        return true === (bool)strtotime($value);
+        return true === (bool)\strtotime($value);
     }
 }

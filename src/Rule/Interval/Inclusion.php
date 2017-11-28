@@ -19,6 +19,8 @@ class Inclusion
      */
     public function assert(Interval $first, Interval $second): bool
     {
-        return $second->getStart() >= $first->getStart() && $second->getEnd() <= $first->getEnd();
+        return
+            $second->getStart()->greaterThanOrEqualTo($first->getStart()) &&
+            $second->getEnd()->lessThanOrEqualTo($first->getEnd());
     }
 }
