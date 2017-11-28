@@ -3,6 +3,12 @@ declare(strict_types=1);
 
 namespace Interval;
 
+use Interval\Boundary\BoundaryAbstract;
+use Interval\Boundary\DateTime;
+use Interval\Boundary\Infinity;
+use Interval\Boundary\Integer;
+use Interval\Boundary\Real;
+
 /**
  * Class Interval
  * @package Interval
@@ -15,24 +21,14 @@ class Interval
     private static $catalog;
 
     /**
-     * @var mixed
+     * @var BoundaryAbstract
      */
     private $start;
 
     /**
-     * @var mixed
+     * @var BoundaryAbstract
      */
     private $end;
-
-    /**
-     * @var mixed
-     */
-    private $comparableStart;
-
-    /**
-     * @var mixed
-     */
-    private $comparableEnd;
 
     /**
      * Interval constructor.
@@ -40,20 +36,49 @@ class Interval
      * @param mixed $end
      * @throws \UnexpectedValueException
      * @throws \RangeException
+     * @throws \InvalidArgumentException
      */
     public function __construct($start, $end)
     {
         self::loadCatalog();
 
-        $this->start = $start;
-        $this->end   = $end;
-
-        $this->comparableStart = self::toComparable($this->start);
-        $this->comparableEnd   = self::toComparable($this->end);
+        $this->start = $this->toBoundary($start, true);
+        $this->end   = $this->toBoundary($end, false);
 
         if (!$this->isConsistent()) {
             throw new \RangeException('Inconsistent Interval');
         }
+    }
+
+    /**
+     * @param $value
+     * @param $isLeft
+     * @return BoundaryAbstract
+     * @throws \InvalidArgumentException
+     */
+    private function toBoundary($value, $isLeft): Boundary\BoundaryAbstract
+    {
+        if ($value instanceof BoundaryAbstract) {
+            return $value;
+        }
+
+        if (\is_int($value)) {
+            return new Integer($value, $isLeft);
+        }
+
+        if (\is_float($value) && \is_infinite($value)) {
+            return new Infinity($value, $isLeft);
+        }
+
+        if (\is_float($value)) {
+            return new Real($value, $isLeft);
+        }
+
+        if ($value instanceof \DateTimeInterface) {
+            return new DateTime($value, $isLeft);
+        }
+
+        throw new \InvalidArgumentException('Unexpected $value type');
     }
 
     /**
@@ -62,7 +87,7 @@ class Interval
      */
     private function isConsistent(): bool
     {
-        return $this->comparableStart <= $this->comparableEnd;
+        return $this->getStart()->getValue() <= $this->getEnd()->getValue();
     }
 
     /**
@@ -220,36 +245,20 @@ class Interval
 
     /**
      * Returns the start boundary
-     * @return mixed
+     * @return BoundaryAbstract
      */
-    public function getStart()
+    public function getStart(): BoundaryAbstract
     {
         return $this->start;
     }
 
     /**
      * Returns the end boundary
-     * @return mixed
+     * @return BoundaryAbstract
      */
-    public function getEnd()
+    public function getEnd(): BoundaryAbstract
     {
         return $this->end;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getComparableStart()
-    {
-        return $this->comparableStart;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getComparableEnd()
-    {
-        return $this->comparableEnd;
     }
 
     /**
@@ -257,18 +266,7 @@ class Interval
      */
     public function __toString()
     {
-        $start = ($this->start instanceof \DateTimeInterface) ? $this->start->format(\DateTime::RFC3339) : $this->start;
-        $end   = ($this->end instanceof \DateTimeInterface) ? $this->end->format(\DateTime::RFC3339) : $this->end;
-
-        if (\is_numeric($start)) {
-            $start = \is_infinite((float)$start) ? '-∞' : $start;
-        }
-
-        if (\is_numeric($end)) {
-            $end = \is_infinite((float)$end) ? '+∞' : $end;
-        }
-
-        return '['  . $start . ', ' . $end  . ']';
+        return $this->getStart() . ', ' . $this->getEnd();
     }
 
     /**

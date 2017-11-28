@@ -71,7 +71,7 @@ class Intervals extends \ArrayObject
      */
     public function filter(callable $callable): Intervals
     {
-        return new Intervals(array_values(array_filter($this->getArrayCopy(), $callable)));
+        return new Intervals(\array_values(\array_filter($this->getArrayCopy(), $callable)));
     }
 
     /**
@@ -80,7 +80,7 @@ class Intervals extends \ArrayObject
      */
     public function map(callable $callable): Intervals
     {
-        return new Intervals(array_map($callable, $this->getArrayCopy()));
+        return new Intervals(\array_map($callable, $this->getArrayCopy()));
     }
 
     /**
@@ -90,7 +90,7 @@ class Intervals extends \ArrayObject
     public function sort(callable $callable): Intervals
     {
         $arrayIntervals = $this->getArrayCopy();
-        usort($arrayIntervals, $callable);
+        \usort($arrayIntervals, $callable);
         return new Intervals($arrayIntervals);
     }
 }

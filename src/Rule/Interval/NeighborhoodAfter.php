@@ -19,6 +19,6 @@ class NeighborhoodAfter
      */
     public function assert(Interval $first, Interval $second): bool
     {
-        return $first->getStart() === $second->getEnd();
+        return $first->getStart()->equalTo($second->getEnd());
     }
 }

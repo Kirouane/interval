@@ -19,6 +19,8 @@ class Equality
      */
     public function assert(Interval $first, Interval $second): bool
     {
-        return $first->getStart() === $second->getStart() && $first->getEnd() === $second->getEnd();
+        return
+            $first->getStart()->equalTo($second->getStart()) &&
+            $first->getEnd()->equalTo($second->getEnd());
     }
 }

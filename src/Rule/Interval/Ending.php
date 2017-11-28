@@ -19,6 +19,6 @@ class Ending
      */
     public function assert(Interval $first, Interval $second): bool
     {
-        return $first->getEnd() === $second->getEnd();
+        return $first->getEnd()->equalTo($second->getEnd());
     }
 }

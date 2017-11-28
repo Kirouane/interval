@@ -24,5 +24,7 @@ class CatalogTest extends \PHPUnit\Framework\TestCase
         $catalog = new Catalog();
         $service = $catalog->get($serviceName);
         self::assertInstanceOf($serviceName, $service);
+        $sameService = $catalog->get($serviceName);
+        self::assertSame($service, $sameService);
     }
 }

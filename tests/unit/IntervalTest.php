@@ -17,19 +17,20 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [2, 1],
+            ['string', 'string'],
         ];
     }
 
     /**
      * @test
-     * @expectedException \RangeException
+     * @expectedException \Exception
      * @dataProvider constructorShouldThrowExceptionProvider
      * @param mixed $start
      * @param mixed $end
      */
     public function constructorShouldThrowException($start, $end)
     {
-        new \Interval\Interval($start, $end);
+        return new \Interval\Interval($start, $end);
     }
 
     /**
@@ -135,11 +136,11 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [1, 2, '[1, 2]'],
+            [1.2, 2.2, '[1.2, 2.2]'],
             [new \DateTime('2016-01-01'), new \DateTime('2016-01-02'), '[2016-01-01T00:00:00+00:00, 2016-01-02T00:00:00+00:00]'],
             [-INF, +INF, '[-∞, +∞]'],
             [-INF, 1, '[-∞, 1]'],
-            ['a', +INF, '[a, +∞]'],
-            ['1', +INF, '[1, +∞]'],
+            [1, +INF, '[1, +∞]'],
         ];
     }
 
@@ -208,7 +209,7 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     public function create()
     {
         $interval = Interval::create('[10, 15]');
-        $this->assertSame(10, $interval->getStart());
-        $this->assertSame(15, $interval->getEnd());
+        $this->assertSame(10, $interval->getStart()->getValue());
+        $this->assertSame(15, $interval->getEnd()->getValue());
     }
 }

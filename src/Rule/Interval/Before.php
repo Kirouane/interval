@@ -19,6 +19,6 @@ class Before
      */
     public function assert(Interval $first, Interval $second): bool
     {
-        return $first->getEnd() < $second->getStart();
+        return $first->getEnd()->lessThan($second->getStart());
     }
 }
