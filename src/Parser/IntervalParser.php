@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Interval\Parser;
 
+use Interval\Boundary\Integer;
 use Interval\Interval;
 
 /**
@@ -37,75 +38,90 @@ class IntervalParser
         $startTerm = $this->parseStartTerm($startTerm);
         $endTerm   = $this->parseEndTerm($endTerm);
 
-        return new Interval(\reset($startTerm), \reset($endTerm));
+        return new Interval(
+            $startTerm,
+            $endTerm
+        );
     }
 
     /**
      * Parses the start term
      * @param string $startTerm
-     * @return array
+     * @return float|int|string
      * @throws \InvalidArgumentException
      * @throws \ErrorException
      */
-    private function parseStartTerm(string $startTerm): array
+    private function parseStartTerm(string $startTerm)
     {
+        if ('' === $startTerm) {
+            throw new \ErrorException('Parse interval expression');
+        }
+
         $startInclusion = $startTerm[0];
 
         if (!\in_array($startInclusion, [self::LEFT, self::RIGHT], true)) {
             throw new \ErrorException('Parse interval expression');
         }
 
-        $startInclusion = $startInclusion === self::RIGHT;
+        $isOpen         = $startInclusion === self::LEFT;
         $startValue     = \substr($startTerm, 1);
-        $startValue     = $this->parseValue($startValue);
-
-        return [$startValue, $startInclusion];
+        return $this->parseValue($startValue, true, $isOpen);
     }
 
     /**
      * Pareses the end term
      * @param string $endTerm
-     * @return array
+     * @return float|int|string
      * @throws \InvalidArgumentException
      * @throws \ErrorException
      */
-    private function parseEndTerm(string $endTerm): array
+    private function parseEndTerm(string $endTerm)
     {
+        if ('' === $endTerm) {
+            throw new \ErrorException('Parse interval expression');
+        }
+
         $endInclusion = \substr($endTerm, -1);
 
         if (!\in_array($endInclusion, [self::LEFT, self::RIGHT], true)) {
             throw new \ErrorException('Parse interval expression');
         }
 
-        $endInclusion = $endInclusion === self::LEFT;
+        $isOpen       = $endInclusion === self::RIGHT;
         $endValue     = \substr($endTerm, 0, -1);
-        $endValue     = $this->parseValue($endValue);
-
-        return [$endValue, $endInclusion];
+        return $this->parseValue($endValue, false, $isOpen);
     }
 
     /**
      * Cast a value to its expected type
      * @param mixed $value
+     * @param bool $isLeft
+     * @param bool $isOpen
      * @return float|int|string
      * @throws \InvalidArgumentException
      */
-    private function parseValue($value)
+    private function parseValue($value, bool $isLeft, bool $isOpen)
     {
         if ($this->isInt($value)) {
-            $value = (int)$value;
-        } elseif ($this->isInfinity($value)) {
-            $value = '-INF' === $value ? -\INF : \INF;
-        } elseif ($this->isFloat($value)) {
-            $value = (float)$value;
-        } elseif ($this->isDate($value)) {
-            $value = \DateTimeImmutable::createFromFormat('U', (string)\strtotime($value));
-            $value = $value->setTimezone(new \DateTimeZone(\date_default_timezone_get()));
-        } else {
-            throw new \InvalidArgumentException('Unexpected $value type');
+            return new Integer((int)$value, $isLeft, $isOpen);
         }
 
-        return $value;
+        if ($this->isInfinity($value)) {
+            $value = '-INF' === $value ? -\INF : \INF;
+            return new Integer($value, $isLeft, $isOpen);
+        }
+
+        if ($this->isFloat($value)) {
+            return new Integer((float)$value, $isLeft, $isOpen);
+        }
+
+        if ($this->isDate($value)) {
+            $value = \DateTimeImmutable::createFromFormat('U', (string)\strtotime($value));
+            $value = $value->setTimezone(new \DateTimeZone(\date_default_timezone_get()));
+            return new Integer($value, $isLeft, $isOpen);
+        }
+
+        throw new \InvalidArgumentException('Unexpected $value type');
     }
 
     /**
