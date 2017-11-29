@@ -149,6 +149,25 @@ class Interval
     }
 
     /**
+     * Excludes this interval from another one. Exp
+     *
+     *      |_________________|
+     *
+     *             -
+     *                  |_________________|
+     *
+     *          =
+     *      |___________|
+     *
+     * @param Interval $interval
+     * @return Intervals
+     */
+    public function exclude(Interval $interval) : Intervals
+    {
+        return $this->operate(Catalog::OPERATION_INTERVAL_EXCLUSION, $interval);
+    }
+
+    /**
      * Checks whether or not this interval overlaps another one
      *
      * @param Interval $interval
@@ -316,8 +335,17 @@ class Interval
      */
     public static function create(string $expression) : Interval
     {
-        /** @var \Interval\Parser\IntervalParser $asserter */
-        $asserter = self::loadCatalog()->get(Catalog::PARSER_INTERVAL);
-        return $asserter->parse($expression);
+        /** @var \Interval\Parser\IntervalParser $parser */
+        $parser = self::loadCatalog()->get(Catalog::PARSER_INTERVAL);
+        return $parser->parse($expression);
+    }
+
+    /**
+     * @param BoundaryAbstract $boundary
+     * @return bool
+     */
+    public function contains(BoundaryAbstract $boundary): bool
+    {
+        return $this->getStart()->lessThanOrEqualTo($boundary) && $this->getEnd()->greaterThanOrEqualTo($boundary);
     }
 }

@@ -76,7 +76,7 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
     public function compute($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
         $union    = new Intersection();
-        $interval = $union->compute(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
+        $interval = $union(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
         if (is_null($expected)) {
             $this->assertNull($interval);
         } else {

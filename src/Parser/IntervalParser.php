@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Interval\Parser;
 
+use Interval\Boundary\DateTime;
+use Interval\Boundary\Infinity;
 use Interval\Boundary\Integer;
+use Interval\Boundary\Real;
 use Interval\Interval;
 
 /**
@@ -108,17 +111,17 @@ class IntervalParser
 
         if ($this->isInfinity($value)) {
             $value = '-INF' === $value ? -\INF : \INF;
-            return new Integer($value, $isLeft, $isOpen);
+            return new Infinity($value, $isLeft, $isOpen);
         }
 
         if ($this->isFloat($value)) {
-            return new Integer((float)$value, $isLeft, $isOpen);
+            return new Real((float)$value, $isLeft, $isOpen);
         }
 
         if ($this->isDate($value)) {
             $value = \DateTimeImmutable::createFromFormat('U', (string)\strtotime($value));
             $value = $value->setTimezone(new \DateTimeZone(\date_default_timezone_get()));
-            return new Integer($value, $isLeft, $isOpen);
+            return new DateTime($value, $isLeft, $isOpen);
         }
 
         throw new \InvalidArgumentException('Unexpected $value type');

@@ -12,8 +12,11 @@ use Interval\Parser\IntervalsParser;
  */
 class Catalog
 {
+    const OPERATION_INTERVAL_EXCLUSION     = Operation\Interval\Exclusion::class;
     const OPERATION_INTERVAL_INTERSECTION  = Operation\Interval\Intersection::class;
     const OPERATION_INTERVAL_UNION         = Operation\Interval\Union::class;
+
+    const OPERATION_INTERVALS_EXCLUSION    = Operation\Intervals\Exclusion::class;
 
     const RULE_INTERVAL_INCLUSION                 = Rule\Interval\Inclusion::class;
     const RULE_INTERVAL_NEIGHBORHOOD_BEFORE       = Rule\Interval\NeighborhoodBefore::class;

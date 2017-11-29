@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Interval\Parser;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
+
+use Interval\Boundary\DateTime;
 use Interval\Interval;
 use Mockery as m;
 
@@ -21,7 +23,7 @@ class IntervalParserTest extends \PHPUnit\Framework\TestCase
             ['[-INF,2]', -INF, 2],
             ['[-INF,+INF]', -INF, INF],
             ['[1.1,2.2]', 1.1, 2.2],
-            ['[2010-01-02,2010-01-03]', new \DateTimeImmutable('2010-01-02'), new \DateTimeImmutable('2010-01-03')],
+            ['[2010-01-02, 2010-01-03]', new \DateTimeImmutable('2010-01-02'), new \DateTimeImmutable('2010-01-03')],
         ];
     }
 
@@ -40,7 +42,10 @@ class IntervalParserTest extends \PHPUnit\Framework\TestCase
         $interval = $parser->parse($expression);
         $this->assertInstanceOf(Interval::class, $interval);
         if ($start instanceof \DateTimeInterface) {
+            self::assertInstanceOf(DateTime::class, $interval->getStart());
+            self::assertInstanceOf(DateTime::class, $interval->getEnd());
             self::assertInstanceOf(\DateTimeInterface::class, $interval->getStart()->getValue());
+            self::assertInstanceOf(\DateTimeInterface::class, $interval->getEnd()->getValue());
             $this->assertEquals($start, $interval->getStart()->getValue());
             $this->assertEquals($end, $interval->getEnd()->getValue());
         } else {

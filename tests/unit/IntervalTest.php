@@ -54,6 +54,15 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
+    public function exclusion()
+    {
+        $interval = new \Interval\Interval(1, 4);
+        $this->assertInstanceOf(Intervals::class, $interval->exclude(new \Interval\Interval(3, 5)));
+    }
+
+    /**
+     * @test
+     */
     public function includes()
     {
         $interval = new \Interval\Interval(1, 4);
