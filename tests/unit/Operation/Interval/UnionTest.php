@@ -76,7 +76,7 @@ class UnionTest extends \PHPUnit\Framework\TestCase
     public function compute($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
     {
         $union     = new Union();
-        $intervals = $union->compute(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
+        $intervals = $union(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
         $this->assertInstanceOf(\Interval\Intervals::class, $intervals);
         $data = [] ;
         /** @var Interval $interval */

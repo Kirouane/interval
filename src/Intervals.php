@@ -49,6 +49,27 @@ class Intervals extends \ArrayObject
     }
 
     /**
+     * Excludes this interval from another one. Exp
+     *
+     *      |________________________________________________________________________________|
+     *
+     *             -
+     *                  |_________________|                   |_________________|
+     *
+     *          =
+     *      |___________|                 |___________________|                  |____________|
+     *
+     * @param Intervals $intervals
+     * @return Intervals
+     */
+    public function exclude(Intervals $intervals) : Intervals
+    {
+        /** @var \Interval\Operation\Intervals\Exclusion $operation */
+        $operation = self::$catalog->get(Catalog::OPERATION_INTERVALS_EXCLUSION);
+        return $operation($this, $intervals);
+    }
+
+    /**
      * Creates a new Interval from expression
      * Exp Intervals::create(['[10, 26]', '[11, 13]')
      * @param array|string $expressions

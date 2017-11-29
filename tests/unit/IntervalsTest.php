@@ -97,4 +97,23 @@ class IntervalsTest extends \PHPUnit\Framework\TestCase
         self::assertSame(12, $filtered[1]->getStart()->getValue());
         self::assertSame(15, $filtered[1]->getEnd()->getValue());
     }
+
+    /**
+     * @test
+     */
+    public function exclude()
+    {
+        $intervals = new Intervals([
+            new Interval(1, 10),
+            new Interval(16, 20),
+        ]);
+
+        $results = $intervals->exclude(new Intervals([
+            new Interval(2, 7),
+            new Interval(17, 18),
+        ]));
+
+        $this->assertInstanceOf(Intervals::class, $results);
+        $this->assertCount(4, $results);
+    }
 }
