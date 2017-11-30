@@ -119,7 +119,7 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
         }
 
         $intervals          = new Intervals($intervals);
-        $intervalsToExclude =  new Intervals($intervalsToExclude);
+        $intervalsToExclude = new Intervals($intervalsToExclude);
         $exclusion          = new Exclusion();
         $results            = $exclusion->compute($intervals, $intervalsToExclude);
 
@@ -130,6 +130,8 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
             $this->assertInstanceOf(Interval::class, $interval);
             $this->assertSame($interval->getStart()->getValue()->format('H:i'), $expected[$i][0]);
             $this->assertSame($interval->getEnd()->getValue()->format('H:i'), $expected[$i][1]);
+            $this->assertTrue($interval->getStart()->isLeft());
+            $this->assertTrue($interval->getEnd()->isRight());
         }
     }
 }

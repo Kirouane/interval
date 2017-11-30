@@ -145,4 +145,20 @@ abstract class BoundaryAbstract
 
         return $string . ($this->isOpen() ? '[' : ']');
     }
+
+    /**
+     * @return BoundaryAbstract
+     */
+    public function flip(): BoundaryAbstract
+    {
+        return new static($this->getValue(), $this->isRight(), $this->isClosed());
+    }
+
+    /**
+     * @return BoundaryAbstract
+     */
+    public function changeSide(): BoundaryAbstract
+    {
+        return new static($this->getValue(), $this->isRight(), $this->isOpen());
+    }
 }
