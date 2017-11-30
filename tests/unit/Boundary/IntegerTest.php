@@ -280,4 +280,31 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame($expected, (string)new Integer($value, $isLeft, $isOpen));
     }
+
+    public function flipProvider()
+    {
+        return [
+            ']x => x]' => ['left', 'open', 'right', 'closed'],
+            '[x => x[' => ['left', 'closed', 'right', 'open'],
+            'x] => ]x' => ['right', 'closed', 'left', 'open'],
+            'x[ => [x' => ['right', 'open', 'left', 'closed'],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider flipProvider
+     * @param mixed $side
+     * @param mixed $openClosed
+     * @param mixed $expectedSide
+     * @param mixed $expectedopenClosed
+     */
+    public function flip($side, $openClosed, $expectedSide, $expectedopenClosed)
+    {
+        $boundary    = new Integer(1, $side === 'left', $openClosed === 'open');
+        $newBoundary = $boundary->flip();
+
+        self::assertSame($expectedSide == 'left', $newBoundary->isLeft());
+        self::assertSame($expectedopenClosed == 'open', $newBoundary->isOpen());
+    }
 }

@@ -34,16 +34,17 @@ class Interval
      * Interval constructor.
      * @param mixed $start
      * @param mixed $end
-     * @throws \UnexpectedValueException
+     * @param bool $isLeftOpen
+     * @param bool $isRightOpen
      * @throws \RangeException
      * @throws \InvalidArgumentException
      */
-    public function __construct($start, $end)
+    public function __construct($start, $end, bool $isLeftOpen = false, bool $isRightOpen = false)
     {
         self::loadCatalog();
 
-        $this->start = $this->toBoundary($start, true);
-        $this->end   = $this->toBoundary($end, false);
+        $this->start = $this->toBoundary($start, true, $isLeftOpen);
+        $this->end   = $this->toBoundary($end, false, $isRightOpen);
 
         if (!$this->isConsistent()) {
             throw new \RangeException('Inconsistent Interval');
@@ -52,30 +53,31 @@ class Interval
 
     /**
      * @param $value
-     * @param $isLeft
+     * @param bool $isLeft
+     * @param bool $isOpen
      * @return BoundaryAbstract
      * @throws \InvalidArgumentException
      */
-    private function toBoundary($value, $isLeft): Boundary\BoundaryAbstract
+    private function toBoundary($value, bool $isLeft, bool $isOpen): Boundary\BoundaryAbstract
     {
         if ($value instanceof BoundaryAbstract) {
             return $value;
         }
 
         if (\is_int($value)) {
-            return new Integer($value, $isLeft);
+            return new Integer($value, $isLeft, $isOpen);
         }
 
         if (\is_float($value) && \is_infinite($value)) {
-            return new Infinity($value, $isLeft);
+            return new Infinity($value, $isLeft, $isOpen);
         }
 
         if (\is_float($value)) {
-            return new Real($value, $isLeft);
+            return new Real($value, $isLeft, $isOpen);
         }
 
         if ($value instanceof \DateTimeInterface) {
-            return new DateTime($value, $isLeft);
+            return new DateTime($value, $isLeft, $isOpen);
         }
 
         throw new \InvalidArgumentException('Unexpected $value type');
@@ -87,7 +89,7 @@ class Interval
      */
     private function isConsistent(): bool
     {
-        return $this->getStart()->getValue() <= $this->getEnd()->getValue();
+        return $this->getStart()->lessThanOrEqualTo($this->getEnd());
     }
 
     /**

@@ -96,7 +96,7 @@ class IntervalParserTest extends \PHPUnit\Framework\TestCase
     public function parseOpenProvider()
     {
         return [
-            [']1,2[', 1, 2, true, true],
+            [']1,3[', 1, 3, true, true],
         ];
     }
 

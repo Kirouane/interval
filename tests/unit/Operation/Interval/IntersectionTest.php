@@ -83,6 +83,8 @@ class IntersectionTest extends \PHPUnit\Framework\TestCase
             $this->assertInstanceOf(\Interval\Interval::class, $interval);
             $this->assertSame($expected[0], $interval->getStart()->getValue());
             $this->assertSame($expected[1], $interval->getEnd()->getValue());
+            $this->assertTrue($interval->getStart()->isLeft());
+            $this->assertTrue($interval->getEnd()->isRight());
         }
     }
 }

@@ -58,20 +58,20 @@ class Exclusion
 
         if ($second->contains($first->getStart())) {
             return new Intervals([
-                new Interval($second->getEnd(), $first->getEnd()),
+                new Interval($second->getEnd()->flip(), $first->getEnd()),
             ]);
         }
 
         if ($second->contains($first->getEnd())) {
             return new Intervals([
-                new Interval($first->getStart(), $second->getStart()),
+                new Interval($first->getStart(), $second->getStart()->flip()),
             ]);
         }
 
         if ($first->includes($second)) {
             return new Intervals([
-                new Interval($first->getStart(), $second->getStart()),
-                new Interval($second->getEnd(), $first->getEnd()),
+                new Interval($first->getStart(), $second->getStart()->flip()),
+                new Interval($second->getEnd()->flip(), $first->getEnd()),
             ]);
         }
 

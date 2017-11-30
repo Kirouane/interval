@@ -47,15 +47,15 @@ class Intersection
     {
         if ($first->isNeighborBefore($second)) {
             return new Interval(
-                $first->getEnd(),
-                $second->getStart()
+                $first->getEnd()->changeSide(),
+                $second->getStart()->changeSide()
             );
         }
 
         if ($first->isNeighborAfter($second)) {
             return new Interval(
-                $second->getEnd(),
-                $first->getStart()
+                $second->getEnd()->changeSide(),
+                $first->getStart()->changeSide()
             );
         }
 

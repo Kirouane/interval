@@ -1,14 +1,20 @@
 [![Travis](https://img.shields.io/travis/Kirouane/interval/master.svg)](http://travis-ci.org/Kirouane/interval)
-[![Coverage Status](https://coveralls.io/repos/github/Kirouane/interval/badge.svg)](https://coveralls.io/github/Kirouane/interval)
+[![Coverage Status](https://coveralls.io/repos/github/Kirouane/interval/badge.svg)](https://coveralls.io/github/Kirouane/interval?branch=develop)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/783c18637e574894bc6a37e1c5c75e93)](https://www.codacy.com/app/Kirouane/interval?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kirouane/interval&amp;utm_campaign=Badge_Grade)
 [![Total Downloads](https://poser.pugx.org/kirouane/interval/downloads)](https://packagist.org/packages/kirouane/interval)
 [![Latest Stable Version](https://poser.pugx.org/kirouane/interval/v/stable)](https://packagist.org/packages/kirouane/interval)
-
 
 Interval
 ======
 
 This library provides some tools to handle intervals. For instance, You can compute the union or intersection of two intervals.
+
+Use cases
+------
+* Availabilities calculation.
+* Scheduling/calendar/planning.
+* Mathematics interval computation with open/closed boundaries
+* etc
 
 Features
 ------
@@ -16,7 +22,7 @@ Features
 * It computes some operations between two **intervals**: union, intersection and exclusion.
 * It computes some operations between two **sets of intervals**: exclusion for now.
 * It handles several types of boundaries : float, **\DateTime** and integer. 
-* It handles **infinity** type as boundary (∞).
+* It handles **infinity** type as boundary.
 * Ability to **combine** infinity with \DateTime and other types.
 * filter, sort, map.
 * Immutability.
@@ -68,13 +74,13 @@ echo $interval->union(new Interval(60, 100)); // {[20, 40], [60, 100]};
 * Exclusion : 
 
 ```php
-echo $interval->exclude(new Interval(30, 60)); // {[20, 30]};
+echo $interval->exclude(new Interval(30, 60)); // {[20, 30[};
 ```
 
 or
 
 ```php
-echo $interval->exclude(new Interval(30, 35)); // {[20, 30], [35, 40]};
+echo $interval->exclude(new Interval(30, 35)); // {[20, 30[, ]35, 40]};
 ```
 
 We can compare two intervals as well: 
@@ -115,7 +121,7 @@ $interval = new Interval(-INF, INF);// [-∞, +∞];
 
 ```php
 echo $interval->exclude(Interval::create('[2016-01-10, 2016-01-15]')); 
-// {[-∞, 2016-01-10T00:00:00+01:00], [2016-01-15T00:00:00+01:00, +∞]};
+// {[-∞, 2016-01-10T00:00:00+01:00[, ]2016-01-15T00:00:00+01:00, +∞]};
 ```
 
 Operations on sets (arrays) of intervals
@@ -128,7 +134,7 @@ $intervals = Intervals::create(['[0,5]', '[8,12]']);// {[0, 5], [8, 12]};
 * Exclusion : 
 
 ```php
-echo $intervals->exclude(Intervals::create(['[3,10]'])); // {[0, 3], [10, 12]};
+echo $intervals->exclude(Intervals::create(['[3,10]'])); // {[0, 3[, ]10, 12]};
 ```
 
 Chaining
@@ -156,4 +162,19 @@ $result = Interval
 
 // {[169, 324], [400, 625], [900, 1024], [1225, +∞]};
 ```
+
+Advanced usage
+---------
+
+You can create intervals with **open** boundaries : 
+
+```php
+
+$result = Intervals
+    ::create([']10, +INF]'])
+    ->exclude(Intervals::create([']18, 20]', ']25, 30[', '[32, 35]', ']12, 13]']));
+
+```
+
+//{]10, 12], ]13, 18], ]20, 25], [30, 32[, ]35, +∞]}
 
