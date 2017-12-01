@@ -183,6 +183,14 @@ class Interval
     /**
      * Checks whether or not this interval includes entirely another one
      *
+     *    |_________________|
+     *
+     *             includes
+     *        |_______|
+     *
+     *          =
+     *      true
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -192,15 +200,11 @@ class Interval
     }
 
     /**
-     * Checks whether or not this interval is neighbor of another one. Exp :
+     * Checks whether or not this interval is neighbor (before) of another one.
+     * Exp :
      *
      *      |_________________|
      *                        |_________________|
-     *
-     *                OR
-     *
-     *                        |_________________|
-     *      |_________________|
      *
      * @param Interval $interval
      * @return bool
@@ -211,6 +215,12 @@ class Interval
     }
 
     /**
+     * Checks whether or not this interval is neighbor (after) of another one.
+     * Exp :
+     *
+     *                        |_________________|
+     *      |_________________|
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -220,6 +230,10 @@ class Interval
     }
 
     /**
+     *
+     *      |__________________________|
+     *      |_________________|
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -229,6 +243,9 @@ class Interval
     }
 
     /**
+     *      |__________________________|
+     *               |_________________|
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -238,6 +255,10 @@ class Interval
     }
 
     /**
+     *      |__________________________|
+     *      |__________________________|
+     *
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -247,6 +268,11 @@ class Interval
     }
 
     /**
+     *
+     *       |_______________|
+     *                           |________|
+     *
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -256,6 +282,9 @@ class Interval
     }
 
     /**
+     *                 |_______________|
+     *    |________|
+     *
      * @param Interval $interval
      * @return bool
      */
@@ -265,6 +294,7 @@ class Interval
     }
 
     /**
+     *
      * Returns the start boundary
      * @return BoundaryAbstract
      */

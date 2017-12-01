@@ -16,7 +16,7 @@ echo <<<text
 Interval
 ======
 
-This library provides some tools to handle intervals. For instance, You can compute the union or intersection of two intervals.
+This library provides some tools to manipulate intervals. For instance, You can compute the union or intersection of two intervals.
 
 Use cases
 ------
@@ -169,16 +169,16 @@ $result = Interval
     ->union(new Interval(15, INF))
     ->exclude(Intervals::create([\'[18, 20]\', \'[25, 30]\', \'[32, 35]\', \'[12, 13]\']))
     ->sort(function (Interval $first, Interval $second) {
-        return $first->getStart() <=> $second->getStart();
+        return $first->getStart()->getValue() <=> $second->getStart()->getValue();
     })
     ->map(function (Interval $interval) {
         return new Interval(
-            $interval->getStart() ** 2,
-            $interval->getEnd() ** 2
+            $interval->getStart()->getValue() ** 2,
+            $interval->getEnd()->getValue() ** 2
         );
     })
-    ->filter(function(Interval $interval) {
-        return $interval->getEnd() > 170;
+    ->filter(function (Interval $interval) {
+        return $interval->getEnd()->getValue() > 170;
     }); ' . "\n\n"  . '// ' .$result . ';
 ```' . "\n\n";
 
@@ -199,6 +199,5 @@ $result = Intervals
     ::create([\']10, +INF]\'])
     ->exclude(Intervals::create([\']18, 20]\', \']25, 30[\', \'[32, 35]\', \']12, 13]\']));
 
+// ' . $result . "\n\n" . '
 ```' . "\n\n";
-
-echo '//' . $result . "\n\n";
