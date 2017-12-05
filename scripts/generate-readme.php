@@ -37,6 +37,15 @@ Features
 * Immutability.
 * Chain operations.
 
+Quality
+-------
+
+* Code coverage [![Coverage Status](https://coveralls.io/repos/github/Kirouane/interval/badge.svg)](https://coveralls.io/github/Kirouane/interval?branch=develop)
+* Mutation test : Code coverage more than **90%**
+* Takes care of **performance** and **memory usage**
+* PSR1/PSR2, Code Smell
+
+
 Install
 ------
 
@@ -180,6 +189,8 @@ $result = Interval
     ->filter(function (Interval $interval) {
         return $interval->getEnd()->getValue() > 170;
     }); ' . "\n\n"  . '// ' .$result . ';
+    
+echo $result;    
 ```' . "\n\n";
 
 echo 'Advanced usage
@@ -201,3 +212,20 @@ $result = Intervals
 
 // ' . $result . "\n\n" . '
 ```' . "\n\n";
+
+echo '
+Contributing
+----------------------
+
+You are very welcomed to contribute to this Library!
+
+* Clone
+`git clone https://github.com/Kirouane/interval.git`
+
+* Test
+`vendor/bin/phpunit`   
+
+* Build
+`vendor/bin/grumphp run`
+
+';
