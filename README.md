@@ -123,14 +123,14 @@ Use Infinity as boundary
 ---------
 
 ```php
-$interval = new Interval(-INF, INF);// [-∞, +∞];
+$interval = new Interval(-INF, INF);// ]-∞, +∞[;
 ```
 
 * Exclusion : 
 
 ```php
 echo $interval->exclude(Interval::create('[2016-01-10, 2016-01-15]')); 
-// {[-∞, 2016-01-10T00:00:00+01:00[, ]2016-01-15T00:00:00+01:00, +∞]};
+// {]-∞, 2016-01-10T00:00:00+01:00[, ]2016-01-15T00:00:00+01:00, +∞[};
 ```
 
 Operations on sets (arrays) of intervals
@@ -169,7 +169,7 @@ $result = Interval
         return $interval->getEnd()->getValue() > 170;
     }); 
 
-// {[169, 324], [400, 625], [900, 1024], [1225, +∞]};
+// {[169, 324], [400, 625], [900, 1024], [1225, +∞[};
     
 echo $result;    
 ```
@@ -182,10 +182,10 @@ You can create intervals with **open** boundaries :
 ```php
 
 $result = Intervals
-    ::create([']10, +INF]'])
+    ::create([']10, +INF['])
     ->exclude(Intervals::create([']18, 20]', ']25, 30[', '[32, 35]', ']12, 13]']));
 
-// {]10, 12], ]13, 18], ]20, 25], [30, 32[, ]35, +∞]}
+// {]10, 12], ]13, 18], ]20, 25], [30, 32[, ]35, +∞[}
 
 
 ```

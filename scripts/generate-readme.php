@@ -201,13 +201,13 @@ You can create intervals with **open** boundaries :
 ';
 
 $result = Intervals
-    ::create([']10, +INF]'])
+    ::create([']10, +INF['])
     ->exclude(Intervals::create([']18, 20]', ']25, 30[', '[32, 35]', ']12, 13]']));
 
 echo '```php
 
 $result = Intervals
-    ::create([\']10, +INF]\'])
+    ::create([\']10, +INF[\'])
     ->exclude(Intervals::create([\']18, 20]\', \']25, 30[\', \'[32, 35]\', \']12, 13]\']));
 
 // ' . $result . "\n\n" . '
