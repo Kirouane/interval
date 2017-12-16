@@ -69,7 +69,7 @@ class Interval
         }
 
         if (\is_float($value) && \is_infinite($value)) {
-            return new Infinity($value, $isLeft, $isOpen);
+            return new Infinity($value, $isLeft, true);
         }
 
         if (\is_float($value)) {

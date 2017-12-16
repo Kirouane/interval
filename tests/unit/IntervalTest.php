@@ -27,6 +27,7 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
      * @dataProvider constructorShouldThrowExceptionProvider
      * @param mixed $start
      * @param mixed $end
+     * @return Interval
      */
     public function constructorShouldThrowException($start, $end)
     {
@@ -147,9 +148,9 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
             [1, 2, '[1, 2]'],
             [1.2, 2.2, '[1.2, 2.2]'],
             [new \DateTime('2016-01-01'), new \DateTime('2016-01-02'), '[2016-01-01T00:00:00+00:00, 2016-01-02T00:00:00+00:00]'],
-            [-INF, +INF, '[-∞, +∞]'],
-            [-INF, 1, '[-∞, 1]'],
-            [1, +INF, '[1, +∞]'],
+            [-INF, +INF, ']-∞, +∞['],
+            [-INF, 1, ']-∞, 1]'],
+            [1, +INF, '[1, +∞['],
         ];
     }
 
