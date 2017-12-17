@@ -10,9 +10,9 @@ namespace Interval;
 class Intervals extends \ArrayObject
 {
     /**
-     * @var \Interval\Catalog
+     * @var \Interval\Di
      */
-    private static $catalog;
+    private static $di;
 
     /**
      * @return string Magic method used to print all intervals belong to this \Traversable
@@ -32,20 +32,20 @@ class Intervals extends \ArrayObject
     public function __construct(array $input)
     {
         parent::__construct($input);
-        self::loadCatalog();
+        self::loadDi();
     }
 
     /**
-     * Loads the service catalog
-     * @return Catalog
+     * Loads the service Di
+     * @return Di
      */
-    private static function loadCatalog(): Catalog
+    private static function loadDi(): Di
     {
-        if (!self::$catalog) {
-            self::$catalog = new Catalog();
+        if (!self::$di) {
+            self::$di = new Di();
         }
 
-        return self::$catalog;
+        return self::$di;
     }
 
     /**
@@ -65,7 +65,7 @@ class Intervals extends \ArrayObject
     public function exclude(Intervals $intervals) : Intervals
     {
         /** @var \Interval\Operation\Intervals\Exclusion $operation */
-        $operation = self::$catalog->get(Catalog::OPERATION_INTERVALS_EXCLUSION);
+        $operation = self::$di->get(Di::OPERATION_INTERVALS_EXCLUSION);
         return $operation($this, $intervals);
     }
 
@@ -82,7 +82,7 @@ class Intervals extends \ArrayObject
     public static function create(array $expressions) : Intervals
     {
         /** @var \Interval\Parser\IntervalsParser $parser */
-        $parser = self::loadCatalog()->get(Catalog::PARSER_INTERVALS);
+        $parser = self::loadDi()->get(Di::PARSER_INTERVALS);
         return $parser->parse($expressions);
     }
 

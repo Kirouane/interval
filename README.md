@@ -199,6 +199,9 @@ You are very welcomed to contribute to this Library!
 * Clone
 `git clone https://github.com/Kirouane/interval.git`
 
+* Install
+`composer install`
+
 * Test
 `vendor/bin/phpunit`   
 
