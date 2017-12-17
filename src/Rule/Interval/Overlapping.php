@@ -20,7 +20,7 @@ class Overlapping
     public function assert(Interval $first, Interval $second): bool
     {
         return
-            $first->getEnd() > $second->getStart() &&
-            $first->getStart() < $second->getEnd();
+            $first->getEnd()->greaterThan($second->getStart()) &&
+            $first->getStart()->lessThan($second->getEnd());
     }
 }
