@@ -7,10 +7,10 @@ use Interval\Parser\IntervalParser;
 use Interval\Parser\IntervalsParser;
 
 /**
- * Class Catalog
+ * Class Di
  * @package Interval
  */
-class Catalog
+class Di
 {
     const OPERATION_INTERVAL_EXCLUSION     = Operation\Interval\Exclusion::class;
     const OPERATION_INTERVAL_INTERSECTION  = Operation\Interval\Intersection::class;

@@ -16,9 +16,9 @@ use Interval\Boundary\Real;
 class Interval
 {
     /**
-     * @var \Interval\Catalog
+     * @var \Interval\Di
      */
-    private static $catalog;
+    private static $di;
 
     /**
      * @var BoundaryAbstract
@@ -41,7 +41,7 @@ class Interval
      */
     public function __construct($start, $end, bool $isLeftOpen = false, bool $isRightOpen = false)
     {
-        self::loadCatalog();
+        self::loadId();
 
         $this->start = $this->toBoundary($start, true, $isLeftOpen);
         $this->end   = $this->toBoundary($end, false, $isRightOpen);
@@ -99,7 +99,7 @@ class Interval
      */
     private function operate(string $name, Interval $interval)
     {
-        return self::$catalog->get($name)($this, $interval);
+        return self::$di->get($name)($this, $interval);
     }
 
     /**
@@ -109,7 +109,7 @@ class Interval
      */
     private function assert(string $name, Interval $interval)
     {
-        return self::$catalog->get($name)->assert($this, $interval);
+        return self::$di->get($name)->assert($this, $interval);
     }
 
     /**
@@ -128,7 +128,7 @@ class Interval
      */
     public function union(Interval $interval) : Intervals
     {
-        return $this->operate(Catalog::OPERATION_INTERVAL_UNION, $interval);
+        return $this->operate(Di::OPERATION_INTERVAL_UNION, $interval);
     }
 
     /**
@@ -147,7 +147,7 @@ class Interval
      */
     public function intersect(Interval $interval): Interval
     {
-        return $this->operate(Catalog::OPERATION_INTERVAL_INTERSECTION, $interval);
+        return $this->operate(Di::OPERATION_INTERVAL_INTERSECTION, $interval);
     }
 
     /**
@@ -166,7 +166,7 @@ class Interval
      */
     public function exclude(Interval $interval) : Intervals
     {
-        return $this->operate(Catalog::OPERATION_INTERVAL_EXCLUSION, $interval);
+        return $this->operate(Di::OPERATION_INTERVAL_EXCLUSION, $interval);
     }
 
     /**
@@ -177,7 +177,7 @@ class Interval
      */
     public function overlaps(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_OVERLAPPING, $interval);
+        return $this->assert(Di::RULE_INTERVAL_OVERLAPPING, $interval);
     }
 
     /**
@@ -196,7 +196,7 @@ class Interval
      */
     public function includes(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_INCLUSION, $interval);
+        return $this->assert(Di::RULE_INTERVAL_INCLUSION, $interval);
     }
 
     /**
@@ -211,7 +211,7 @@ class Interval
      */
     public function isNeighborBefore(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_NEIGHBORHOOD_BEFORE, $interval);
+        return $this->assert(Di::RULE_INTERVAL_NEIGHBORHOOD_BEFORE, $interval);
     }
 
     /**
@@ -226,7 +226,7 @@ class Interval
      */
     public function isNeighborAfter(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_NEIGHBORHOOD_AFTER, $interval);
+        return $this->assert(Di::RULE_INTERVAL_NEIGHBORHOOD_AFTER, $interval);
     }
 
     /**
@@ -239,7 +239,7 @@ class Interval
      */
     public function starts(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_STARTING, $interval);
+        return $this->assert(Di::RULE_INTERVAL_STARTING, $interval);
     }
 
     /**
@@ -251,7 +251,7 @@ class Interval
      */
     public function ends(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_ENDING, $interval);
+        return $this->assert(Di::RULE_INTERVAL_ENDING, $interval);
     }
 
     /**
@@ -264,7 +264,7 @@ class Interval
      */
     public function equals(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_EQUALITY, $interval);
+        return $this->assert(Di::RULE_INTERVAL_EQUALITY, $interval);
     }
 
     /**
@@ -278,7 +278,7 @@ class Interval
      */
     public function isBefore(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_BEFORE, $interval);
+        return $this->assert(Di::RULE_INTERVAL_BEFORE, $interval);
     }
 
     /**
@@ -290,7 +290,7 @@ class Interval
      */
     public function isAfter(Interval $interval) : bool
     {
-        return $this->assert(Catalog::RULE_INTERVAL_AFTER, $interval);
+        return $this->assert(Di::RULE_INTERVAL_AFTER, $interval);
     }
 
     /**
@@ -343,16 +343,16 @@ class Interval
     }
 
     /**
-     * Loads the service catalog
-     * @return Catalog
+     * Loads the service di
+     * @return Di
      */
-    private static function loadCatalog(): Catalog
+    private static function loadId(): Di
     {
-        if (!self::$catalog) {
-            self::$catalog = new Catalog();
+        if (!self::$di) {
+            self::$di = new Di();
         }
 
-        return self::$catalog;
+        return self::$di;
     }
 
     /**
@@ -368,7 +368,7 @@ class Interval
     public static function create(string $expression) : Interval
     {
         /** @var \Interval\Parser\IntervalParser $parser */
-        $parser = self::loadCatalog()->get(Catalog::PARSER_INTERVAL);
+        $parser = self::loadId()->get(Di::PARSER_INTERVAL);
         return $parser->parse($expression);
     }
 

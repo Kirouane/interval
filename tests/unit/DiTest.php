@@ -5,13 +5,13 @@ namespace Interval;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-class CatalogTest extends \PHPUnit\Framework\TestCase
+class DiTest extends \PHPUnit\Framework\TestCase
 {
     public function getServiceProvider()
     {
         return [
-            [Catalog::OPERATION_INTERVAL_INTERSECTION],
-            [Catalog::PARSER_INTERVALS],
+            [Di::OPERATION_INTERVAL_INTERSECTION],
+            [Di::PARSER_INTERVALS],
         ];
     }
     /**
@@ -21,10 +21,10 @@ class CatalogTest extends \PHPUnit\Framework\TestCase
      */
     public function getService($serviceName)
     {
-        $catalog = new Catalog();
-        $service = $catalog->get($serviceName);
+        $di      = new Di();
+        $service = $di->get($serviceName);
         self::assertInstanceOf($serviceName, $service);
-        $sameService = $catalog->get($serviceName);
+        $sameService = $di->get($serviceName);
         self::assertSame($service, $sameService);
     }
 }
