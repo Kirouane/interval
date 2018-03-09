@@ -151,6 +151,8 @@ class IntervalTest extends \PHPUnit\Framework\TestCase
             [-INF, +INF, ']-∞, +∞['],
             [-INF, 1, ']-∞, 1]'],
             [1, +INF, '[1, +∞['],
+            [null, 1, ']-∞, 1]'],
+            [1, null, '[1, +∞['],
         ];
     }
 

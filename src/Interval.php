@@ -68,6 +68,10 @@ class Interval
             return new Integer($value, $isLeft, $isOpen);
         }
 
+        if (null === $value) {
+            return new Infinity($isLeft ? -INF : INF, $isLeft, true);
+        }
+
         if (\is_float($value) && \is_infinite($value)) {
             return new Infinity($value, $isLeft, true);
         }
