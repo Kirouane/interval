@@ -20,10 +20,6 @@ parameters:
             min_covered_msi: 80
             metadata:
                 priority: 98
-        composer: ~
-        composer_require_checker: ~
-        phpcpd:
-          exclude: ['vendor', 'tests']
         file_size:
             max_size: 10M
         git_blacklist:
@@ -31,13 +27,3 @@ parameters:
                 - "die("
                 - "var_dump("
                 - "exit;"
-
-        phpcsfixer: ~
-        phplint: ~
-        phpparser: ~
-        phpstan: ~
-        phpversion:
-            project: '7.1'
-        phpmnd:
-            directory: src
-        securitychecker: ~
