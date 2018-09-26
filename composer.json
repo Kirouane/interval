@@ -2,7 +2,6 @@
   "name": "kirouane/interval",
   "description": "Library to handel intervals",
   "type": "library",
-  "minimum-stability":"dev",
   "keywords": [
     "php", "interval", "period", "time", "algebra", "infinity", "planning", "booking", "exclusion"
   ],
@@ -32,15 +31,6 @@
     "mockery/mockery": "^1.0@dev",
     "phpro/grumphp": "dev-master",
     "php-coveralls/php-coveralls": "^2.0@dev",
-    "friendsofphp/php-cs-fixer": "^2.9@dev",
-    "jakub-onderka/php-parallel-lint": "dev-master",
-    "squizlabs/php_codesniffer": "^3.0@dev",
-    "maglnet/composer-require-checker": "^1.0@dev",
-    "phpmd/phpmd": "dev-master",
-    "phpstan/phpstan": "^0.9.0@dev",
-    "sebastian/phpcpd": "^3.0@dev",
-    "infection/infection": "dev-master",
-    "povils/phpmnd": "^1.1@dev",
-    "sensiolabs/security-checker": "^5.0@dev"
+    "infection/infection": "^0.10.5"
   }
 }
