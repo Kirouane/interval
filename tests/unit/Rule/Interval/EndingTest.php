@@ -86,7 +86,7 @@ class EndingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $result);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

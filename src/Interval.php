@@ -8,6 +8,7 @@ use Interval\Boundary\DateTime;
 use Interval\Boundary\Infinity;
 use Interval\Boundary\Integer;
 use Interval\Boundary\Real;
+use Interval\Parser\IntervalParser;
 
 /**
  * Class Interval
@@ -16,7 +17,7 @@ use Interval\Boundary\Real;
 class Interval
 {
     /**
-     * @var \Interval\Di
+     * @var Di
      */
     private static $di;
 
@@ -41,7 +42,7 @@ class Interval
      */
     public function __construct($start, $end, bool $isLeftOpen = false, bool $isRightOpen = false)
     {
-        self::loadId();
+        self::loadDi();
 
         $this->start = $this->toBoundary($start, true, $isLeftOpen);
         $this->end   = $this->toBoundary($end, false, $isRightOpen);
@@ -350,7 +351,7 @@ class Interval
      * Loads the service di
      * @return Di
      */
-    private static function loadId(): Di
+    private static function loadDi(): Di
     {
         if (!self::$di) {
             self::$di = new Di();
@@ -371,8 +372,8 @@ class Interval
      */
     public static function create(string $expression) : Interval
     {
-        /** @var \Interval\Parser\IntervalParser $parser */
-        $parser = self::loadId()->get(Di::PARSER_INTERVAL);
+        /** @var IntervalParser $parser */
+        $parser = self::loadDi()->get(Di::PARSER_INTERVAL);
         return $parser->parse($expression);
     }
 

@@ -9,7 +9,7 @@ use Mockery as m;
 
 class ExclusionTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

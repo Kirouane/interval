@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Interval;
 
+use Interval\Operation\Intervals\Exclusion;
+use Interval\Parser\IntervalsParser;
+
 /**
  * Class Intervals
  * @package Interval
@@ -10,7 +13,7 @@ namespace Interval;
 class Intervals extends \ArrayObject
 {
     /**
-     * @var \Interval\Di
+     * @var Di
      */
     private static $di;
 
@@ -64,7 +67,7 @@ class Intervals extends \ArrayObject
      */
     public function exclude(Intervals $intervals) : Intervals
     {
-        /** @var \Interval\Operation\Intervals\Exclusion $operation */
+        /** @var Exclusion $operation */
         $operation = self::$di->get(Di::OPERATION_INTERVALS_EXCLUSION);
         return $operation($this, $intervals);
     }
@@ -81,7 +84,7 @@ class Intervals extends \ArrayObject
      */
     public static function create(array $expressions) : Intervals
     {
-        /** @var \Interval\Parser\IntervalsParser $parser */
+        /** @var IntervalsParser $parser */
         $parser = self::loadDi()->get(Di::PARSER_INTERVALS);
         return $parser->parse($expressions);
     }
