@@ -11,7 +11,7 @@ use Mockery as m;
 
 class IntervalParserTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

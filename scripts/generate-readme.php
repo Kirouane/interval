@@ -16,7 +16,7 @@ echo <<<text
 Interval
 ======
 
-This library provides some tools to manipulate intervals. For instance, You can compute the union or intersection of two intervals.
+This library provides some tools to handle intervals. For instance, you can compute the union or intersection of two intervals.
 
 Use cases
 ------

@@ -8,7 +8,7 @@ use Mockery as m;
 
 class UnionTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

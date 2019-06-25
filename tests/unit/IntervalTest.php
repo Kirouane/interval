@@ -8,7 +8,7 @@ use Mockery as m;
 
 class IntervalTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }
