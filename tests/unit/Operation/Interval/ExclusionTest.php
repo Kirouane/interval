@@ -18,71 +18,96 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
-                10, 20, //                                    ██████████████████
-                30, 40, //                                                          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [[10, 20]], //                                ██████████████████
+                10, 20, false, false, //                              ██████████████████
+                20, 20, false, false, //                                               ▒
+                '{[10, 20[}', //                                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
             ],
             [
-                10, 20, //                                    ██████████████████
-                20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [[10, 20]], //                                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                10, 10, false, false, //                              █
+                10, 10, false, false, //                              ▒
+                '{}', //                                              No intervals
             ],
             [
-                10, 30, //                                    ███████████████████████
-                20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [[10, 20]], //                                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                10, 20, false, false, //                              ██████████████████
+                30, 40, false, false, //                                                    ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{[10, 20]}', //                                      ██████████████████
             ],
             [
-                10, 30, //                                    ███████████████████████
-                20, 30, //                                                      ▒▒▒▒▒
-                [[10, 20]], //                                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                10, 20, false, false, //                              ██████████████████
+                20, 40, false, false, //                                                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{[10, 20[}', //                                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
             ],
             [
-                10, 50, //                                    █████████████████████████████████████████████████
-                20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [[10, 20], [40, 50]], //                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                    ▓▓▓▓▓▓▓▓▓▓▓
+                10, 20, false, false, //                              ██████████████████
+                20, 40, true, false,  //                                                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{[10, 20]}', //                                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
             ],
             [
-                10, 40, //                                    ███████████████████
-                10, 40, //                                    ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [] , //                                      No intervals
+                10, 30, false, false, //                              ███████████████████████
+                20, 40, false, false, //                                                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{[10, 20[}', //                                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
             ],
             [
-                30, 40, //                                    ██████████████████
-                10, 20, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [[30, 40]], //            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                10, 30, false, false, //                              ███████████████████████
+                20, 40, true, false, //                                                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{[10, 20]}', //                                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
             ],
             [
-                30, 40, //                                    ██████████████████
-                10, 30, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [[30,  40]], //           ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                10, 30, false, false, //                              ███████████████████████
+                20, 30, false, false, //                                                ▒▒▒▒▒
+                '{[10, 20[}', //                                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
             ],
             [
-                30, 40, //                                    ██████████████████
-                10, 35, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [[35,  40]], //                                   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                10, 50, false, false, //                              █████████████████████████████████████████████████
+                20, 40, false, false, //                                                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{[10, 20[, ]40, 50]}', //                            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                    ▓▓▓▓▓▓▓▓▓▓▓
             ],
             [
-                30, 40, //                                    ██████████████████
-                30, 35, //                                    ▒▒▒▒
-                [[35,  40]], //                                   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                10, 40, false, false, //                              ███████████████████
+                10, 40, false, false, //                              ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{}' , //                                             No intervals
             ],
             [
-                30, 40, //                                    ██████████████████
-                10, 50, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [], //                                        No intervals
+                30, 40, false, false, //                              ██████████████████
+                10, 20, false, false, //          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{[30, 40]}', //                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            ],
+            [
+                30, 40, false, false, //                              ██████████████████
+                10, 30, false, false, //          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{]30, 40]}', //                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            ],
+            [
+                30, 40, false, false, //                              ██████████████████
+                10, 35, false, false, //          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{]35, 40]}', //                                          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            ],
+            [
+                30, 40, false, false, //                              ██████████████████
+                30, 35, false, false, //                              ▒▒▒▒
+                '{]35, 40]}', //                                          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            ],
+            [
+                30, 40, false, false, //                              ██████████████████
+                10, 50, false, false, //          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{}', //                                              No intervals
             ],
 
             //with infinity
             [
-                -INF, 20, //                                 ∞██████████████████
-                30, 40, //                                                          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [[-INF, 20]], //                             ∞██████████████████
+                -INF, 20, false, false, //                         ∞██████████████████
+                30, 40, false, false, //                                                    ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{]-∞, 20]}', //                                   ∞██████████████████
             ],
             [
-                -INF, +INF, //                                 ∞██████████████████████████████████████████████████████∞
-                30, 40, //                                                          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                [[-INF, 30], [40, +INF]], //                   ∞████████████████████                ██████████████████∞
+                -INF, +INF, false, false, //                       ∞██████████████████████████████████████████████████████∞
+                30, 40, false, false, //                                                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{]-∞, 30[, ]40, +∞[}', //                         ∞████████████████████                ██████████████████∞
+            ],
+            [
+                -INF, +INF, false, false, //                       ∞██████████████████████████████████████████████████████∞
+                30, 40, true, true, //                                                  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                '{]-∞, 30], [40, +∞[}', //                         ∞████████████████████                ██████████████████∞
             ],
         ];
     }
@@ -91,23 +116,24 @@ class ExclusionTest extends \PHPUnit\Framework\TestCase
      * @dataProvider computeProvider
      * @param $firstStart
      * @param $firstEnd
+     * @param $firstLeftOpen
+     * @param $firstRightOpen
      * @param $secondStart
      * @param $secondEnd
-     * @param mixed $expected
+     * @param $secondLeftOpen
+     * @param $secondRightOpen
+     * @param $expected
      * @test
      */
-    public function compute($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
+    public function compute($firstStart, $firstEnd, $firstLeftOpen, $firstRightOpen, $secondStart, $secondEnd, $secondLeftOpen, $secondRightOpen, $expected)
     {
-        $union     = new Exclusion();
-        $intervals = $union(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
+        $exclusion = new Exclusion();
+        $intervals = $exclusion(
+            new Interval($firstStart, $firstEnd, $firstLeftOpen, $firstRightOpen),
+            new Interval($secondStart, $secondEnd, $secondLeftOpen, $secondRightOpen)
+        );
         $this->assertInstanceOf(Intervals::class, $intervals);
 
-        $data = [];
-        /** @var Interval $interval */
-        foreach ($intervals as $interval) {
-            $data[] = [$interval->getStart()->getValue(), $interval->getEnd()->getValue()];
-        }
-
-        $this->assertSame($expected, $data);
+        $this->assertSame($expected, (string)$intervals);
     }
 }

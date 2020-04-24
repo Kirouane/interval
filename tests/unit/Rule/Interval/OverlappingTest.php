@@ -12,58 +12,98 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
-                10, 20, //                                    ██████████████████
-                30, 40, //                                                          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                10, 20, false, false, //                                    ██████████████████
+                30, 40, false, false, //                                                          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 false,
             ],
             [
-                10, 20, //                                    ██████████████████
-                20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                10, 20, false, false, //                                    ██████████████████
+                20, 40, false, false, //                                                     ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                true,
+            ],
+            [
+                10, 20, false, true,  //                                    █████████████████
+                20, 40, false, false, //                                                     ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 false,
             ],
             [
-                10, 30, //                                    ███████████████████████
-                20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
-            ],
-            [
-                10, 30, //                                    ███████████████████████
-                20, 30, //                                                      ▒▒▒▒▒
-                true,
-            ],
-            [
-                10, 60, //                                    █████████████████████████████████████████████████
-                20, 40, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
-            ],
-            [
-                10, 40, //                                    ███████████████████
-                10, 40, //                                    ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-                true,
-            ],
-            [
-                30, 40, //                                    ██████████████████
-                10, 20, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                10, 20, false, false, //                                    █████████████████
+                20, 40, true, false,  //                                                     ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 false,
             ],
             [
-                30, 40, //                                    ██████████████████
-                10, 30, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                10, 30, false, false, //                                    ███████████████████████
+                20, 40, false, false, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                true,
+            ],
+            [
+                10, 30, false, false, //                                    ███████████████████████
+                20, 30, false, false, //                                                      ▒▒▒▒▒
+                true,
+            ],
+            [
+                10, 30, false, false, //                                    ███████████████████████
+                20, 30, false, true,  //                                                      ▒▒▒▒
+                true,
+            ],
+            [
+                10, 30, false, true,  //                                    ██████████████████████
+                20, 30, false, false, //                                                      ▒▒▒▒▒
+                true,
+            ],
+            [
+                10, 60, false, false, //                                    █████████████████████████████████████████████████
+                20, 40, false, false, //                                                      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                true,
+            ],
+            [
+                10, 40, false, false, //                                    ███████████████████
+                10, 40, false, false, //                                    ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                true,
+            ],
+            [
+                30, 40, false, false, //                                    ██████████████████
+                10, 20, false, false, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 false,
             ],
             [
-                30, 40, //                                    ██████████████████
-                10, 35, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                30, 40, false, false, //                                    ██████████████████
+                10, 30, false, false, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 true,
             ],
             [
-                30, 40, //                                    ██████████████████
-                30, 35, //                                    ▒▒▒▒
+                30, 40, true, false,  //                                    ██████████████████
+                10, 30, false, false, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                false,
+            ],
+            [
+                30, 40, false, false, //                                    ██████████████████
+                10, 30, false, true,  //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                false,
+            ],
+            [
+                30, 40, false, false, //                                    ██████████████████
+                10, 35, false, false, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 true,
             ],
             [
-                30, 40, //                                    ██████████████████
-                10, 60, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+                30, 40, false, false, //                                    ██████████████████
+                30, 35, false, false, //                                    ▒▒▒▒
+                true,
+            ],
+            [
+                30, 40, true, false,  //                                     ██████████████████
+                30, 35, false, false, //                                    ▒▒▒▒
+                true,
+            ],
+            [
+                30, 40, false, false, //                                    ██████████████████
+                30, 35, true, false,  //                                     ▒▒▒▒
+                true,
+            ],
+            [
+                30, 40, false, false, //                                    ██████████████████
+                10, 60, false, false, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 true,
             ],
         ];
@@ -72,17 +112,24 @@ class OverlappingTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      * @dataProvider assertProvider
-     * @param mixed $firstStart
-     * @param mixed $firstEnd
-     * @param mixed $secondStart
-     * @param mixed $secondEnd
+     * @param $firstStart
+     * @param $firstEnd
+     * @param $firstLeftOpen
+     * @param $firstRightOpen
+     * @param $secondStart
+     * @param $secondEnd
+     * @param $secondLeftOpen
+     * @param $secondRightOpen
      * @param mixed $expected
      */
-    public function assert($firstStart, $firstEnd, $secondStart, $secondEnd, $expected)
+    public function assert($firstStart, $firstEnd, $firstLeftOpen, $firstRightOpen, $secondStart, $secondEnd, $secondLeftOpen, $secondRightOpen, $expected)
     {
         $asserter  = new Overlapping();
-        $result    = $asserter->assert(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
-        $this->assertInternalType('bool', $result);
+        $result    = $asserter->assert(
+            new Interval($firstStart, $firstEnd, $firstLeftOpen, $firstRightOpen),
+            new Interval($secondStart, $secondEnd, $secondLeftOpen, $secondRightOpen)
+        );
+        $this->assertIsBool($result);
         $this->assertSame($expected, $result);
     }
 
