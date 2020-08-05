@@ -219,6 +219,6 @@ class DateTimeTest extends \PHPUnit\Framework\TestCase
      */
     public function toStringTest()
     {
-        $this->assertSame('[2010-10-10T00:00:00+00:00', (string)new DateTime(new \DateTime('2010-10-10'), true));
+        $this->assertSame('[2010-10-10T00:00:00+00:00', (string)new DateTime(new \DateTime('2010-10-10', new \DateTimeZone('UTC')), true));
     }
 }

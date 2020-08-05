@@ -63,6 +63,16 @@ class InclusionTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 30, 40, //                                    ██████████████████
+                30, 30, //                                    ▒
+                true,
+            ],
+            [
+                30, 40, //                                    ██████████████████
+                40, 40, //                                                     ▒
+                true,
+            ],
+            [
+                30, 40, //                                    ██████████████████
                 10, 60, //                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                 false,
             ],
@@ -84,6 +94,15 @@ class InclusionTest extends \PHPUnit\Framework\TestCase
         $result    = $asserter->assert(new Interval($firstStart, $firstEnd), new Interval($secondStart, $secondEnd));
         $this->assertInternalType('bool', $result);
         $this->assertSame($expected, $result);
+    }
+
+    public function testOpenBoundary()
+    {
+        $first = new Interval(10, 20, true, true);
+        $this->assertSame(false, $first->includes(new Interval(10, 11, false, false)));
+        $this->assertSame(true, $first->includes(new Interval(10, 11, true, false)));
+        $this->assertSame(true, $first->includes(new Interval(19, 20, false, true)));
+        $this->assertSame(false, $first->includes(new Interval(19, 20, false, false)));
     }
 
     public function tearDown(): void
