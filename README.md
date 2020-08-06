@@ -202,6 +202,8 @@ You are very welcomed to contribute to this Library!
 
 * Install
 `composer install`
+or
+`make install` (with docker and docker-compose)
 
 * Test
 `vendor/bin/phpunit`   

@@ -1,6 +1,8 @@
 parameters:
     git_dir: .
     bin_dir: vendor/bin
+    git_hook_variables:
+        EXEC_GRUMPHP_COMMAND: docker-compose exec -T php
     ascii:
         failed: config/grumphp/ko.txt
         succeeded: config/grumphp/ok.txt
@@ -35,6 +37,4 @@ parameters:
         phplint: ~
         phpparser: ~
         phpstan: ~
-        phpversion:
-            project: '7.1'
         securitychecker: ~

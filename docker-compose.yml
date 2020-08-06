@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  php:
+    build:
+      context: ./.docker/
+    working_dir: /var/www/html
+    tty: true
+    volumes:
+      - .:/var/www/html/
+      - ./.docker/debug.ini:/usr/local/etc/php/conf.d/debug.ini
+      - ./.docker/memory-limit.ini:/usr/local/etc/php/conf.d/memory-limit.ini
+      - ./.docker/php.ini:/usr/local/etc/php/conf.d/php.ini
